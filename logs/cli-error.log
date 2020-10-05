@@ -1,0 +1,68 @@
+2020-10-03 10:08:30 Error: [PDOException] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'shop_my_pham.users' doesn't exist in C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Database\Statement\MysqlStatement.php on line 39
+Stack Trace:
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Database\Statement\MysqlStatement.php:39
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Database\Connection.php:310
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php:70
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Database\Connection.php:313
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\migrations\src\Command\BakeSeedCommand.php:131
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\bake\src\Command\SimpleBakeCommand.php:106
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\migrations\src\Command\BakeSeedCommand.php:154
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\bake\src\Command\SimpleBakeCommand.php:88
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Console\BaseCommand.php:179
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Console\CommandRunner.php:336
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Console\CommandRunner.php:171
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\bin\cake.php:12
+
+
+
+2020-10-03 10:08:47 Error: [PDOException] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'shop_my_pham.users' doesn't exist in C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Database\Statement\MysqlStatement.php on line 39
+Stack Trace:
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Database\Statement\MysqlStatement.php:39
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Database\Connection.php:310
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php:70
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Database\Connection.php:313
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\migrations\src\Command\BakeSeedCommand.php:131
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\bake\src\Command\SimpleBakeCommand.php:106
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\migrations\src\Command\BakeSeedCommand.php:154
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\bake\src\Command\SimpleBakeCommand.php:88
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Console\BaseCommand.php:179
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Console\CommandRunner.php:336
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Console\CommandRunner.php:171
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\bin\cake.php:12
+
+
+
+2020-10-03 10:09:04 Error: [PDOException] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'shop_my_pham.admins' doesn't exist in C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Database\Statement\MysqlStatement.php on line 39
+Stack Trace:
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Database\Statement\MysqlStatement.php:39
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Database\Connection.php:310
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php:70
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Database\Connection.php:313
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\migrations\src\Command\BakeSeedCommand.php:131
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\bake\src\Command\SimpleBakeCommand.php:106
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\migrations\src\Command\BakeSeedCommand.php:154
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\bake\src\Command\SimpleBakeCommand.php:88
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Console\BaseCommand.php:179
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Console\CommandRunner.php:336
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Console\CommandRunner.php:171
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\bin\cake.php:12
+
+
+
+2020-10-03 14:15:41 Error: [PDOException] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'shop_my_pham.users' doesn't exist in C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Database\Statement\MysqlStatement.php on line 39
+Stack Trace:
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Database\Statement\MysqlStatement.php:39
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Database\Connection.php:310
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php:70
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Database\Connection.php:313
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\migrations\src\Command\BakeSeedCommand.php:131
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\bake\src\Command\SimpleBakeCommand.php:106
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\migrations\src\Command\BakeSeedCommand.php:154
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\bake\src\Command\SimpleBakeCommand.php:88
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Console\BaseCommand.php:179
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Console\CommandRunner.php:336
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\vendor\cakephp\cakephp\src\Console\CommandRunner.php:171
+- C:\xampp\htdocs\shop_my_pham-develop-ThuanNHT\bin\cake.php:12
+
+
+
