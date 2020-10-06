@@ -197,13 +197,13 @@ $session = $this->getRequest()->getSession();
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/product" class="nav-link">
+                                    <a href="<?= Router::url(['_name'=>'listProduct','fullBase' => 'true']) ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Danh sách sản phẩm</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                                    <a href="<?= Router::url(['_name'=>'createProduct','fullBase' => 'true']) ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Thêm sản phẩm</p>
                                     </a>
@@ -266,29 +266,23 @@ $session = $this->getRequest()->getSession();
                         </li>
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-chart-pie"></i>
+                                <i class="nav-icon fas fa-industry"></i>
                                 <p>
-                                    Charts
+                                    Thương hiệu
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="pages/charts/chartjs.html" class="nav-link">
+                                    <a href="<?= Router::url(['_name'=>'listTrademark','fullBase' => 'true']) ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>ChartJS</p>
+                                        <p>Danh sách thương hiệu</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/charts/flot.html" class="nav-link">
+                                    <a href="<?= Router::url(['_name'=>'createTrademark','fullBase' => 'true']) ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Flot</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/charts/inline.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Inline</p>
+                                        <p>Thêm thương hiệu</p>
                                     </a>
                                 </li>
                             </ul>

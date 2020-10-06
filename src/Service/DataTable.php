@@ -16,7 +16,6 @@ class DataTable extends AppController{
         $dataTable = new DataTable();
         $listData  = $dataTable->getTableLocator()->get($table);
         $page      = ceil($start / $limit) + 1;
-        $draw      = $paramUrl['draw'];
         foreach ($columns as $key => $value) {
             if ($key == $paramUrl['order'][0]['column']) {
                 $column = $value;
@@ -25,27 +24,26 @@ class DataTable extends AppController{
         }
 
         return $dataTable->getData($listData,
+            $columns,
             $limit,
             $search,
             $page,
             $column,
             $sort,
-            $whereColumns,
-            $draw
+            $whereColumns
         );
     }
 
-    public function getData($listData,$limit,$search,$page,$column,$sort,$whereColumns,$draw)
+    public function getData($listData,$select,$limit,$search,$page,$column,$sort,$whereColumns)
     {
-
         $arr_column = [];
         foreach ($whereColumns as $whereColumn) {
             $arr_column[]=["$whereColumn LIKE"=>"%$search%"];
         }
         $totalData = $listData->find()->count();
-        $listData   = $listData
+        $listData  = $listData
         ->find()
-        ->select(['id','email','full_name','avatar','phone','address','gender','deleted'])
+        ->select($select)
         ->where(function (QueryExpression $exp, Query $query) use ($arr_column) {
             return $exp->or($arr_column);
         })

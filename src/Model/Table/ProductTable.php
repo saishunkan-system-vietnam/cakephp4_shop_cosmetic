@@ -56,15 +56,14 @@ class ProductTable extends Table
 
         $validator
             ->scalar('name')
-            ->maxLength('name', 50)
+            ->maxLength('name', 100)
             ->requirePresence('name', 'create')
             ->notEmptyString('name');
 
         $validator
             ->scalar('image')
             ->maxLength('image', 100)
-            ->requirePresence('image', 'create')
-            ->notEmptyFile('image');
+            ->allowEmptyFile('image');
 
         $validator
             ->numeric('price')
@@ -80,6 +79,24 @@ class ProductTable extends Table
             ->scalar('product_info')
             ->requirePresence('product_info', 'create')
             ->notEmptyString('product_info');
+
+        $validator
+            ->integer('id_trademark')
+            ->requirePresence('id_trademark', 'create')
+            ->notEmptyString('id_trademark');
+
+        $validator
+            ->integer('id_type_product')
+            ->requirePresence('id_type_product', 'create')
+            ->notEmptyString('id_type_product');
+
+        $validator
+            ->dateTime('created_at')
+            ->notEmptyDateTime('created_at');
+
+        $validator
+            ->dateTime('updated_at')
+            ->notEmptyDateTime('updated_at');
 
         return $validator;
     }

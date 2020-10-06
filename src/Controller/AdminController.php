@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\CheckInfo;
 use App\Service\DataTable;
 use Cake\Database\Expression\QueryExpression;
 use Cake\Mailer\Mailer;
@@ -131,13 +132,12 @@ class AdminController extends AppController
         $data["recordsTotal"]    = $dataTable['totalData'];
         $data["recordsFiltered"] = $dataTable['totalData'];
         $data['data']            = [];
-        $hostname = $this->request->host();
         foreach ($dataTable['listData'] as $user) {
             $data['data'][] = [
                 $user->id,
                 $user->email,
                 $user->full_name,
-                "<img src='http://" . $hostname . "/images/avatar/$user->avatar' style='width: 70px'>",
+                "<img src='".Router::url('/images/avatar/'.$user->avatar,true)."' style='width: 70px'>",
                 $user->phone,
                 $user->address,
                 $user->gender == true ? "Nam" : "Nữ",
@@ -184,30 +184,38 @@ class AdminController extends AppController
         return $this->render('/admin/forgot_password');
     }
 
-    public function checkEmailExists()
+    public function checkAdminEmailExists()
     {
-        try {
-            $email = $this->request->getQuery()['email'];
-            $admin = $this->Admin->find()->where(['email'=>$email])->first();
-            if(!empty($admin)){
-                $data['status'] = 200;
-                $data['isExists'] = true;
-            }
-            else{
-                $data['status'] = 404;
-                $data['isExists'] = false;
-            }
+        $email = $this->request->getQuery('email');
+        $data = CheckInfo::checkInfoExists('admin',$email,'','email');
 
-            $this->set($data);
-            $this->viewBuilder()->setOption('serialize', true);
-            $this->RequestHandler->renderAs($this, 'json');
-        } catch (\Throwable $th) {
-            $data['status']  = 500;
-            $data['message'] = $th->getMessage();
-            $this->set($data);
-            $this->viewBuilder()->setOption('serialize', true);
-            $this->RequestHandler->renderAs($this, 'json');
-        }
+        $this->set($data);
+        $this->viewBuilder()->setOption('serialize', true);
+        $this->RequestHandler->renderAs($this, 'json');
+    }
+
+    public function checkUserEmailExistsByAdmin()
+    {
+        $email   = $this->request->getQuery('email');
+        $id_user = $this->request->getQuery('id_user');
+        $oldEmail = TableRegistry::getTableLocator()->get('user')->get($id_user)->email;
+        $data = CheckInfo::checkInfoExists('user', $email,$oldEmail,'email');
+
+        $this->set($data);
+        $this->viewBuilder()->setOption('serialize', true);
+        $this->RequestHandler->renderAs($this, 'json');
+    }
+
+    public function checkUserPhoneExistsByAdmin()
+    {
+        $phone   = $this->request->getQuery('phone');
+        $id_user = $this->request->getQuery('id_user');
+        $oldPhone = TableRegistry::getTableLocator()->get('user')->get($id_user)->phone;
+        $data = CheckInfo::checkInfoExists('user', $phone,$oldPhone,'phone');
+
+        $this->set($data);
+        $this->viewBuilder()->setOption('serialize', true);
+        $this->RequestHandler->renderAs($this, 'json');
     }
 
     public function sendEmailForgotPassword()
@@ -283,5 +291,139 @@ class AdminController extends AppController
         } catch (\Throwable $th) {
             return $this->redirect('/admin/profile'.$profile['id_user']);
         }
+    }
+
+    public function createProduct()
+    {
+        $trademarks = TableRegistry::getTableLocator()->get('Trademark')->find();
+        $type_products = TableRegistry::getTableLocator()->get('TypeProduct')->find();
+        $this->set(['trademarks'=>$trademarks,'type_products'=>$type_products]);
+        return $this->render('Product/create_product');
+    }
+
+    public function processCreateProduct()
+    {
+        $infoProduct     = $this->request->getData();
+        $name            = $infoProduct['name'];
+        $file            = $infoProduct['image'];
+        $price           = $infoProduct['price'];
+        $amount          = $infoProduct['amount'];
+        $id_trademark    = $infoProduct['trademark'];
+        $id_type_product = $infoProduct['type_product'];
+        $product_info    = $infoProduct['product_info'];
+        $pathImg         = WWW_ROOT . "images\product";
+        if(!empty($file)){
+            $extFile = pathinfo($file->getclientFilename(), PATHINFO_EXTENSION);
+            if(in_array($extFile,['jpg', 'png', 'jpeg', 'gif']))
+            {
+                if(!file_exists($pathImg))
+                {
+                    mkdir($pathImg, 0755, true);
+                }
+
+                $date       = date('Ymd');
+                $filename   = $date . "_" . uniqid() . "." . $extFile;
+                $targetFile = WWW_ROOT . "images\product" . DS . $filename;
+                $file->moveTo($targetFile);
+
+                $productTable             = TableRegistry::getTableLocator()->get('Product');
+                $product                  = $productTable->newEmptyEntity();
+                $product->name            = $name;
+                $product->image           = $filename;
+                $product->price           = $price;
+                $product->amount          = $amount;
+                $product->product_info    = $product_info;
+                $product->id_trademark    = $id_trademark;
+                $product->id_type_product = $id_type_product;
+            }
+        }
+    }
+
+    public function uploadImageCkeditor()
+    {
+        $file = $this->request->getData()['upload'];
+        $pathImg = WWW_ROOT . "images\product";
+        if(isset($file)){
+            $extFile = pathinfo($file->getclientFilename(), PATHINFO_EXTENSION);
+            if(in_array($extFile,['jpg', 'png', 'jpeg', 'gif']))
+            {
+                if(!file_exists($pathImg))
+                {
+                    mkdir($pathImg, 0755, true);
+                }
+
+                $date       = date('Ymd');
+                $filename   = $date . "_" . uniqid() . "." . $extFile;
+                $targetFile = WWW_ROOT . "images\product" . DS . $filename;
+                $file->moveTo($targetFile);
+                $function_number = $this->request->getQuery('CKEditorFuncNum');
+                $message = 'Image uploaded successfully';
+                $data = "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($function_number, 'http://localhost/cakephp4_shop_cosmetic_m/images/product/$filename', '$message');</script>";
+                echo $data;
+            }
+        }
+        dd();
+    }
+
+    public function createTrademark()
+    {
+        if($this->request->getMethod() == "GET")
+        {
+            return $this->render('Trademark/create_trademark');
+        }
+        elseif($this->request->getMethod() == "POST")
+        {
+            $trademarkName  = $this->request->getData()['name'];
+            $trademarkTable = TableRegistry::getTableLocator()->get('trademark');
+            $trademark      = $trademarkTable->newEmptyEntity();
+
+            $trademark->name=$trademarkName;
+            $trademarkTable->save($trademark);
+
+            $this->Flash->set('Thêm thương hiệu thành công');
+            return $this->redirect(Router::url(['_name'=>'listTrademark','fullBase' => 'true']));
+        }
+    }
+
+    public function listTrademark()
+    {
+        return $this->render('Trademark/list_trademark');
+    }
+
+    public function renderListTrademark()
+    {
+        $paramUrl = $this->request->getQuery();
+        $columns = [
+            'id',
+            'name',
+            'created_at',
+            'updated_at'
+        ];
+
+        $dataTable = DataTable::input('Trademark',$columns,$paramUrl,['name']);
+        $data = [];
+        $data["draw"]            = $paramUrl['draw'];
+        $data["recordsTotal"]    = $dataTable['totalData'];
+        $data["recordsFiltered"] = $dataTable['totalData'];
+        $data['data']            = [];
+        foreach ($dataTable['listData'] as $trademark) {
+            $created_at = strtotime($trademark->created_at);
+            $updated_at = strtotime($trademark->updated_at);
+            $data['data'][] = [
+                $trademark->id,
+                $trademark->name,
+                date('d/m/Y H:i:s', $created_at),
+                date('d/m/Y H:i:s', $updated_at),
+                "<a href='".Router::url('')."'>Chi tiết</a>"
+            ];
+        }
+        $this->set($data);
+        $this->viewBuilder()->setOption('serialize', true);
+        $this->RequestHandler->renderAs($this, 'json');
+    }
+
+    public function listProduct()
+    {
+        return $this->render('Product/list_products');
     }
 }

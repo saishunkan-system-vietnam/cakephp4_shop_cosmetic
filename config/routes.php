@@ -22,7 +22,7 @@ $routes->get('/admin/forgot-password',
 );
 
 $routes->get('/admin/check-email-exists',
-    ['controller'=>'Admin','action'=>'checkEmailExists'],
+    ['controller'=>'Admin','action'=>'checkAdminEmailExists'],
     'check_email_exists'
 );
 
@@ -35,9 +35,9 @@ $routes->scope('/admin', function (RouteBuilder $builder) {
     $builder->registerMiddleware('CheckLoginAdmin',new CheckLoginAdminMiddleware());
     $builder->applyMiddleware('CheckLoginAdmin');
 
-    $builder->connect('/',
+    $builder->get('/',
         ['controller' => 'Admin', 'action' => 'dashBoard'],
-        ['_name'=>'dashBoard']
+        'dashBoard'
     );
 
     $builder->get('/profile',
@@ -66,7 +66,52 @@ $routes->scope('/admin', function (RouteBuilder $builder) {
         'update_profile_user'
     );
 
-    // $builder->get('/test',['controller'=>'Admin','action'=>'test']);
+    $builder->get('/check-user-email-exists',
+        ['controller'=>'Admin','action'=>'checkUserEmailExistsByAdmin'],
+        'checkUserEmailExistsByAdmin'
+    );
+
+    $builder->get('/check-user-phone-exists',
+        ['controller'=>'Admin','action'=>'checkUserPhoneExistsByAdmin'],
+        'checkUserPhoneExistsByAdmin'
+    );
+
+    $builder->get('/create-product',
+        ['controller'=>'Admin','action'=>'createProduct'],
+        'createProduct'
+    );
+
+    $builder->post('/process-create-product',
+        ['controller'=>'Admin','action'=>'processCreateProduct'],
+        'processCreateProduct'
+    );
+
+    $builder->post('/upload-image-ckeditor',
+        ['controller'=>'Admin','action'=>'uploadImageCkeditor'],
+        'uploadImageCkeditor'
+    );
+
+    $builder->connect('/create-trademark',
+        ['controller'=>'Admin','action'=>'createTrademark'],
+        ['_name'=>'createTrademark']
+    );
+
+    $builder->get('/list-trademark',
+        ['controller'=>'Admin','action'=>'listTrademark'],
+        'listTrademark'
+    );
+
+    $builder->get('/render-list-trademark',
+        ['controller'=>'Admin','action'=>'renderListTrademark'],
+        'renderListTrademark'
+    );
+
+    $builder->get('/list-product',
+        ['controller'=>'Admin','action'=>'listProduct'],
+        'listProduct'
+    );
+
+    // $builder->get('/test',['controller'=>'Test','action'=>'abc']);
 
     $builder->fallbacks();
 });
