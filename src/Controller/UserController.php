@@ -8,11 +8,14 @@ class UserController extends AppController
 {
     public function dashBoard()
     {
+        $products = TableRegistry::getTableLocator()->get('Product')->find()->select(['id','name','price','image','slug']);
         $id_user = $this->getSessionUser();
         $user=empty($id_user)? '' : $this->User->find()->where(['id'=>$id_user])->first();
         if(!empty($user)){
             $this->set('user',$user);
         }
+
+        $this->set('products',$products);
         $this->viewBuilder()->setLayout('user');
         return $this->render('dash_board');
     }

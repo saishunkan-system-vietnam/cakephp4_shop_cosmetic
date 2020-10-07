@@ -1,0 +1,15 @@
+table.dataTable tbody tr{
+    background-color: #eae8e8;
+}
+
+table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover{
+    background-color:#c7c7c7;
+}
+
+table.dataTable.display tbody tr.odd>.sorting_1, table.dataTable.order-column.stripe tbody tr.odd>.sorting_1{
+    background:white;
+}
+
+h3{
+    color: #888585;
+}

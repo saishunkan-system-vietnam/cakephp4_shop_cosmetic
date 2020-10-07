@@ -30,16 +30,16 @@ use Cake\Routing\Router;
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form role="form" action="" method="post">
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="trademarkName">Tên thương hiệu</label>
-                            <input type="text" class="form-control" name="name" id="trademarkName" placeholder="Enter Trademark">
+                    <form action="<?= Router::url('/admin/create-trademark',true) ?>" method="POST">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="trademarkName">Tên thương hiệu</label>
+                                <input type="text" class="form-control" name="name" id="trademarkName" placeholder="Enter Trademark">
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Thêm</button>
-                    </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Thêm</button>
+                        </div>
                     </form>
                 </div>
             </div>

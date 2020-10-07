@@ -47,7 +47,7 @@ return [
             'username' => 'root',
             'password' => '',
 
-            'database' => 'shop_my_pham',
+            'database' => 'shop_cosmetics',
             /**
              * If not using the default 'public' schema with the PostgreSQL driver
              * set it here.

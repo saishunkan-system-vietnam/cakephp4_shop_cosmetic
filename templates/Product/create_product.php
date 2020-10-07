@@ -31,7 +31,7 @@ use Cake\Routing\Router;
                     <div class="card-header">
                     <h3 class="card-title">Sản phẩm</h3>
                     </div>
-                    <form role="form" method="POST" action="<?= Router::url(['_name'=>'processCreateProduct','fullBase' => 'true']) ?>>
+                    <form role="form" method="POST" enctype="multipart/form-data" action="<?= Router::url(['_name'=>'processCreateProduct','fullBase' => 'true']) ?>">
                     <div class="card-body">
                         <div class="form-group">
                         <label for="name">Tên sản phẩm</label>
@@ -83,7 +83,7 @@ use Cake\Routing\Router;
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" id="submit" class="btn btn-primary">Submit</button>
                     </div>
                     </form>
                 </div>
@@ -96,5 +96,53 @@ use Cake\Routing\Router;
  CKEDITOR.replace( 'content', {
   height: 300,
   filebrowserUploadUrl: "<?= Router::url(['_name'=>'uploadImageCkeditor','fullBase' => 'true']) ?>"
+ });
+
+ $(document).ready(function () {
+    $("#submit").click(function (e) {
+        var name = $("#name");
+        const regex_name = /^[A-Za-z\sàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ]{2,100}$/;
+        var price = $("#price");
+        const regex_number = /[0-9]+/;
+        var amount = $("#amount");
+        alert(name.val());
+        e.preventDefault();
+        if(name.val().length == 0)
+        {
+            alert("asdasd");
+            e.preventDefault();
+        }
+        else if(regex_name.test(name.val()) == false)
+        {
+            e.preventDefault();
+        }
+        else{
+
+        }
+
+        if(price.val().length == 0)
+        {
+            e.preventDefault();
+        }
+        else if(regex_number.test(price.val()) == false)
+        {
+            e.preventDefault();
+        }
+        else{
+
+        }
+
+        if(amount.val().length == 0)
+        {
+            e.preventDefault();
+        }
+        else if(regex_number.test(amount.val()) == false)
+        {
+            e.preventDefault();
+        }
+        else{
+
+        }
+    });
  });
 </script>

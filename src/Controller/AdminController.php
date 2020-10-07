@@ -293,52 +293,6 @@ class AdminController extends AppController
         }
     }
 
-    public function createProduct()
-    {
-        $trademarks = TableRegistry::getTableLocator()->get('Trademark')->find();
-        $type_products = TableRegistry::getTableLocator()->get('TypeProduct')->find();
-        $this->set(['trademarks'=>$trademarks,'type_products'=>$type_products]);
-        return $this->render('Product/create_product');
-    }
-
-    public function processCreateProduct()
-    {
-        $infoProduct     = $this->request->getData();
-        $name            = $infoProduct['name'];
-        $file            = $infoProduct['image'];
-        $price           = $infoProduct['price'];
-        $amount          = $infoProduct['amount'];
-        $id_trademark    = $infoProduct['trademark'];
-        $id_type_product = $infoProduct['type_product'];
-        $product_info    = $infoProduct['product_info'];
-        $pathImg         = WWW_ROOT . "images\product";
-        if(!empty($file)){
-            $extFile = pathinfo($file->getclientFilename(), PATHINFO_EXTENSION);
-            if(in_array($extFile,['jpg', 'png', 'jpeg', 'gif']))
-            {
-                if(!file_exists($pathImg))
-                {
-                    mkdir($pathImg, 0755, true);
-                }
-
-                $date       = date('Ymd');
-                $filename   = $date . "_" . uniqid() . "." . $extFile;
-                $targetFile = WWW_ROOT . "images\product" . DS . $filename;
-                $file->moveTo($targetFile);
-
-                $productTable             = TableRegistry::getTableLocator()->get('Product');
-                $product                  = $productTable->newEmptyEntity();
-                $product->name            = $name;
-                $product->image           = $filename;
-                $product->price           = $price;
-                $product->amount          = $amount;
-                $product->product_info    = $product_info;
-                $product->id_trademark    = $id_trademark;
-                $product->id_type_product = $id_type_product;
-            }
-        }
-    }
-
     public function uploadImageCkeditor()
     {
         $file = $this->request->getData()['upload'];
@@ -381,7 +335,7 @@ class AdminController extends AppController
             $trademarkTable->save($trademark);
 
             $this->Flash->set('Thêm thương hiệu thành công');
-            return $this->redirect(Router::url(['_name'=>'listTrademark','fullBase' => 'true']));
+            return $this->redirect('/admin/list-trademark');
         }
     }
 
@@ -420,10 +374,5 @@ class AdminController extends AppController
         $this->set($data);
         $this->viewBuilder()->setOption('serialize', true);
         $this->RequestHandler->renderAs($this, 'json');
-    }
-
-    public function listProduct()
-    {
-        return $this->render('Product/list_products');
     }
 }

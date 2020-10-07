@@ -1,3 +1,7 @@
+<?php
+
+use Cake\Routing\Router;
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,17 +17,15 @@
     <!-- Title Page-->
     <title>Au Register Forms by Colorlib</title>
 
-    <!-- Icons font CSS-->
-    <link rel="stylesheet" href="https://colorlib.com/etc/regform/colorlib-regform-4/vendor/mdi-font/css/material-design-iconic-font.min.css">
     <!-- Font special for pages-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
 
     <!-- Vendor CSS-->
-    <link href="http://m-shop.com/vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="http://m-shop.com/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+    <link href="<?= Router::url('/vendor/select2/select2.min.css',true) ?>" rel="stylesheet" media="all">
+    <link href="<?= Router::url('/vendor/datepicker/daterangepicker.css',true) ?>" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
-    <link href="http://m-shop.com/css/main-user-register.css" rel="stylesheet" media="all">
+    <link href="<?= Router::url('/css/main-user-register.css',true) ?>" rel="stylesheet" media="all">
 </head>
 
 <body>
@@ -34,7 +36,7 @@
                     <h2 class="title">Đăng ký</h2>
                 </div>
                 <div class="card-body">
-                    <form action="http://m-shop.com/process-register" method="POST">
+                    <form action="<?= Router::url('/process-register',true) ?>" method="POST">
                         <div class="form-row">
                             <div class="name">Họ Tên</div>
                             <div class="value">
@@ -100,16 +102,15 @@
     </div>
 
     <!-- Jquery JS-->
-    <script src="http://m-shop.com/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="<?= Router::url('/vendor/jquery/jquery-3.2.1.min.js',true) ?>"></script>
     <!-- Vendor JS-->
-    <script src="http://m-shop.com/vendor/select2/select2.min.js"></script>
-    <script src="http://m-shop.com/vendor/datepicker/moment.min.js"></script>
-    <script src="http://m-shop.com/vendor/datepicker/daterangepicker.js"></script>
+    <script src="<?= Router::url('/vendor/select2/select2.min.js',true) ?>"></script>
+    <script src="<?= Router::url('/vendor/datepicker/moment.min.js',true) ?>"></script>
+    <script src="<?= Router::url('/vendor/datepicker/daterangepicker.js',true) ?>"></script>
 
     <!-- Main JS-->
-    <script src="http://m-shop.com/js/global.js"></script>
+    <script src="<?= Router::url('/js/global.js',true) ?>"></script>
 
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</body>
 
 </html>
-<!-- end document-->

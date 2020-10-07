@@ -2,7 +2,7 @@
 
 use Cake\Routing\Router;
 ?>
-
+<link rel="stylesheet" href="<?= Router::url('/css/custom-datatable.css',true) ?>">
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
@@ -10,6 +10,7 @@ use Cake\Routing\Router;
       <div class="row mb-2">
         <div class="col-sm-6">
           <h1 class="m-0 text-dark">Dashboard</h1>
+          <h3 class="flash-session"><?= $this->Flash->render(); ?></h3>
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -28,27 +29,31 @@ use Cake\Routing\Router;
         <table id="list_user" class="display dataTable">
             <thead style="color: #888383;">
                 <tr>
-                    <th>id</th>
-                    <th>email</th>
-                    <th>tên</th>
-                    <th>ảnh</th>
-                    <th>số điện thoại</th>
-                    <th>địa chỉ</th>
-                    <th>giới tính</th>
-                    <th>tình trạng</th>
+                    <th>Id</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Ảnh</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Nhà sản xuất</th>
+                    <th>Loại sản phẩm</th>
+                    <th>Ngày tạo</th>
+                    <th>Ngày cập nhật</th>
+                    <th></th>
                     <th></th>
                 </tr>
             </thead>
             <tfoot style="color: #888383;">
                 <tr>
-                    <th>id</th>
-                    <th>email</th>
-                    <th>tên</th>
-                    <th>ảnh</th>
-                    <th>số điện thoại</th>
-                    <th>địa chỉ</th>
-                    <th>giới tính</th>
-                    <th>tình trạng</th>
+                    <th>Id</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Ảnh</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Nhà sản xuất</th>
+                    <th>Loại sản phẩm</th>
+                    <th>Ngày tạo</th>
+                    <th>Ngày cập nhật</th>
+                    <th></th>
                     <th></th>
                 </tr>
             </tfoot>
@@ -62,7 +67,11 @@ use Cake\Routing\Router;
         $("#list_user").DataTable({
             "processing": true,
             "serverSide": true,
-            "ajax": "<?=Router::url('/admin/render-list-user','true')?>"
-        })
+            "ajax": "<?=Router::url('/admin/render-list-product','true')?>"
+        });
+
+        setTimeout(function () {
+            $(".flash-session").slideUp("slow");
+        },2000);
     });
 </script>

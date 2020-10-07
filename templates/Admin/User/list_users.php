@@ -2,7 +2,7 @@
 
 use Cake\Routing\Router;
 ?>
-
+<link rel="stylesheet" href="<?= Router::url('/css/custom-datatable.css') ?>">
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">

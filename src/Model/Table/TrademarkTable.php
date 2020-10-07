@@ -40,6 +40,8 @@ class TrademarkTable extends Table
         $this->setTable('trademark');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
+
+        
     }
 
     /**

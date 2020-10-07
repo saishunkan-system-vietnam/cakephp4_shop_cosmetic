@@ -55,7 +55,7 @@ $routes->scope('/admin', function (RouteBuilder $builder) {
         'list_users'
     );
 
-    $builder->connect('/render-list-user',['controller'=>'Admin','action'=>'renderListUser']);
+    $builder->get('/render-list-user',['controller'=>'Admin','action'=>'renderListUser']);
 
     $builder->get('/logout',['controller'=>'Admin','action'=>'logOut']);
 
@@ -77,12 +77,12 @@ $routes->scope('/admin', function (RouteBuilder $builder) {
     );
 
     $builder->get('/create-product',
-        ['controller'=>'Admin','action'=>'createProduct'],
+        ['controller'=>'Product','action'=>'createProduct'],
         'createProduct'
     );
 
     $builder->post('/process-create-product',
-        ['controller'=>'Admin','action'=>'processCreateProduct'],
+        ['controller'=>'Product','action'=>'processCreateProduct'],
         'processCreateProduct'
     );
 
@@ -107,8 +107,28 @@ $routes->scope('/admin', function (RouteBuilder $builder) {
     );
 
     $builder->get('/list-product',
-        ['controller'=>'Admin','action'=>'listProduct'],
+        ['controller'=>'Product','action'=>'listProduct'],
         'listProduct'
+    );
+
+    $builder->get('/render-list-product',
+        ['controller'=>'Product','action'=>'renderListProduct'],
+        'renderListProduct'
+    );
+
+    $builder->get('/product/:id_product',
+        ['controller'=>'Product','action'=>'showProduct'],
+        'showProduct'
+    );
+
+    $builder->post('/update-product/:id_product',
+        ['controller'=>'Product','action'=>'updateProduct'],
+        'updateProduct'
+    );
+
+    $builder->get('/product/delete/:id_product',
+        ['controller'=>'Product','action'=>'deleteProduct'], // dự định sau khi làm đặt hàng
+        'deleteProduct'
     );
 
     // $builder->get('/test',['controller'=>'Test','action'=>'abc']);
@@ -139,6 +159,11 @@ $routes->scope('/',function (RouteBuilder $builder){
     $builder->post('/send-user-email-forgot-password',
         ['controller'=>'User','action'=>'sendUserEmailForgotPassword'],
         'sendUserEmailForgotPassword'
+    );
+
+    $builder->get('/show-product/:id_product',
+        ['controller'=>'Product','action'=>'showProduct'],
+        'showProductInUser'
     );
 
     $builder->fallbacks();

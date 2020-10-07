@@ -40,6 +40,14 @@ class ProductTable extends Table
         $this->setTable('product');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
+
+        $this->belongsTo('Trademark',[
+            'className' => 'Trademark'
+        ])->setForeignKey('id_trademark');
+
+        $this->belongsTo('TypeProduct',[
+            'className' => 'TypeProduct'
+        ])->setForeignKey('id_type_product');
     }
 
     /**
@@ -51,7 +59,7 @@ class ProductTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->integer('id')
+            ->nonNegativeInteger('id')
             ->allowEmptyString('id', null, 'create');
 
         $validator
@@ -63,7 +71,8 @@ class ProductTable extends Table
         $validator
             ->scalar('image')
             ->maxLength('image', 100)
-            ->allowEmptyFile('image');
+            ->requirePresence('image', 'create')
+            ->notEmptyFile('image');
 
         $validator
             ->numeric('price')
@@ -76,17 +85,24 @@ class ProductTable extends Table
             ->notEmptyString('amount');
 
         $validator
+            ->scalar('slug')
+            ->maxLength('slug', 200)
+            ->requirePresence('slug', 'create')
+            ->notEmptyString('slug')
+            ->add('slug', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+
+        $validator
             ->scalar('product_info')
             ->requirePresence('product_info', 'create')
             ->notEmptyString('product_info');
 
         $validator
-            ->integer('id_trademark')
+            ->nonNegativeInteger('id_trademark')
             ->requirePresence('id_trademark', 'create')
             ->notEmptyString('id_trademark');
 
         $validator
-            ->integer('id_type_product')
+            ->nonNegativeInteger('id_type_product')
             ->requirePresence('id_type_product', 'create')
             ->notEmptyString('id_type_product');
 
@@ -98,6 +114,23 @@ class ProductTable extends Table
             ->dateTime('updated_at')
             ->notEmptyDateTime('updated_at');
 
+        $validator
+            ->notEmptyString('deleted');
+
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->isUnique(['slug']), ['errorField' => 'slug']);
+
+        return $rules;
     }
 }
