@@ -21,7 +21,6 @@ class CheckLoginAdminMiddleware  extends AppController implements MiddlewareInte
         if(!isset($id_admin)){
             return $this->redirect('/admin/login');
         }
-
         return $response;
     }
 }

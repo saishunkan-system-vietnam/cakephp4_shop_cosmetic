@@ -34,7 +34,7 @@ use Cake\Routing\Router;
                     <form role="form" method="POST" enctype="multipart/form-data" action="<?= Router::url(['_name'=>'processCreateProduct','fullBase' => 'true']) ?>">
                     <div class="card-body">
                         <div class="form-group">
-                        <label for="name">Tên sản phẩm</label>
+                        <label for="name">Tên sản phẩm</label><span class="err err_name"></span>
                         <input type="text" name="name" class="form-control" id="name" placeholder="Enter email">
                         </div>
                         <div class="form-group">
@@ -49,11 +49,11 @@ use Cake\Routing\Router;
                             </div>
                         </div>
                         <div class="form-group">
-                        <label for="price">Giá</label>
+                        <label for="price">Giá</label><span class="err err_price"></span>
                         <input type="number" class="form-control" id="price" name="price" placeholder="Enter email">
                         </div>
                         <div class="form-group">
-                        <label for="amount">Số lượng</label>
+                        <label for="amount">Số lượng</label><span class="err err_amount"></span>
                         <input type="number" min="1" class="form-control" name="amount" id="amount" placeholder="Enter email">
                         </div>
                         <div class="form-group">
@@ -78,7 +78,7 @@ use Cake\Routing\Router;
                         </div>
                         </div>
                         <div class="form-group">
-                        <label for="content">Bài viết</lab<label for=""></label>
+                        <label for="content">Bài viết</lab<label for=""></label><span class="err err_content"></span>
                         <textarea name="product_info" id="content" class="form-control ckeditor"></textarea>
                         </div>
                     </div>
@@ -100,48 +100,68 @@ use Cake\Routing\Router;
 
  $(document).ready(function () {
     $("#submit").click(function (e) {
+        const regex_name = /^[A-Za-z0-9\sàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ]{2,200}$/;
+        const regex_number = /^[0-9]+$/;
         var name = $("#name");
-        const regex_name = /^[A-Za-z\sàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ]{2,100}$/;
         var price = $("#price");
-        const regex_number = /[0-9]+/;
         var amount = $("#amount");
-        alert(name.val());
-        e.preventDefault();
+        var content = $("#content");
+        var flag = 0;
+        // var image = $("#image");
         if(name.val().length == 0)
         {
-            alert("asdasd");
-            e.preventDefault();
+            $(".err_name").html(" *Tên sản phẩm không được để trống");
+            flag++;
         }
         else if(regex_name.test(name.val()) == false)
         {
-            e.preventDefault();
+            $(".err_name").html(" *Tên sản phẩm không được viết kí tự đặc biệt");
+            flag++;
         }
         else{
-
+            $(".err_name").html("");
         }
 
         if(price.val().length == 0)
         {
-            e.preventDefault();
+            $(".err_price").html(" *Giá không được để trống");
+            flag++;
         }
         else if(regex_number.test(price.val()) == false)
         {
-            e.preventDefault();
+            $(".err_price").html(" *Giá chỉ được ghi số");
+            flag++;
         }
         else{
-
+            $(".err_price").html("");
         }
 
         if(amount.val().length == 0)
         {
-            e.preventDefault();
+            $(".err_amount").html(" *Số lượng không được để trống");
+            flag++;
         }
         else if(regex_number.test(amount.val()) == false)
         {
-            e.preventDefault();
+            $(".err_amount").html(" *Số lượng chỉ được ghi số");
+            flag++;
         }
         else{
+            $(".err_amount").html("");
+        }
 
+        if(content.val().length == 0)
+        {
+            $(".err_content").html(" *Bài viết không được để trống");
+            flag++;
+        }
+        else{
+            $(".err_content").html("");
+        }
+
+        if(flag > 0)
+        {
+            e.preventDefault();
         }
     });
  });

@@ -103,74 +103,6 @@ class AdminController extends AppController
         return $session->read('id_admin');
     }
 
-    public function listUsers()
-    {
-        $this->render('User/list_users');
-    }
-
-    public function renderListUser()
-    {
-        $paramQuery = $this->request->getQuery();
-        $columns = [
-            'id',
-            'email',
-            'full_name',
-            'avatar',
-            'phone',
-            'address',
-            'gender',
-            'deleted'
-        ];
-        $dataTable = DataTable::input('User',
-            $columns,
-            $paramQuery,
-            ['email','full_name','address','phone']
-        );
-
-        $data = [];
-        $data["draw"]            = intval($paramQuery['draw']);
-        $data["recordsTotal"]    = $dataTable['totalData'];
-        $data["recordsFiltered"] = $dataTable['totalData'];
-        $data['data']            = [];
-        foreach ($dataTable['listData'] as $user) {
-            $data['data'][] = [
-                $user->id,
-                $user->email,
-                $user->full_name,
-                "<img src='".Router::url('/images/avatar/'.$user->avatar,true)."' style='width: 70px'>",
-                $user->phone,
-                $user->address,
-                $user->gender == true ? "Nam" : "Nữ",
-                $user->deleted == true ? "Đang khóa" : "Đang mở",
-                "<a href='".Router::url("/admin/user/$user->id")."'>Chi tiết</a>"
-            ];
-        }
-        $this->set($data);
-        $this->viewBuilder()->setOption('serialize', true);
-        $this->RequestHandler->renderAs($this, 'json');
-    }
-
-
-    // public function test()
-    // {
-    //     $faker = Factory::create();
-    //     for ($i = 0; $i < 100; $i++) {
-    //         $adminTable       = $this->getTableLocator()->get('User');
-    //         $admin            = $adminTable->newEmptyEntity();
-    //         $admin->email     = $faker->unique()->email;
-    //         $admin->password  = md5($faker->password);
-    //         $admin->avatar    = $faker->unique()->name;
-    //         $admin->full_name = $faker->userName;
-    //         $admin->phone     = $faker->unique()->e164PhoneNumber;
-    //         $admin->address   = $faker->streetAddress;
-    //         $admin->gender    = $faker->boolean == true ? 1 : 0;
-    //         $admin->deleted   = $faker->boolean == true ? 1 : 0;
-    //         $adminTable->save($admin);
-    //     }
-
-    //     dd("Ádsa");
-    // }
-
     public function logOut()
     {
         $session = $this->request->getSession();
@@ -240,57 +172,6 @@ class AdminController extends AppController
         $mailer->deliver();
         $this->Flash->set('Nhập password trong email được gửi');
         return $this->redirect('/admin/login');
-    }
-
-    public function userDetail()
-    {
-        $id_user = $this->request->getParam('id_user');
-        $user    = TableRegistry::getTableLocator()->get('User')->get($id_user);
-        $this->set('user',$user);
-        return $this->render('User/user_detail');
-    }
-
-    public function updateProfileUser()
-    {
-        try {
-            $profile   = $this->request->getData();
-            $UserTable = TableRegistry::getTableLocator()->get('User');
-            $user      = $UserTable->get($profile['id_user']);
-            $file      = $profile['avatar'];
-            $extFile   = pathinfo($profile['avatar']->getclientFilename(), PATHINFO_EXTENSION);
-            $path_img  = WWW_ROOT . "images\avatar";
-            if ($file != '') {
-                if (in_array(strtolower($extFile), ['jpg', 'png', 'jpeg', 'gif'])) {
-                    if (!file_exists($path_img)) {
-                        mkdir($path_img, 0755, true);
-                    }
-
-                    $date       = date('Ymd');
-                    $filename   = $date . "_" . uniqid() . "." . $extFile;
-                    $targetFile = WWW_ROOT . "images\avatar" . DS . $filename;
-                    $file->moveTo($targetFile);
-
-                    if (file_exists($path_img . DS . $user->avatar)) {
-                        $oldImage = WWW_ROOT . "images\avatar" . DS . $user->avatar;
-                        unlink($oldImage);
-                    }
-                }
-            }
-            //change profile
-            $user->avatar    = !empty($filename) ? $filename : $user->avatar;
-            $user->full_name = $profile['full_name'];
-            $user->email     = $profile['email'];
-            $user->full_name = $profile['full_name'];
-            $user->address   = $profile['address'];
-            $user->deleted   = $profile['deleted'];
-            $user->phone     = $profile['phone'];
-            $user->gender    = $profile['gender'];
-            $UserTable->save($user);
-            //change session image
-            return $this->redirect('/admin/user/'.$profile['id_user']);
-        } catch (\Throwable $th) {
-            return $this->redirect('/admin/profile'.$profile['id_user']);
-        }
     }
 
     public function uploadImageCkeditor()

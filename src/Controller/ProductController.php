@@ -7,7 +7,6 @@ use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\Utility\Text;
-use Cake\Http\Response;
 
 class ProductController extends AppController{
 
@@ -90,32 +89,29 @@ class ProductController extends AppController{
             $updated_at = strtotime($product->updated_at);
             $data['data'][]=[
                 $product->id,
-                htmlspecialchars($product->name),
+                h($product->name),
                 "<img src='".Router::url('/images/product/'.$product->image,true)."' style='width: 70px'>",
                 number_format("$product->price",0,".",".")." VNĐ",
-                $product->amount,
-                $product->trademark->name,
-                $product->type_product->name,
+                h($product->amount),
+                h($product->trademark->name),
+                h($product->type_product->name),
                 date("d/m/Y H:i:s",$created_at),
                 date("d/m/Y H:i:s",$updated_at),
                 "<a href='".Router::url('/admin/product/'.$product->id,true)."'>Chi tiết</a>",
                 "<a href='".Router::url('/admin/product/delete/'.$product->id,true)."'>Xóa</a>"
             ];
         }
-        $this->response->type('json');
-        $this->response->body($data);
-        return $this->response;
+        $this->set($data);
+        $this->viewBuilder()->setOption('serialize', true);
+        $this->RequestHandler->renderAs($this, 'json');
     }
 
     public function showProduct()
     {
         $id_product = $this->request->getParam('id_product');
-
         $product = $this->Product->find()->where(['id'=>$id_product])->first();
-
         $trademarks    = TableRegistry::getTableLocator()->get('Trademark')->find();
         $type_products = TableRegistry::getTableLocator()->get('TypeProduct')->find();
-
         $this->set(['product'=>$product,'trademarks'=>$trademarks,'type_products'=>$type_products]);
         $this->render('show_product');
     }
@@ -164,7 +160,6 @@ class ProductController extends AppController{
 
     public function deleteProduct()
     {
-
         $id_product = $this->request->getParam('id_product');
         $productTable = TableRegistry::getTableLocator()->get('Product');
 
@@ -174,5 +169,48 @@ class ProductController extends AppController{
 
         $this->Flash->set('Xóa sản phẩm thành công!!!');
         $this->redirect('/admin/list-product');
+    }
+
+    public function showProductInUser()
+    {
+        $slug = $this->request->getParam('slug');
+
+        $product = $this->Product->find()->where(['slug' => $slug])->first();
+        $this->set('product',$product);
+        $this->setView('product_detail');
+    }
+
+    public function setView($view)
+    {
+        $this->viewBuilder()->setLayout('user');
+        return $this->render($view);
+    }
+
+    public function addToCart()
+    {
+        try {
+            $id_product = $this->request->getQuery()['id_product'];
+            $session = $this->request->getSession();
+            $arr_cart = [];
+            if($session->check('arr_cart'))
+                $arr_cart = $session->read('arr_cart');
+            $arr_cart[] = $id_product;
+            $session->write('arr_cart', $arr_cart);
+            $data=[
+                'status'=>201,
+                'data'=>$id_product
+            ];
+            $this->set($data);
+            $this->viewBuilder()->setOption('serialize', true);
+            $this->RequestHandler->renderAs($this, 'json');
+        } catch (\Throwable $th) {
+            $data=[
+                'status'=>500,
+                'message'=>$th->getMessage()
+            ];
+            $this->set($data);
+            $this->viewBuilder()->setOption('serialize', true);
+            $this->RequestHandler->renderAs($this, 'json');
+        }
     }
 }

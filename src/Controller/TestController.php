@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\Event;
 use Cake\ORM\TableRegistry;
 use Faker\Factory;
 
@@ -24,6 +25,11 @@ class TestController extends AppController
 
             $trademarkTable->save($trademark);
         }
+    }
+
+    public function pusher()
+    {
+        Event::Pusher(['hello'=>'Xin chào các bạn','hahaha'=>"cười"],'my-channel','my-event');
     }
 
 }

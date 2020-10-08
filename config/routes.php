@@ -51,18 +51,18 @@ $routes->scope('/admin', function (RouteBuilder $builder) {
     );
 
     $builder->get('/list-users',
-        ['controller'=>'Admin','action'=>'listUsers'],
+        ['controller'=>'User','action'=>'listUsers'],
         'list_users'
     );
 
-    $builder->get('/render-list-user',['controller'=>'Admin','action'=>'renderListUser']);
+    $builder->get('/render-list-user',['controller'=>'User','action'=>'renderListUser']);
 
     $builder->get('/logout',['controller'=>'Admin','action'=>'logOut']);
 
-    $builder->get('/user/:id_user',['controller'=>'Admin','action'=>'userDetail']);
+    $builder->get('/user/:id_user',['controller'=>'User','action'=>'userDetail']);
 
     $builder->post('/update-profile-user',
-        ['controller'=>'Admin','action'=>'updateProfileUser'],
+        ['controller'=>'User','action'=>'updateProfileUser'],
         'update_profile_user'
     );
 
@@ -74,6 +74,16 @@ $routes->scope('/admin', function (RouteBuilder $builder) {
     $builder->get('/check-user-phone-exists',
         ['controller'=>'Admin','action'=>'checkUserPhoneExistsByAdmin'],
         'checkUserPhoneExistsByAdmin'
+    );
+
+    $builder->get('/lock-user/:id_user',
+        ['controller'=>'User','action'=>'lockUser'],
+        'lockUser'
+    );
+
+    $builder->get('/unlock-user/:id_user',
+        ['controller'=>'User','action'=>'unLockUser'],
+        'unLockUser'
     );
 
     $builder->get('/create-product',
@@ -131,7 +141,7 @@ $routes->scope('/admin', function (RouteBuilder $builder) {
         'deleteProduct'
     );
 
-    // $builder->get('/test',['controller'=>'Test','action'=>'abc']);
+    $builder->get('/test',['controller'=>'Test','action'=>'pusher']);
 
     $builder->fallbacks();
 });
@@ -161,9 +171,18 @@ $routes->scope('/',function (RouteBuilder $builder){
         'sendUserEmailForgotPassword'
     );
 
-    $builder->get('/show-product/:id_product',
-        ['controller'=>'Product','action'=>'showProduct'],
+    $builder->get('/show-product/:slug',
+        ['controller'=>'Product','action'=>'showProductInUser'],
         'showProductInUser'
+    );
+
+    $builder->get('/add-to-cart',
+        ['controller'=>'Product', 'action'=>'addToCart']
+    );
+
+    $builder->post('/auto-logout/:id_user',
+        ['controller'=>'User', 'action'=>'autoLogOut'],
+        'autoLogOut'
     );
 
     $builder->fallbacks();
