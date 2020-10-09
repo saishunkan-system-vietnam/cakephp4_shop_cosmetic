@@ -11,13 +11,22 @@ $session = $this->request->getSession();
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="Colo Shop Template">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="user/styles/bootstrap4/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="<?= Router::url('/user/styles/bootstrap4/bootstrap.min.css',true) ?>">
 <link rel="stylesheet" type="text/css" href="<?= Router::url('/fonts/font-awesome-4.7.0/css/font-awesome.min.css') ?>">
-<link rel="stylesheet" type="text/css" href="user/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
-<link rel="stylesheet" type="text/css" href="user/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
-<link rel="stylesheet" type="text/css" href="user/plugins/OwlCarousel2-2.2.1/animate.css">
-<link rel="stylesheet" type="text/css" href="user/styles/main_styles.css">
-<link rel="stylesheet" type="text/css" href="user/styles/responsive.css">
+<link rel="stylesheet" type="text/css" href="<?= Router::url('/user/plugins/OwlCarousel2-2.2.1/owl.carousel.css',true) ?>">
+<link rel="stylesheet" type="text/css" href="<?= Router::url('/user/plugins/OwlCarousel2-2.2.1/owl.theme.default.css',true) ?>">
+<link rel="stylesheet" type="text/css" href="<?= Router::url('/user/plugins/OwlCarousel2-2.2.1/animate.css',true) ?>">
+<link rel="stylesheet" type="text/css" href="<?= Router::url('/user/styles/main_styles.css',true) ?>">
+<link rel="stylesheet" type="text/css" href="<?= Router::url('/user/styles/responsive.css',true) ?>">
+
+<script src="<?= Router::url('/user/js/jquery-3.2.1.min.js',true) ?>"></script>
+<script src="<?= Router::url('/user/styles/bootstrap4/popper.js',true) ?>"></script>
+<script src="<?= Router::url('/user/styles/bootstrap4/bootstrap.min.js',true) ?>"></script>
+<script src="<?= Router::url('/user/plugins/Isotope/isotope.pkgd.min.js',true) ?>"></script>
+<script src="<?= Router::url('/user/plugins/OwlCarousel2-2.2.1/owl.carousel.js',true) ?>"></script>
+<script src="<?= Router::url('/user/plugins/easing/easing.js',true) ?>"></script>
+<script src="<?= Router::url('/user/js/custom.js',true) ?>"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 
 <body>
@@ -133,10 +142,23 @@ $session = $this->request->getSession();
                                     }
                                 ?>
 								<li class="checkout">
-									<a href="#">
+									<a href="<?= Router::url('/cart',true) ?>">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
 										<span id="checkout_items" class="checkout_items">
-                                            <?= $session->check('arr_cart') ? count($session->read('arr_cart')) : 0 ?>
+                                            <?php
+                                                if($session->check('arr_cart'))
+                                                {
+                                                    $arr_cart = $session->read('arr_cart');
+                                                    $quantity = 0;
+                                                    foreach ($arr_cart as $cart) {
+                                                        $quantity += $cart['quantity'];
+                                                    }
+                                                    echo $quantity;
+                                                }
+                                                else{
+                                                    echo 0;
+                                                }
+                                            ?>
                                         </span>
 									</a>
 								</li>
@@ -201,64 +223,7 @@ $session = $this->request->getSession();
 		</div>
 	</div>
 
-	<!-- Slider -->
-
-	<div class="main_slider" style="background-image:url(images/slider_1.jpg)">
-		<div class="container fill_height">
-			<div class="row align-items-center fill_height">
-				<div class="col">
-					<div class="main_slider_content">
-						<h6>Spring / Summer Collection 2017</h6>
-						<h1>Get up to 30% Off New Arrivals</h1>
-						<div class="red_button shop_now_button"><a href="#">shop now</a></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="new_arrivals">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>
-                        <?php
-                            foreach($products as $product)
-                            {
-                        ?>
-                            <div class="product-item man">
-                                <div class="product discount product_filter">
-                                    <div class="product_image">
-                                        <img src="<?= Router::url('/images/product/'.$product->image) ?>" alt="">
-                                    </div>
-                                    <div class="favorite favorite_left"></div>
-                                    <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-20%</span></div>
-                                    <div class="product_info">
-                                        <h6 class="product_name">
-                                            <a href="<?= Router::url(['_name'=>'showProductInUser','fullBase' => 'true','slug'=>$product->slug]) ?>">
-                                                <?= h($product->name) ?>
-                                            </a>
-                                        </h6>
-                                        <div class="product_price">$520.00<span><?= number_format("$product->price",0,".",".")." VNĐ" ?></span></div>
-                                    </div>
-                                </div>
-                                <div class="red_button add_to_cart_button">
-                                    <span class="addCartWithAjax" id-product="<?= $product->id ?>">
-                                        <a href="#">
-                                            add to cart
-                                        </a>
-                                    </span>
-                                </div>
-                            </div>
-                        <?php
-                            }
-                        ?>
-					</div>
-				</div>
-			</div>
-		</div>
-    </div>
-	<!-- Footer -->
+    <?= $this->fetch('content') ?>
 
 	<footer class="footer">
 		<div class="container">
@@ -295,14 +260,6 @@ $session = $this->request->getSession();
 	</footer>
 
 </div>
-<script src="user/js/jquery-3.2.1.min.js"></script>
-<script src="user/styles/bootstrap4/popper.js"></script>
-<script src="user/styles/bootstrap4/bootstrap.min.js"></script>
-<script src="user/plugins/Isotope/isotope.pkgd.min.js"></script>
-<script src="user/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
-<script src="user/plugins/easing/easing.js"></script>
-<script src="user/js/custom.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
     $(document).ready(function () {
         $(".addCartWithAjax").click(function (e) {
@@ -311,6 +268,7 @@ $session = $this->request->getSession();
                 url: "<?= Router::url('/add-to-cart',true) ?>",
                 data: {
                     id_product: $(this).attr("id-product"),
+                    quantity: 1
                 },
                 dataType: "JSON",
                 success: function (response) {
@@ -332,7 +290,7 @@ $session = $this->request->getSession();
                     title: 'Lỗi server',
                     text: 'Xin lỗi bạn vì sự bất tiện này hiện tại server chúng tôi đang lỗi hẹn gặp lại bạn vào khi khác'
                 })
-             })
+            })
         });
     });
 </script>

@@ -171,7 +171,7 @@ $routes->scope('/',function (RouteBuilder $builder){
         'sendUserEmailForgotPassword'
     );
 
-    $builder->get('/show-product/:slug',
+    $builder->get('/:slug',
         ['controller'=>'Product','action'=>'showProductInUser'],
         'showProductInUser'
     );
@@ -185,10 +185,9 @@ $routes->scope('/',function (RouteBuilder $builder){
         'autoLogOut'
     );
 
-    $builder->fallbacks();
-});
+    $builder->get('/cart',
+        ['controller'=>'Product','action'=>'viewCart']
+    );
 
-$routes->scope('/product', function (RouteBuilder $builder) {
-    $builder->get('/',['controller'=>'Product','action'=>'index']);
     $builder->fallbacks();
 });

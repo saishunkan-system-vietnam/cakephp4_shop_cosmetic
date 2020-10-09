@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use Cake\Database\Expression\QueryExpression;
-use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\Utility\Text;
@@ -175,7 +173,7 @@ class ProductController extends AppController{
     {
         $slug = $this->request->getParam('slug');
 
-        $product = $this->Product->find()->where(['slug' => $slug])->first();
+        $product = $this->Product->find()->contain(['Trademark'])->where(['slug' => $slug])->first();
         $this->set('product',$product);
         $this->setView('product_detail');
     }
@@ -186,15 +184,55 @@ class ProductController extends AppController{
         return $this->render($view);
     }
 
+    public function viewCart()
+    {
+        $session = $this->request->getSession();
+        $arr_cart = $session->read('arr_cart');
+        if(!empty($arr_cart)){
+            $products=[];
+            foreach ($arr_cart as $key => $value) {
+                $products[] = $key;
+            }
+
+            $products = $this->Product->find()->select(['id','name','image','price'])->where(['id In'=>$products]);
+            $data=[];
+            foreach ($products as $product) {
+                foreach ($arr_cart as $key_cart => $cart) {
+                    if($product->id == $key_cart)
+                    {
+                        $data[$product->id]['name'] = $product->name;
+                        $data[$product->id]['image'] = $product->image;
+                        $data[$product->id]['price'] = $product->price;
+                        $data[$product->id]['quantity'] = $cart['quantity'];
+                    }
+                }
+            }
+            $this->set($data);
+            $this->setView('cart');
+        }else{
+            $this->redirect('/');
+        }
+    }
+
     public function addToCart()
     {
         try {
             $id_product = $this->request->getQuery()['id_product'];
+            $quantity = $this->request->getQuery()['quantity'];
             $session = $this->request->getSession();
             $arr_cart = [];
             if($session->check('arr_cart'))
+            {
                 $arr_cart = $session->read('arr_cart');
-            $arr_cart[] = $id_product;
+            }
+
+            if(!empty($arr_cart[$id_product]))
+            {
+                $arr_cart[$id_product]['quantity'] += $quantity;
+            }
+            else{
+                $arr_cart[$id_product]['quantity'] = $quantity;
+            }
             $session->write('arr_cart', $arr_cart);
             $data=[
                 'status'=>201,

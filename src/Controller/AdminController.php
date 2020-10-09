@@ -193,7 +193,8 @@ class AdminController extends AppController
                 $file->moveTo($targetFile);
                 $function_number = $this->request->getQuery('CKEditorFuncNum');
                 $message = 'Image uploaded successfully';
-                $data = "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($function_number, 'http://localhost/cakephp4_shop_cosmetic_m/images/product/$filename', '$message');</script>";
+                $targetFile = Router::url('/images/product/'.$filename,true);
+                $data = "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($function_number, '$targetFile', '$message');</script>";
                 echo $data;
             }
         }
