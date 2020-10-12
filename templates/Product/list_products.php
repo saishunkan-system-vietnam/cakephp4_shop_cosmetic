@@ -33,6 +33,7 @@ use Cake\Routing\Router;
                     <th>Tên sản phẩm</th>
                     <th>Ảnh</th>
                     <th>Giá</th>
+                    <th>Giá Point</th>
                     <th>Số lượng</th>
                     <th>Nhà sản xuất</th>
                     <th>Loại sản phẩm</th>
@@ -48,6 +49,7 @@ use Cake\Routing\Router;
                     <th>Tên sản phẩm</th>
                     <th>Ảnh</th>
                     <th>Giá</th>
+                    <th>Giá Point</th>
                     <th>Số lượng</th>
                     <th>Nhà sản xuất</th>
                     <th>Loại sản phẩm</th>

@@ -141,7 +141,7 @@ $routes->scope('/admin', function (RouteBuilder $builder) {
         'deleteProduct'
     );
 
-    $builder->get('/test',['controller'=>'Test','action'=>'pusher']);
+    $builder->get('/test',['controller'=>'Test','action'=>'abc']);
 
     $builder->fallbacks();
 });
@@ -187,6 +187,18 @@ $routes->scope('/',function (RouteBuilder $builder){
 
     $builder->get('/cart',
         ['controller'=>'Product','action'=>'viewCart']
+    );
+
+    $builder->connect('/bill',
+        ['controller'=>'Bill','action'=>'addBill']
+    );
+
+    $builder->get('/remove-product-from-cart',
+        ['controller'=>'Product','action'=>'removeProductFromCart']
+    );
+
+    $builder->get('/create-account',
+        ['controller'=>'Bill','action'=>'createAccountUserAndCreateBill']
     );
 
     $builder->fallbacks();

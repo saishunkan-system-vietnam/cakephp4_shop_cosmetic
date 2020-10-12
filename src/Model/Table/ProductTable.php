@@ -41,13 +41,15 @@ class ProductTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Trademark',[
-            'className' => 'Trademark'
-        ])->setForeignKey('id_trademark');
+        $this->belongsTo('Category',[
+            'className' => 'Category',
+            'foreignKey'=>'id_category'
+        ]);
 
-        $this->belongsTo('TypeProduct',[
-            'className' => 'TypeProduct'
-        ])->setForeignKey('id_type_product');
+        $this->belongsTo('Trademark',[
+            'className' => 'Trademark',
+            'foreignKey'=>'id_trademark'
+        ]);
     }
 
     /**
@@ -64,7 +66,7 @@ class ProductTable extends Table
 
         $validator
             ->scalar('name')
-            ->maxLength('name', 100)
+            ->maxLength('name', 200)
             ->requirePresence('name', 'create')
             ->notEmptyString('name');
 
@@ -76,8 +78,12 @@ class ProductTable extends Table
 
         $validator
             ->numeric('price')
-            ->requirePresence('price', 'create')
-            ->notEmptyString('price');
+            ->greaterThanOrEqual('price', 0)
+            ->allowEmptyString('price');
+
+        $validator
+            ->nonNegativeInteger('point')
+            ->allowEmptyString('point');
 
         $validator
             ->integer('amount')
@@ -97,14 +103,20 @@ class ProductTable extends Table
             ->notEmptyString('product_info');
 
         $validator
+            ->scalar('type_product')
+            ->maxLength('type_product', 1)
+            ->requirePresence('type_product', 'create')
+            ->notEmptyString('type_product');
+
+        $validator
             ->nonNegativeInteger('id_trademark')
             ->requirePresence('id_trademark', 'create')
             ->notEmptyString('id_trademark');
 
         $validator
-            ->nonNegativeInteger('id_type_product')
-            ->requirePresence('id_type_product', 'create')
-            ->notEmptyString('id_type_product');
+            ->nonNegativeInteger('id_category')
+            ->requirePresence('id_category', 'create')
+            ->notEmptyString('id_category');
 
         $validator
             ->dateTime('created_at')

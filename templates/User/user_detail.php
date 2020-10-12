@@ -28,6 +28,7 @@ use Cake\Routing\Router;
             <!-- general form elements -->
             <div class="card card-primary">
               <form role="form" action="<?= Router::url(['_name'=>'update_profile_user','fullBase' => true]) ?>" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="_csrfToken" value="<?= $this->request->getAttribute('csrfToken') ?>">
                 <input type="hidden" name="id_user" value=<?= $user->id ?>>
                 <div class="card-body">
                   <div class="form-group">

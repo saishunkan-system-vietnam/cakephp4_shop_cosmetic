@@ -62,14 +62,15 @@ class UserTable extends Table
 
         $validator
             ->scalar('password')
-            ->maxLength('password', 200)
+            ->maxLength('password', 60)
             ->requirePresence('password', 'create')
             ->notEmptyString('password');
 
         $validator
             ->scalar('avatar')
             ->maxLength('avatar', 100)
-            ->allowEmptyString('avatar')
+            ->requirePresence('avatar', 'create')
+            ->notEmptyString('avatar')
             ->add('avatar', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
@@ -92,11 +93,18 @@ class UserTable extends Table
             ->notEmptyString('address');
 
         $validator
-            ->boolean('gender')
+            ->scalar('gender')
+            ->maxLength('gender', 1)
             ->notEmptyString('gender');
 
         $validator
-            ->boolean('deleted')
+            ->nonNegativeInteger('point')
+            ->requirePresence('point', 'create')
+            ->notEmptyString('point');
+
+        $validator
+            ->scalar('deleted')
+            ->maxLength('deleted', 1)
             ->notEmptyString('deleted');
 
         return $validator;
@@ -112,8 +120,8 @@ class UserTable extends Table
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->isUnique(['email']), ['errorField' => 'email']);
-        $rules->add($rules->isUnique(['phone']), ['errorField' => 'phone']);
         $rules->add($rules->isUnique(['avatar']), ['errorField' => 'avatar']);
+        $rules->add($rules->isUnique(['phone']), ['errorField' => 'phone']);
 
         return $rules;
     }

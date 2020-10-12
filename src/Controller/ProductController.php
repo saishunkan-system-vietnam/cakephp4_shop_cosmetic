@@ -11,22 +11,22 @@ class ProductController extends AppController{
     public function createProduct()
     {
         $trademarks = TableRegistry::getTableLocator()->get('Trademark')->find();
-        $type_products = TableRegistry::getTableLocator()->get('TypeProduct')->find();
-        $this->set(['trademarks'=>$trademarks,'type_products'=>$type_products]);
+        $category = TableRegistry::getTableLocator()->get('Category')->find();
+        $this->set(['trademarks'=>$trademarks,'category'=>$category]);
         return $this->render('create_product');
     }
 
     public function processCreateProduct()
     {
-        $infoProduct     = $this->request->getData();
-        $name            = $infoProduct['name'];
-        $file            = $infoProduct['image'];
-        $price           = $infoProduct['price'];
-        $amount          = $infoProduct['amount'];
-        $id_trademark    = $infoProduct['trademark'];
-        $id_type_product = $infoProduct['type_product'];
-        $product_info    = $infoProduct['product_info'];
-        $pathImg         = WWW_ROOT . "images\product";
+        $infoProduct  = $this->request->getData();
+        $name         = $infoProduct['name'];
+        $file         = $infoProduct['image'];
+        $amount       = $infoProduct['amount'];
+        $id_trademark = $infoProduct['trademark'];
+        $id_category  = $infoProduct['category'];
+        $product_info = $infoProduct['product_info'];
+        $type_product = $infoProduct['type_product'];
+        $pathImg      = WWW_ROOT . "images\product";
         if(!empty($file)){
             $extFile = pathinfo($file->getclientFilename(), PATHINFO_EXTENSION);
             if(in_array($extFile,['jpg', 'png', 'jpeg', 'gif']))
@@ -42,24 +42,38 @@ class ProductController extends AppController{
                 $file->moveTo($targetFile);
 
                 $slug = Text::slug($name, '-');
-                $otherProduct = $this->Product->find()->where(['slug' => $slug]);
+                $otherProduct = $this->Product->find()->where(['slug' => $slug])->first();
                 if(!empty($otherProduct))
                 {
                     $slug.='-'.uniqid();
                 }
-                $productTable             = TableRegistry::getTableLocator()->get('Product');
-                $product                  = $productTable->newEmptyEntity();
-                $product->name            = $name;
-                $product->image           = $filename;
-                $product->price           = $price;
-                $product->amount          = $amount;
-                $product->product_info    = $product_info;
-                $product->id_trademark    = $id_trademark;
-                $product->id_type_product = $id_type_product;
-                $product->slug            = $slug;
+                $productTable          = TableRegistry::getTableLocator()->get('Product');
+                $product               = $productTable->newEmptyEntity();
+                $product->name         = $name;
+                $product->image        = $filename;
+                $product->price        = '';
+                $product->point        = '';
+                $product->amount       = $amount;
+                $product->product_info = $product_info;
+                $product->type_product = $type_product;
+                $product->id_trademark = $id_trademark;
+                $product->id_category  = $id_category;
+                $product->slug         = $slug;
+
+                if(!empty($infoProduct['price'])){
+                    $product->price = $infoProduct['price'];
+                }
+                else if(!empty($infoProduct['point']))
+                {
+                    $product->point = $infoProduct['point'];
+                }
+
                 $productTable->save($product);
             }
         }
+
+        $this->Flash->set('Thêm sản phẩm thành công');
+        $this->redirect('/admin/list-product');
     }
 
     public function listProduct()
@@ -74,7 +88,7 @@ class ProductController extends AppController{
         $search       = $inputData['search']['value'];
         $products = $productTable->find('all')
         ->where(['product.name LIKE'=>"%$search%",'deleted'=>0]);
-        $products = $products->contain(['Trademark','TypeProduct']);
+        $products = $products->contain(['Trademark','Category']);
 
         $totalProduct = $productTable->find()->count();
         $data=[];
@@ -89,10 +103,11 @@ class ProductController extends AppController{
                 $product->id,
                 h($product->name),
                 "<img src='".Router::url('/images/product/'.$product->image,true)."' style='width: 70px'>",
-                number_format("$product->price",0,".",".")." VNĐ",
+                !empty($product->price) ? number_format("$product->price",0,".",".")." VNĐ" : '',
+                $product->point,
                 h($product->amount),
                 h($product->trademark->name),
-                h($product->type_product->name),
+                h($product->category->name),
                 date("d/m/Y H:i:s",$created_at),
                 date("d/m/Y H:i:s",$updated_at),
                 "<a href='".Router::url('/admin/product/'.$product->id,true)."'>Chi tiết</a>",
@@ -109,7 +124,11 @@ class ProductController extends AppController{
         $id_product = $this->request->getParam('id_product');
         $product = $this->Product->find()->where(['id'=>$id_product])->first();
         $trademarks    = TableRegistry::getTableLocator()->get('Trademark')->find();
-        $type_products = TableRegistry::getTableLocator()->get('TypeProduct')->find();
+        $type_products = TableRegistry::getTableLocator()->get('Category')->find();
+
+        $pattern = '/src="(.*)\/images\/product/';
+        $product->product_info = preg_replace($pattern, 'src="'.Router::url('/',true).'images/product', $product->product_info);
+
         $this->set(['product'=>$product,'trademarks'=>$trademarks,'type_products'=>$type_products]);
         $this->render('show_product');
     }
@@ -174,6 +193,8 @@ class ProductController extends AppController{
         $slug = $this->request->getParam('slug');
 
         $product = $this->Product->find()->contain(['Trademark'])->where(['slug' => $slug])->first();
+        $pattern = '/src="(.*)\/images\/product/';
+        $product->product_info = preg_replace($pattern, 'src="'.Router::url('/',true).'images/product', $product->product_info);
         $this->set('product',$product);
         $this->setView('product_detail');
     }
@@ -194,7 +215,7 @@ class ProductController extends AppController{
                 $products[] = $key;
             }
 
-            $products = $this->Product->find()->select(['id','name','image','price'])->where(['id In'=>$products]);
+            $products = $this->Product->find()->select(['id','name','image','price','point'])->where(['id In'=>$products]);
             $data=[];
             foreach ($products as $product) {
                 foreach ($arr_cart as $key_cart => $cart) {
@@ -203,11 +224,19 @@ class ProductController extends AppController{
                         $data[$product->id]['name'] = $product->name;
                         $data[$product->id]['image'] = $product->image;
                         $data[$product->id]['price'] = $product->price;
+                        $data[$product->id]['point'] = $product->point;
                         $data[$product->id]['quantity'] = $cart['quantity'];
                     }
                 }
             }
-            $this->set($data);
+            $id_user = $session->read('id_user');
+            if($id_user > 0){
+                $user = TableRegistry::getTableLocator()->get('user')->get($id_user);
+                $this->set(['products'=>$data,'user'=>$user]);
+            }
+            else{
+                $this->set('products',$data);
+            }
             $this->setView('cart');
         }else{
             $this->redirect('/');
@@ -220,6 +249,7 @@ class ProductController extends AppController{
             $id_product = $this->request->getQuery()['id_product'];
             $quantity = $this->request->getQuery()['quantity'];
             $session = $this->request->getSession();
+            $product = $this->Product->find()->where(['id'=>$id_product])->first();
             $arr_cart = [];
             if($session->check('arr_cart'))
             {
@@ -229,14 +259,69 @@ class ProductController extends AppController{
             if(!empty($arr_cart[$id_product]))
             {
                 $arr_cart[$id_product]['quantity'] += $quantity;
+
+                if(!empty($product->price))
+                {
+                    $total = $arr_cart[$id_product]['quantity'] * $product->price;
+                }
+                elseif(!empty($product->point))
+                {
+                    $id_user = $session->read('id_user');
+                    $user = TableRegistry::getTableLocator()->get('User')->get($id_user);
+                    $total = $arr_cart[$id_product]['quantity'] * $product->point;
+                    if($user->point < $total)
+                    {
+                        $data = [
+                            'status' => 403,
+                            'message' => 'Số point của bạn không đủ'
+                        ];
+                        $this->set($data);
+                        $this->viewBuilder()->setOption('serialize', true);
+                        return $this->RequestHandler->renderAs($this, 'json');
+                    }
+                }
+
+                if($arr_cart[$id_product]['quantity'] <= 0)
+                {
+                    unset($arr_cart[$id_product]);
+                    $total = 0;
+                }
             }
             else{
+                if(!empty($product->point))
+                {
+                    $id_user = $session->read('id_user');
+                    $user = TableRegistry::getTableLocator()->get('User')->get($id_user);
+                    $total = $quantity * $product->point;
+                    if($user->point < $total)
+                    {
+                        $data = [
+                            'status' => 403,
+                            'message' => 'Số point của bạn không đủ'
+                        ];
+                        $this->set($data);
+                        $this->viewBuilder()->setOption('serialize', true);
+                        return $this->RequestHandler->renderAs($this, 'json');
+                    }
+                }
+
                 $arr_cart[$id_product]['quantity'] = $quantity;
+                $total = 0;
+            }
+
+            if(!empty($product->price))
+            {
+                $total = number_format($total,0,'.','.')."₫";
+            }
+            elseif(!empty($product->point))
+            {
+                $total = $total." point";
             }
             $session->write('arr_cart', $arr_cart);
             $data=[
                 'status'=>201,
-                'data'=>$id_product
+                'data'=>$id_product,
+                'total' => $total
             ];
             $this->set($data);
             $this->viewBuilder()->setOption('serialize', true);
@@ -251,4 +336,27 @@ class ProductController extends AppController{
             $this->RequestHandler->renderAs($this, 'json');
         }
     }
+
+    public function removeProductFromCart()
+    {
+        try {
+            $id_product = $this->request->getQuery()['id_product'];
+            $session = $this->request->getSession();
+            $arr_cart = $session->read('arr_cart');
+            unset($arr_cart[$id_product]);
+            $session->write('arr_cart', $arr_cart);
+
+            $data['status'] = true;
+            $this->set($data);
+            $this->viewBuilder()->setOption('serialize', true);
+            $this->RequestHandler->renderAs($this, 'json');
+        } catch (\Throwable $th) {
+
+            $data['status'] = false;
+            $this->set($data);
+            $this->viewBuilder()->setOption('serialize', true);
+            $this->RequestHandler->renderAs($this, 'json');
+        }
+    }
+
 }

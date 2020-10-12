@@ -35,7 +35,7 @@ use Cake\Routing\Router;
                     <div class="card-body">
                         <div class="form-group">
                         <label for="name">Tên sản phẩm</label><span class="err err_name"></span>
-                        <input type="text" name="name" class="form-control" id="name" placeholder="Enter email">
+                        <input type="text" name="name" class="form-control" id="name" placeholder="Nhập tên sản phẩm">
                         </div>
                         <div class="form-group">
                         <label for="image">Ảnh</label>
@@ -48,13 +48,23 @@ use Cake\Routing\Router;
                             <span class="input-group-text" id="">Upload</span>
                             </div>
                         </div>
-                        <div class="form-group">
-                        <label for="price">Giá</label><span class="err err_price"></span>
-                        <input type="number" class="form-control" id="price" name="price" placeholder="Enter email">
+                        <div class="form-group mt-3">
+                            <label for="type_product">Loại sản phẩm</label>
+                            <select class="form-control" name="type_product" id="type_product">
+                                <option value="0">Thường</option>
+                                <option value="1">Quà tặng</option>
+                                <option value="2">Dùng thử</option>
+                            </select>
+                        </div>
+                        <div class="price">
+                            <div class="form-group">
+                                <label for="price">Giá</label><span class="err err_price"></span>
+                                <input type="number" class="form-control" id="price" name="price" placeholder="Nhập giá">
+                            </div>
                         </div>
                         <div class="form-group">
                         <label for="amount">Số lượng</label><span class="err err_amount"></span>
-                        <input type="number" min="1" class="form-control" name="amount" id="amount" placeholder="Enter email">
+                        <input type="number" min="1" class="form-control" name="amount" id="amount" placeholder="Nhập số lượng">
                         </div>
                         <div class="form-group">
                         <label for="exampleInputEmail1">Nhà sản xuất</label>
@@ -67,14 +77,14 @@ use Cake\Routing\Router;
                         </select>
                         </div>
                         <div class="form-group">
-                        <label for="exampleInputEmail1">Loại sản phẩm</label>
-                        <select class="form-control" name="type_product">
-                            <?php foreach ($type_products as $type_product) {
-                            ?>
-                                <option value="<?= $type_product->id ?>"><?= $type_product->name ?></option>
-                            <?php
-                            }?>
-                        </select>
+                            <label for="exampleInputEmail1">Danh mục</label>
+                            <select class="form-control" name="category">
+                                <?php foreach ($category as $type_product) {
+                                ?>
+                                    <option value="<?= $type_product->id ?>"><?= $type_product->name ?></option>
+                                <?php
+                                }?>
+                            </select>
                         </div>
                         </div>
                         <div class="form-group">
@@ -92,77 +102,114 @@ use Cake\Routing\Router;
     </div>
 </section>
 </div>
+
 <script>
- CKEDITOR.replace( 'content', {
-  height: 300,
-  filebrowserUploadUrl: "<?= Router::url(['_name'=>'uploadImageCkeditor','fullBase' => 'true']) ?>"
- });
 
- $(document).ready(function () {
-    $("#submit").click(function (e) {
-        const regex_name = /^[A-Za-z0-9\sàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ]{2,200}$/;
-        const regex_number = /^[0-9]+$/;
-        var name = $("#name");
-        var price = $("#price");
-        var amount = $("#amount");
-        var content = $("#content");
-        var flag = 0;
-        // var image = $("#image");
-        if(name.val().length == 0)
-        {
-            $(".err_name").html(" *Tên sản phẩm không được để trống");
-            flag++;
-        }
-        else if(regex_name.test(name.val()) == false)
-        {
-            $(".err_name").html(" *Tên sản phẩm không được viết kí tự đặc biệt");
-            flag++;
-        }
-        else{
-            $(".err_name").html("");
-        }
-
-        if(price.val().length == 0)
-        {
-            $(".err_price").html(" *Giá không được để trống");
-            flag++;
-        }
-        else if(regex_number.test(price.val()) == false)
-        {
-            $(".err_price").html(" *Giá chỉ được ghi số");
-            flag++;
-        }
-        else{
-            $(".err_price").html("");
-        }
-
-        if(amount.val().length == 0)
-        {
-            $(".err_amount").html(" *Số lượng không được để trống");
-            flag++;
-        }
-        else if(regex_number.test(amount.val()) == false)
-        {
-            $(".err_amount").html(" *Số lượng chỉ được ghi số");
-            flag++;
-        }
-        else{
-            $(".err_amount").html("");
-        }
-
-        if(content.val().length == 0)
-        {
-            $(".err_content").html(" *Bài viết không được để trống");
-            flag++;
-        }
-        else{
-            $(".err_content").html("");
-        }
-
-        if(flag > 0)
-        {
-            e.preventDefault();
-        }
+    CKEDITOR.replace( 'content', {
+        height: 300,
+        filebrowserUploadUrl: "<?= Router::url('/admin/upload-image-ckeditor',true) ?>",
+        filebrowserUploadMethod: 'form',
     });
- });
+
+    $(document).ready(function () {
+        $("#type_product").change(function () {
+            $(".price").empty();
+            switch ($(this).val()) {
+                case "0":
+                    $(".price").append(`<div class="form-group">
+                        <label for="price">Giá</label><span class="err err_price"></span>
+                        <input type="number" class="form-control" id="price" name="price" placeholder="Nhập giá">
+                        </div>`);
+                    break;
+                case "1":
+                    $(".price").append(`<div class="form-group">
+                        <label for="point">Giá Point</label><span class="err err_point"></span>
+                        <input type="number" class="form-control" id="point" name="point" placeholder="Nhập giá point">
+                        </div>`);
+                    break;
+            }
+        })
+    });
+
+    $(document).ready(function () {
+        $("#submit").click(function (e) {
+            const regex_name = /^[A-Za-z0-9\sàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ]{2,200}$/;
+            const regex_number = /^[0-9]+$/;
+            var name = $("#name");
+            var amount = $("#amount");
+            var content = $("#content");
+            var flag = 0;
+
+            if(name.val().length == 0)
+            {
+                $(".err_name").html(" *Tên sản phẩm không được để trống");
+                flag++;
+            }
+            else if(regex_name.test(name.val()) == false)
+            {
+                $(".err_name").html(" *Tên sản phẩm không được viết kí tự đặc biệt");
+                flag++;
+            }
+            else{
+                $(".err_name").html("");
+            }
+
+            try {
+                var point = $("#point");
+                if(point.val().length == 0)
+                {
+                    $(".err_point").html(" *Point không được để trống");
+                    flag++;
+                }
+                else if(regex_number.test(point.val()) == false)
+                {
+                    $(".err_point").html(" *Point chỉ được ghi số");
+                    flag++;
+                }
+                else{
+                    $(".err_point").html("");
+                }
+            } catch (error) {
+
+            }
+
+            try {
+                var price = $("#price");
+                if(price.val().length == 0)
+                {
+                    $(".err_price").html(" *Giá không được để trống");
+                    flag++;
+                }
+                else if(regex_number.test(price.val()) == false)
+                {
+                    $(".err_price").html(" *Giá chỉ được ghi số");
+                    flag++;
+                }
+                else{
+                    $(".err_price").html("");
+                }
+            } catch (error) {
+
+            }
+
+            if(amount.val().length == 0)
+            {
+                $(".err_amount").html(" *Số lượng không được để trống");
+                flag++;
+            }
+            else if(regex_number.test(amount.val()) == false)
+            {
+                $(".err_amount").html(" *Số lượng chỉ được ghi số");
+                flag++;
+            }
+            else{
+                $(".err_amount").html("");
+            }
+
+            if(flag > 0)
+            {
+                e.preventDefault();
+            }
+        });
+    });
 </script>

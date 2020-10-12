@@ -1,0 +1,38 @@
+.form-control {
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+}
+
+.col-lg-8 h4 {
+    text-align: center;
+}
+
+.table100 td,
+.table100 th {
+    text-align: center;
+    cursor: auto;
+}
+
+.table100 div {
+    text-align: center;
+}
+
+.close {
+    width: 20px;
+}
+
+.close:hover {
+    cursor: pointer;
+}
+
+.breadcrumbs {
+    margin-bottom: 50px;
+}
+
+.icon-minus,
+.icon-plus {
+    cursor: pointer;
+}
+
+.form-group input{
+    color: black !important;
+}

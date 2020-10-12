@@ -32,7 +32,7 @@ use Cake\Routing\Router;
                         <div class="product-item man">
                             <div class="product discount product_filter">
                                 <div class="product_image">
-                                    <img src="<?= Router::url('/images/product/'.$product->image) ?>" alt="">
+                                    <img src="<?= Router::url('/images/product/'.$product->image,true) ?>" alt="">
                                 </div>
                                 <div class="product_bubble d-flex flex-column align-items-center"></div>
                                 <div class="product_info">
@@ -41,7 +41,12 @@ use Cake\Routing\Router;
                                             <?= h($product->name) ?>
                                         </a>
                                     </h6>
-                                    <div class="product_price">$520.00<span><?= number_format("$product->price",0,".",".")." VNĐ" ?></span></div>
+                                    <div class="product_price">
+                                        <?=
+                                            !empty($product->price) ?
+                                            number_format("$product->price",0,".",".")." VNĐ" : $product->point." point"
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                             <div class="red_button add_to_cart_button">
@@ -60,3 +65,13 @@ use Cake\Routing\Router;
         </div>
     </div>
 </div>
+<?php
+    if($this->Flash->render())
+    {
+?>
+    <script>
+        alert("Đặt hàng thành công");
+    </script>
+<?php
+    }
+?>

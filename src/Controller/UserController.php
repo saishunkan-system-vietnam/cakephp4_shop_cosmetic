@@ -11,7 +11,11 @@ class UserController extends AppController
 {
     public function dashBoard()
     {
-        $products = TableRegistry::getTableLocator()->get('Product')->find()->select(['id','name','price','image','slug']);
+        $products = TableRegistry::getTableLocator()
+        ->get('Product')
+        ->find()
+        ->where(['deleted !='=>1])
+        ->select(['id','name','price','image','slug','point']);
         $id_user = $this->getSessionUser();
         $user=empty($id_user)? '' : $this->User->find()->where(['id'=>$id_user])->first();
         if(!empty($user)){

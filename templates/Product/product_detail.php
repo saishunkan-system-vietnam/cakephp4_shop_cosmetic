@@ -43,15 +43,14 @@ use Cake\Routing\Router;
 					<div class="product_details_title">
 						<h2><?= h($product->name) ?></h2>
 					</div>
-                    <div class="product_price mt-3"><?= number_format($product->price,'0','.','.')." VNĐ" ?></div>
+                    <div class="product_price mt-3">
+                        <?=
+                            !empty($product->price) ?
+                            number_format($product->price,'0','.','.')." VNĐ" :
+                            $product->point." POINT"
+                        ?>
+                    </div>
                     <span> còn lại (<span><?= $product->amount ?></span>) sản phẩm</span>
-					<ul class="star_rating">
-						<li><i class="fa fa-star" aria-hidden="true"></i></li>
-						<li><i class="fa fa-star" aria-hidden="true"></i></li>
-						<li><i class="fa fa-star" aria-hidden="true"></i></li>
-						<li><i class="fa fa-star" aria-hidden="true"></i></li>
-						<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                    </ul>
                     <div class="mt-2">
                         <p>Thương hiệu: <?= $product->trademark->name ?></p>
                     </div>
@@ -81,13 +80,9 @@ use Cake\Routing\Router;
 					<!-- Tab Description -->
 
 					<div id="tab_1" class="tab_container active">
-						<div class="row">
-							<div class="col-lg-5 desc_col">
-								<div class="tab_title">
-									<h4>Thông tin thêm</h4>
-                                </div>
+							<div class="col-lg-9 desc_col">
+								<h4>Thông tin thêm</h4>
                                 <?= $product->product_info ?>
-						</div>
 					</div>
 
 					<!-- Tab Additional Info -->

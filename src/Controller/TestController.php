@@ -1,35 +1,104 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Service\Event;
-use Cake\ORM\TableRegistry;
-use Faker\Factory;
-
+/**
+ * Test Controller
+ *
+ * @method \App\Model\Entity\Test[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ */
 class TestController extends AppController
 {
-    public function abc()
+    /**
+     * Index method
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function index()
     {
-        $faker = Factory::create();
-        $trademarkTable = TableRegistry::getTableLocator()->get('User');
-        for ($i = 0; $i < 100; $i++) {
-            $trademark = $trademarkTable->newEmptyEntity();
-            $trademark->email = $faker->unique()->email;
-            $trademark->password = md5($faker->email);
-            $trademark->avatar = $faker->unique()->domainWord;
-            $trademark->full_name = $faker->userName;
-            $trademark->phone = $faker->unique()->e164PhoneNumber;
-            $trademark->address = $faker->streetAddress;
-            $trademark->gender = $faker->boolean == true ? 1 : 0;
-            $trademark->deleted = $faker->boolean == true ? 1 : 0;
+        $test = $this->paginate($this->Test);
 
-            $trademarkTable->save($trademark);
+        $this->set(compact('test'));
+    }
+
+    /**
+     * View method
+     *
+     * @param string|null $id Test id.
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function view($id = null)
+    {
+        $test = $this->Test->get($id, [
+            'contain' => [],
+        ]);
+
+        $this->set(compact('test'));
+    }
+
+    /**
+     * Add method
+     *
+     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     */
+    public function add()
+    {
+        $test = $this->Test->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $test = $this->Test->patchEntity($test, $this->request->getData());
+            if ($this->Test->save($test)) {
+                $this->Flash->success(__('The test has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The test could not be saved. Please, try again.'));
         }
+        $this->set(compact('test'));
     }
 
-    public function pusher()
+    /**
+     * Edit method
+     *
+     * @param string|null $id Test id.
+     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function edit($id = null)
     {
-        Event::Pusher(['hello'=>'Xin chào các bạn','hahaha'=>"cười"],'my-channel','my-event');
+        $test = $this->Test->get($id, [
+            'contain' => [],
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $test = $this->Test->patchEntity($test, $this->request->getData());
+            if ($this->Test->save($test)) {
+                $this->Flash->success(__('The test has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The test could not be saved. Please, try again.'));
+        }
+        $this->set(compact('test'));
     }
 
+    /**
+     * Delete method
+     *
+     * @param string|null $id Test id.
+     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function delete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $test = $this->Test->get($id);
+        if ($this->Test->delete($test)) {
+            $this->Flash->success(__('The test has been deleted.'));
+        } else {
+            $this->Flash->error(__('The test could not be deleted. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'index']);
+    }
 }

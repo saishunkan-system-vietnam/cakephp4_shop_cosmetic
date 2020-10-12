@@ -33,7 +33,10 @@ use Cake\Routing\Router;
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-l-50 p-r-50 p-t-77 p-b-30">
-                <form id="form-login" class="login100-form validate-form" action="<?= Router::url('/admin/process-login',true); ?>" method="post">
+                <?= $this->Form->create(null,[
+                    'url'=> '/admin/process-login',
+                    'type' => 'post'
+                ]) ?>
                     <h3>
                         <?php
                             if(isset($err))
@@ -77,7 +80,7 @@ use Cake\Routing\Router;
                     <div>
                         <a href="<?= Router::url(['_name' => 'forgot_password', 'fullBase' => 'true']) ?>">Forgot Password</a>
                     </div>
-				</form>
+                <?= $this->Form->end() ?>
 			</div>
 		</div>
 	</div>
