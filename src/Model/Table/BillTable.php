@@ -40,6 +40,16 @@ class BillTable extends Table
         $this->setTable('bill');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+
+        $this->hasMany('BillDetail',[
+            'className'=>'BillDetail',
+            'foreignKey'=>'id_bill'
+        ]);
+
+        $this->belongsTo('User',[
+            'className'=>'User',
+            'foreignKey'=>'id_user'
+        ]);
     }
 
     /**

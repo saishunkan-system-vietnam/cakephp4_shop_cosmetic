@@ -1,6 +1,8 @@
 <?php
 
 use Cake\Routing\Router;
+
+$session = $this->request->getSession();
 ?>
 
 <link rel="stylesheet" type="text/css" href="<?= Router::url('/user/styles/single_styles.css',true) ?>">
@@ -54,7 +56,11 @@ use Cake\Routing\Router;
                     <div class="mt-2">
                         <p>Thương hiệu: <?= $product->trademark->name ?></p>
                     </div>
-					<div class="quantity d-flex flex-column flex-sm-row align-items-sm-center mt-3">
+                    <?php
+                        if($session->check('id_user'))
+                        {
+                    ?>
+                    <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center mt-3">
 						<span>Số lượng:</span>
 						<div class="quantity_selector">
 							<span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
@@ -63,6 +69,16 @@ use Cake\Routing\Router;
 						</div>
                         <div class="btn btn-danger text-uppercase ml-3" id="add_to_cart">add to cart</div>
 					</div>
+                    <?php
+                        }
+                        else{
+                    ?>
+                        <div>
+                            <p>Sản phẩm này phải <a href="<?= Router::url('/login',true) ?>">đăng nhập</a> mới mua được</p>
+                        </div>
+                    <?php
+                        }
+                    ?>
 				</div>
 			</div>
 		</div>

@@ -50,7 +50,7 @@ $session = $this->getRequest()->getSession();
     <!-- AdminLTE App -->
     <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
     <script src="<?= Router::url('/dist/js/adminlte.min.js',true) ?>"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <style>
         #logout{
             display:none;
@@ -258,7 +258,7 @@ $session = $this->getRequest()->getSession();
                         </li>
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-industry"></i>
+                                <i class="nav-icon fas fa-scroll"></i>
                                 <p>
                                     Hóa đơn
                                     <i class="right fas fa-angle-left"></i>
@@ -266,9 +266,9 @@ $session = $this->getRequest()->getSession();
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="<?= Router::url(['_name'=>'listTrademark','fullBase' => 'true']) ?>" class="nav-link">
+                                    <a href="<?= Router::url(['_name'=>'bill','fullBase' => 'true']) ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Danh sách thương hiệu</p>
+                                        <p>Danh sách hóa đơn</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">

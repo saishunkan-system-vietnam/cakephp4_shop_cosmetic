@@ -141,6 +141,19 @@ $routes->scope('/admin', function (RouteBuilder $builder) {
         'deleteProduct'
     );
 
+    $builder->get('/bill',
+        ['controller'=>'Bill','action'=>'index'],
+        'bill'
+    );
+
+    $builder->get('/render-list-bills',
+        ['controller'=>'Bill','action'=>'renderBills']
+    );
+
+    $builder->get('/change-status-bill',
+        ['controller'=>'Bill','action'=>'changeStatusBill']
+    );
+
     $builder->get('/test',['controller'=>'Test','action'=>'abc']);
 
     $builder->fallbacks();
@@ -189,7 +202,7 @@ $routes->scope('/',function (RouteBuilder $builder){
         ['controller'=>'Product','action'=>'viewCart']
     );
 
-    $builder->connect('/bill',
+    $builder->post('/bill',
         ['controller'=>'Bill','action'=>'addBill']
     );
 
@@ -198,6 +211,10 @@ $routes->scope('/',function (RouteBuilder $builder){
     );
 
     $builder->get('/create-account',
+        ['controller'=>'Bill','action'=>'createAccountUserAndCreateBill']
+    );
+
+    $builder->post('/create-account',
         ['controller'=>'Bill','action'=>'createAccountUserAndCreateBill']
     );
 

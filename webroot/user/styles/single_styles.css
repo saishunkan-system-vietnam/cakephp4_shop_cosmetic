@@ -1603,3 +1603,7 @@ section
     color: #ff0c0c;
     text-decoration: underline ;
 }
+
+.product_details a {
+    color: #d45656;
+}
