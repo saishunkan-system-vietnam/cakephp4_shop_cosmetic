@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Service\SendMail;
 use Cake\ORM\TableRegistry;
 
 class BillController extends AppController
@@ -90,13 +91,16 @@ class BillController extends AppController
             $bill = $this->Bill->save($bill);
             $billDetailTable = TableRegistry::getTableLocator()->get('BillDetail');
             if ($bill) {
+                $products = [];
                 foreach ($arr_cart as $id_product => $product) {
                     $product = TableRegistry::getTableLocator()->get('Product')->get($id_product);
+                    $price = 0;
+                    $point = 0;
                     if(!empty($product->price)){
                         $price = $product->price;
                     }elseif(!empty($product->point))
                     {
-                        $price = $product->point;
+                        $point = $product->point;
                     }
 
                     $billDetail = $billDetailTable->newEmptyEntity();
@@ -104,9 +108,39 @@ class BillController extends AppController
                     $billDetail->id_product = $id_product;
                     $billDetail->amount = $arr_cart[$id_product]['quantity'];
                     $billDetail->price = $arr_cart[$id_product]['quantity'] * $price;
+                    $billDetail->point = $arr_cart[$id_product]['quantity'] * $point;
                     $billDetailTable->save($billDetail);
+                    $product->amount = $arr_cart[$id_product]['quantity'];
+                    $products[] = $product;
                 }
-                $this->Flash->set('Đặt hàng thành công');
+
+                //send mail user
+                $user = TableRegistry::getTableLocator()->get('User')->get($id_user);
+                $config = [
+                    'from' => 'thuanvp012van@gmail.com',
+                    'subject' => 'Tạo đơn hàng thành công'
+                ];
+                $receiver = [$user->full_name => $user->email];
+                $viewVars = [
+                    'user_name' => $user->full_name,
+                    'products' => $products,
+                ];
+                $templateAndLayout = ['template' => 'order_success_user'];
+                SendMail::send($config,$receiver,$viewVars,$templateAndLayout);
+
+                //send mail admins
+                $config['subject'] = 'Đơn hàng mới';
+                $admins = TableRegistry::getTableLocator()->get('Admin')->find();
+                $receiver = [];
+                foreach ($admins as $admin) {
+                    $receiver[$admin->full_name] = $admin->email;
+                }
+
+                $viewVars['datetime']= date('Y-m-d H:i:s');
+                $viewVars['email']= $user->email;
+                $templateAndLayout = ['template' => 'order_success_admin'];
+                SendMail::send($config,$receiver,$viewVars,$templateAndLayout);
+                $this->Flash->set('Đặt hàng thành công bạn vui lòng kiểm tra email xem thông tin hóa đơn');
                 $session->delete('arr_cart');
                 return $this->redirect('/');
             }
@@ -157,7 +191,7 @@ class BillController extends AppController
                     $billDetail->price = $priceProduct;
                     $billDetailTable->save($billDetail);
                 }
-                $this->Flash->set('Đặt hàng thành công');
+                $this->Flash->set('Đặt hàng thành công bạn vui lòng kiểm tra email xem thông tin hóa đơn');
                 $session->delete('arr_cart');
                 return $this->redirect('/');
             }
@@ -187,9 +221,18 @@ class BillController extends AppController
                     $status ="<span class='change_status'>Đang giao hàng</span>";
                 break;
                 case 3:
+                    $billDetailTable = TableRegistry::getTableLocator()->get('BillDetail');
+                    $billDetails = $billDetailTable->find()->where(['id_bill'=>$id_bill]);
+                    $plus_points = 0;
+                    foreach ($billDetails as $billDetail) {
+                        if($billDetail->point > 0)
+                        {
+                            $plus_points += 50;
+                        }
+                    }
                     $userTable = TableRegistry::getTableLocator()->get('User');
                     $user = $userTable->get($id_user);
-                    $user->point = $user->point + 5;
+                    $user->point = $user->point + $plus_points;
                     $userTable->save($user);
                     $status ="Hoàn thành";
                 break;
@@ -204,7 +247,7 @@ class BillController extends AppController
             ];
         } catch (\Throwable $th) {
             $data = [
-                'status'=>200,
+                'status'=>500,
                 'message' => $th->getMessage()
             ];
         }

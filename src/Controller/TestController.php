@@ -1,104 +1,32 @@
 <?php
-declare(strict_types=1);
-
 namespace App\Controller;
 
-/**
- * Test Controller
- *
- * @method \App\Model\Entity\Test[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
- */
+use App\Service\SendMail;
+
 class TestController extends AppController
 {
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|null|void Renders view
-     */
-    public function index()
+    public function testMail()
     {
-        $test = $this->paginate($this->Test);
+        $config = [
+            'from' => 'thuanvp012van@gmail.com',
+            'subject' => 'Xin chao ae'
+        ];
 
-        $this->set(compact('test'));
-    }
+        $sendTo = [
+            'thuanhehe' => 'thuanvp012van@gmail.com',
+            'thuantest' => 'thuantestemail1@gmail.com'
+        ];
 
-    /**
-     * View method
-     *
-     * @param string|null $id Test id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $test = $this->Test->get($id, [
-            'contain' => [],
-        ]);
+        $viewVars = [
+            'ten' => 'thuanhehe',
+            'abc' =>'aisdjasdi'
+        ];
 
-        $this->set(compact('test'));
-    }
+        $templateAndLayout = [
+            'template' => 'test'
+        ];
 
-    /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $test = $this->Test->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $test = $this->Test->patchEntity($test, $this->request->getData());
-            if ($this->Test->save($test)) {
-                $this->Flash->success(__('The test has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The test could not be saved. Please, try again.'));
-        }
-        $this->set(compact('test'));
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id Test id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $test = $this->Test->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $test = $this->Test->patchEntity($test, $this->request->getData());
-            if ($this->Test->save($test)) {
-                $this->Flash->success(__('The test has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The test could not be saved. Please, try again.'));
-        }
-        $this->set(compact('test'));
-    }
-
-    /**
-     * Delete method
-     *
-     * @param string|null $id Test id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $test = $this->Test->get($id);
-        if ($this->Test->delete($test)) {
-            $this->Flash->success(__('The test has been deleted.'));
-        } else {
-            $this->Flash->error(__('The test could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
+        $abc = SendMail::send($config,$sendTo,$viewVars, $templateAndLayout);
+        dd($abc);
     }
 }

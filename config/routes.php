@@ -31,6 +31,10 @@ $routes->post('/admin/send-email-forgot-password',
     'send_email_forgot_password'
 );
 
+$routes->get('/testabc',
+    ['controller'=>'Test','action'=>'testMail']
+);
+
 $routes->scope('/admin', function (RouteBuilder $builder) {
     $builder->registerMiddleware('CheckLoginAdmin',new CheckLoginAdminMiddleware());
     $builder->applyMiddleware('CheckLoginAdmin');
