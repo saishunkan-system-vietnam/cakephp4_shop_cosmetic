@@ -32,13 +32,7 @@ $session = $this->request->getSession();
 <body>
 
 <div class="super_container">
-
-	<!-- Header -->
-
 	<header class="header trans_300">
-
-		<!-- Top Navigation -->
-
 		<div class="top_nav">
 			<div class="container">
 				<div class="row">
@@ -48,9 +42,6 @@ $session = $this->request->getSession();
 					<div class="col-md-6 text-right">
 						<div class="top_nav_right">
 							<ul class="top_nav_menu">
-
-								<!-- Currency / Language / My Account -->
-
 								<li class="currency">
 									<a href="#">
 										usd
@@ -124,6 +115,20 @@ $session = $this->request->getSession();
 						</div>
 						<nav class="navbar">
 							<ul class="navbar_menu">
+                                <li>
+                                    <ul>
+                                        <form action="<?= Router::url('/',true) ?>" method="get">
+                                            <li>
+                                                <input type="text" style="color: black" name="q" class="form-control" placeholder="Bạn tìm gì...">
+                                            </li>
+                                            <li>
+                                                <button class="btn btn-light"type="submit">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </button>
+                                            </li>
+                                        </form>
+                                    </ul>
+                                </li>
 								<li><a href="#">home</a></li>
 								<li><a href="#">shop</a></li>
 								<li><a href="#">promotion</a></li>
@@ -132,7 +137,6 @@ $session = $this->request->getSession();
 								<li><a href="contact.html">contact</a></li>
 							</ul>
 							<ul class="navbar_user">
-								<li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
                                 <?php
                                     if($session->check('id_user'))
                                     {

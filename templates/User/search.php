@@ -4,24 +4,11 @@
 use Cake\Routing\Router;
 
 ?>
-<!-- Slider -->
-
-<div class="main_slider" style="background-image:url(images/slider_1.jpg)">
-    <div class="container fill_height">
-        <div class="row align-items-center fill_height">
-            <div class="col">
-                <div class="main_slider_content">
-                    <h6>Spring / Summer Collection 2017</h6>
-                    <h1>Get up to 30% Off New Arrivals</h1>
-                    <div class="red_button shop_now_button"><a href="#">shop now</a></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="new_arrivals">
+<div class="main_slider">
     <div class="container">
+        <h4 class="p-3">
+            Kết quả tìm kiếm cho <?= $this->request->getQuery('q') ?>
+        </h4>
         <div class="row">
             <div class="col">
                 <div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>

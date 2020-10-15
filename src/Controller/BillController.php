@@ -8,7 +8,6 @@ use Cake\ORM\TableRegistry;
 
 class BillController extends AppController
 {
-
     public function index()
     {
         $this->render('list_bills_admin');
@@ -208,17 +207,39 @@ class BillController extends AppController
             $billTable = $this->Bill;
 
             $bill = $billTable->get($id_bill);
+            $old_status_bill = $bill->status;
+            $billDetails = TableRegistry::getTableLocator()
+            ->get('BillDetail')
+            ->find()->where(['id_bill'=>$id_bill]);
             $bill->status = $status;
             $billTable->save($bill);
             switch ($status) {
                 case 0:
-                    $status = "<span class='change_status'>Chưa xác nhận</span>";
+                    $data = "<span class='change_status'>Chưa xác nhận</span>";
+                    if($old_status_bill > 0)
+                    {
+                        foreach ($billDetails as $product) {
+                            $this->changeAmountProduct($product->id_product, -($product->amount));
+                        }
+                    }
                 break;
                 case 1:
-                    $status = "<span class='change_status'>Đang xử lí</span>";
+                    $data = "<span class='change_status'>Đang xử lí</span>";
+                    if($old_status_bill <= 0)
+                    {
+                        foreach ($billDetails as $product) {
+                            $this->changeAmountProduct($product->id_product, $product->amount);
+                        }
+                    }
                 break;
                 case 2:
-                    $status ="<span class='change_status'>Đang giao hàng</span>";
+                    $data ="<span class='change_status'>Đang giao hàng</span>";
+                    if($old_status_bill <= 0)
+                    {
+                        foreach ($billDetails as $product) {
+                            $this->changeAmountProduct($product->id_product, $product->amount);
+                        }
+                    }
                 break;
                 case 3:
                     $billDetailTable = TableRegistry::getTableLocator()->get('BillDetail');
@@ -234,16 +255,25 @@ class BillController extends AppController
                     $user = $userTable->get($id_user);
                     $user->point = $user->point + $plus_points;
                     $userTable->save($user);
-                    $status ="Hoàn thành";
+                    $data ="Hoàn thành";
+                    if($old_status_bill <= 0)
+                    {
+                        foreach ($billDetails as $product) {
+                            $this->changeAmountProduct($product->id_product, $product->amount);
+                        }
+                    }
                 break;
                 case 4:
-                    $status="Đã hủy";
+                    $data="Đã hủy";
+                    foreach ($billDetails as $product) {
+                        $this->changeAmountProduct($product->id_product, -$product->amount);
+                    }
                 break;
             }
 
             $data = [
                 'status'=>200,
-                'data'=>$status
+                'data'=>$data
             ];
         } catch (\Throwable $th) {
             $data = [
@@ -254,5 +284,13 @@ class BillController extends AppController
         $this->set($data);
         $this->viewBuilder()->setOption('serialize', true);
         $this->RequestHandler->renderAs($this, 'json');
+    }
+
+    public function changeAmountProduct(int $id_product, int $amount)
+    {
+        $productTable = TableRegistry::getTableLocator()->get('Product');
+        $product = $productTable->get($id_product);
+        $product->amount = $product->amount - $amount;
+        $productTable->save($product);
     }
 }

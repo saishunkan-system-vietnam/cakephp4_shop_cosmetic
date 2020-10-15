@@ -11,20 +11,33 @@ class UserController extends AppController
 {
     public function dashBoard()
     {
-        $products = TableRegistry::getTableLocator()
-        ->get('Product')
-        ->find()
-        ->where(['deleted !='=>1])
-        ->select(['id','name','price','image','slug','point']);
-        $id_user = $this->getSessionUser();
-        $user=empty($id_user)? '' : $this->User->find()->where(['id'=>$id_user])->first();
-        if(!empty($user)){
-            $this->set('user',$user);
-        }
+        $search = $this->request->getQuery('q');
+        if(!isset($search)){
+            $products = TableRegistry::getTableLocator()
+            ->get('Product')
+            ->find()
+            ->where(['deleted !='=>1])
+            ->select(['id','name','price','image','slug','point','type_product']);
+            $id_user = $this->getSessionUser();
+            $user=empty($id_user)? '' : $this->User->find()->where(['id'=>$id_user])->first();
+            if(!empty($user)){
+                $this->set('user',$user);
+            }
 
-        $this->set('products',$products);
-        $this->viewBuilder()->setLayout('user');
-        return $this->render('dash_board');
+            $this->set('products',$products);
+            $this->viewBuilder()->setLayout('user');
+            return $this->render('dash_board');
+        }
+        else{
+            $products = TableRegistry::getTableLocator()
+            ->get('Product')
+            ->find()
+            ->where(['name LIKE'=> "%$search%"]);
+
+            $this->set('products',$products);
+            $this->viewBuilder()->setLayout('user');
+            return $this->render('search');
+        }
     }
 
     public function getLogin()

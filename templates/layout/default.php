@@ -271,12 +271,6 @@ $session = $this->getRequest()->getSession();
                                         <p>Danh sách hóa đơn</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="<?= Router::url(['_name'=>'createTrademark','fullBase' => 'true']) ?>" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Thêm thương hiệu</p>
-                                    </a>
-                                </li>
                             </ul>
                         </li>
                     </ul>
