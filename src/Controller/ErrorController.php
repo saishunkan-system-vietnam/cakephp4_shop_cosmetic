@@ -54,7 +54,15 @@ class ErrorController extends AppController
     public function beforeRender(EventInterface $event)
     {
         parent::beforeRender($event);
-
+        $statusCode = $this->response->getStatusCode();
+        switch ($statusCode) {
+            case 404:
+                $this->viewBuilder()->setLayout('login')->setTemplate('404');
+                break;
+            case 500:
+                $this->viewBuilder()->setLayout('login')->setTemplate('500');
+                break;
+        }
         $this->viewBuilder()->setTemplatePath('Error');
     }
 

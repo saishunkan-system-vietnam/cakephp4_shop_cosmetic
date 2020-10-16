@@ -111,7 +111,7 @@ $session = $this->request->getSession();
 				<div class="row">
 					<div class="col-lg-12 text-right">
 						<div class="logo_container">
-							<a href="#">colo<span>shop</span></a>
+							<a href="<?= Router::url('/',true) ?>">colo<span>shop</span></a>
 						</div>
 						<nav class="navbar">
 							<ul class="navbar_menu">
@@ -134,7 +134,7 @@ $session = $this->request->getSession();
 								<li><a href="#">promotion</a></li>
 								<li><a href="#">pages</a></li>
 								<li><a href="#">blog</a></li>
-								<li><a href="contact.html">contact</a></li>
+								<li><a href="<?= Router::url('/trial',true) ?>">sản phẩm dùng thử</a></li>
 							</ul>
 							<ul class="navbar_user">
                                 <?php

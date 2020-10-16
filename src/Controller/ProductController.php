@@ -191,12 +191,16 @@ class ProductController extends AppController{
     public function showProductInUser()
     {
         $slug = $this->request->getParam('slug');
-
         $product = $this->Product->find()->contain(['Trademark'])->where(['slug' => $slug])->first();
-        $pattern = '/src="(.*)\/images\/product/';
-        $product->product_info = preg_replace($pattern, 'src="'.Router::url('/',true).'images/product', $product->product_info);
-        $this->set('product',$product);
-        $this->setView('product_detail');
+        if(!empty($product)){
+            $pattern = '/src="(.*)\/images\/product/';
+            $product->product_info = preg_replace($pattern, 'src="'.Router::url('/',true).'images/product', $product->product_info);
+            $this->set('product',$product);
+            $this->setView('product_detail');
+        }else{
+            $this->viewBuilder()->setLayout('login');
+            $this->render('../Error/404');
+        }
     }
 
     public function setView($view)

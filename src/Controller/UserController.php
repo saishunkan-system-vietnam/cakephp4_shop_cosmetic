@@ -16,7 +16,7 @@ class UserController extends AppController
             $products = TableRegistry::getTableLocator()
             ->get('Product')
             ->find()
-            ->where(['deleted !='=>1])
+            ->where(['deleted !='=>1,'type_product !=' => 2])
             ->select(['id','name','price','image','slug','point','type_product']);
             $id_user = $this->getSessionUser();
             $user=empty($id_user)? '' : $this->User->find()->where(['id'=>$id_user])->first();
