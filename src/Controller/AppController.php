@@ -17,6 +17,8 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\ORM\TableRegistry;
+use Cake\Routing\Router;
 
 /**
  * Application Controller
@@ -44,6 +46,13 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
 
+        $session = $this->request->getSession();
+        if(!$session->check('id_admin'))
+        {
+            $categoryTable= TableRegistry::getTableLocator()->get('Category');
+            $categories = $categoryTable->find();
+            $this->set('categories', $categories);
+        }
         /*
          * Enable the following component for recommended CakePHP form protection settings.
          * see https://book.cakephp.org/4/en/controllers/components/form-protection.html

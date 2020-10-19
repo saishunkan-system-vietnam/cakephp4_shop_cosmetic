@@ -217,7 +217,7 @@ class UserController extends AppController
                 $user->id,
                 h($user->email),
                 h($user->full_name),
-                "<img src='".Router::url('/images/avatar/'.$user->avatar,true)."' style='width: 70px'>",
+                "<img src='".Router::url('/images/avatar/'.$user->avatar,true)."' style='width: 70px' onerror='imgError(this);'>",
                 $user->phone,
                 h($user->address),
                 $user->gender == true ? "Nam" : "Nữ",

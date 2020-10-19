@@ -46,16 +46,16 @@ class SendMail extends AppController{
             foreach ($nameAndEmail as $name => $email) {
                 if($count == 1)
                 {
-                    $mailer->setTo($email, $name);
+                    $mailer->setTo($email,$name);
                 }else{
-                    $mailer->addTo($email, $name);
+                    $mailer->addTo($email);
                 }
                 $count++;
             }
             $mailer->setFrom($from);
 
-            $mailer->viewBuilder();
-            $mailer->setTemplate($template,$layout);
+            $mailer->viewBuilder()
+            ->setTemplate($template,$layout);
             $mailer->deliver();
             return true;
         } catch (\Throwable $th) {

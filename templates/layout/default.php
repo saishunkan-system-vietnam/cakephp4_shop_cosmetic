@@ -66,8 +66,8 @@ $session = $this->getRequest()->getSession();
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="<?= Router::url('/admin',true) ?>" class="brand-link">
-                <img src="<?= Router::url('/dist/img/AdminLTELogo.png',true) ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">AdminLTE 3</span>
+                <img src="<?= Router::url('/dist/img/AdminLTELogo.jpg',true) ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">Beauty Shop</span>
             </a>
 
             <!-- Sidebar -->
@@ -209,21 +209,23 @@ $session = $this->getRequest()->getSession();
                         </li>
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
-                                <i class="fas fa-users"></i>
+                                <i class="nav-icon fab fa-buffer"></i>
                                 <p>
-                                    Người viết bài
+                                    Danh mục
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="<?= Router::url(['_name'=>'bill','fullBase' => 'true']) ?>" class="nav-link">
+                                    <a href="<?= Router::url('/admin/category',true) ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Danh sách người viết bài</p>
+                                        <p>Danh sách danh mục</p>
                                     </a>
-                                    <a href="<?= Router::url(['_name'=>'bill','fullBase' => 'true']) ?>" class="nav-link">
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?= Router::url('/admin/category/add',true) ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Thêm người viết bài</p>
+                                        <p>Thêm danh mục</p>
                                     </a>
                                 </li>
                             </ul>

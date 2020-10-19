@@ -229,6 +229,7 @@ $session = $this->request->getSession();
         });
 
         $("#add_to_cart").click(function () {
+            var err = 'Xin lỗi bạn vì sự bất tiện này hiện tại server chúng tôi đang lỗi hẹn gặp lại bạn vào khi khác!!!';
             $.ajax({
                 type: "GET",
                 url: "<?= Router::url('/add-to-cart',true) ?>",
@@ -241,8 +242,25 @@ $session = $this->request->getSession();
                     if(response.status == 201)
                     {
                         $("#checkout_items").html(parseInt($("#checkout_items").html()) + parseInt(quantity_value.html()));
+                    }else{
+                        if(response.status != 500)
+                        {
+                            err = response.message
+                        }
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: err
+                        })
                     }
                 }
+            })
+            .catch(()=>{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi',
+                    text: err
+                })
             });
         });
     });

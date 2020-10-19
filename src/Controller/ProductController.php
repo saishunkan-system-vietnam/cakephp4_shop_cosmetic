@@ -86,8 +86,13 @@ class ProductController extends AppController{
         $productTable = TableRegistry::getTableLocator()->get('Product');
         $inputData    = $this->request->getQuery();
         $search       = $inputData['search']['value'];
-        $products = $productTable->find('all')
-        ->where(['product.name LIKE'=>"%$search%",'deleted'=>0]);
+        $limit        = $inputData['length'];
+        $start        = $inputData['start'];
+        $page         = ceil($start / $limit) + 1;
+        $products     = $productTable->find('all')
+        ->where(['product.name LIKE'=>"%$search%",'deleted'=>0])
+        ->limit($limit)
+        ->page($page);
         $products = $products->contain(['Trademark','Category']);
 
         $totalProduct = $productTable->find()->count();
@@ -262,33 +267,45 @@ class ProductController extends AppController{
 
             if(!empty($arr_cart[$id_product]))
             {
-                $arr_cart[$id_product]['quantity'] += $quantity;
-
-                if(!empty($product->price))
+                //check amount product
+                if($arr_cart[$id_product]['quantity'] + $quantity <= $product->amount)
                 {
-                    $total = $arr_cart[$id_product]['quantity'] * $product->price;
-                }
-                elseif(!empty($product->point))
-                {
-                    $id_user = $session->read('id_user');
-                    $user = TableRegistry::getTableLocator()->get('User')->get($id_user);
-                    $total = $arr_cart[$id_product]['quantity'] * $product->point;
-                    if($user->point < $total)
+                    $arr_cart[$id_product]['quantity'] += $quantity;
+                    if(!empty($product->price))
                     {
-                        $data = [
-                            'status' => 403,
-                            'message' => 'Số point của bạn không đủ'
-                        ];
-                        $this->set($data);
-                        $this->viewBuilder()->setOption('serialize', true);
-                        return $this->RequestHandler->renderAs($this, 'json');
+                        $total = $arr_cart[$id_product]['quantity'] * $product->price;
+                    }
+                    elseif(!empty($product->point))
+                    {
+                        $id_user = $session->read('id_user');
+                        $user = TableRegistry::getTableLocator()->get('User')->get($id_user);
+                        $total = $arr_cart[$id_product]['quantity'] * $product->point;
+                        if($user->point < $total)
+                        {
+                            $data = [
+                                'status' => 403,
+                                'message' => 'Số point của bạn không đủ'
+                            ];
+                            $this->set($data);
+                            $this->viewBuilder()->setOption('serialize', true);
+                            return $this->RequestHandler->renderAs($this, 'json');
+                        }
+                    }
+
+                    if($arr_cart[$id_product]['quantity'] <= 0)
+                    {
+                        unset($arr_cart[$id_product]);
+                        $total = 0;
                     }
                 }
-
-                if($arr_cart[$id_product]['quantity'] <= 0)
-                {
-                    unset($arr_cart[$id_product]);
-                    $total = 0;
+                else{
+                    $data = [
+                        'status' => 418,
+                        'message' => 'Số lượng sản phẩm này không đủ cho bạn'
+                    ];
+                    $this->set($data);
+                    $this->viewBuilder()->setOption('serialize', true);
+                    return $this->RequestHandler->renderAs($this, 'json');
                 }
             }
             else{
@@ -309,8 +326,11 @@ class ProductController extends AppController{
                     }
                 }
 
-                $arr_cart[$id_product]['quantity'] = $quantity;
-                $total = 0;
+                if($quantity > 0)
+                {
+                    $arr_cart[$id_product]['quantity'] = $quantity;
+                    $total = 0;
+                }
             }
 
             if(!empty($product->price))
@@ -327,6 +347,7 @@ class ProductController extends AppController{
                 'data'=>$id_product,
                 'total' => $total
             ];
+
             $this->set($data);
             $this->viewBuilder()->setOption('serialize', true);
             $this->RequestHandler->renderAs($this, 'json');
@@ -363,4 +384,29 @@ class ProductController extends AppController{
         }
     }
 
+    public function trial()
+    {
+        $products = $this->Product->find()->where(['type_product'=>2]);
+        $this->set('products', $products);
+        $this->viewBuilder()->setLayout('user');
+        $this->render('trial');
+    }
+
+    public function showProductByCategory()
+    {
+        $slug = $this->request->getParam('slug');
+        $categoryTable = TableRegistry::getTableLocator()->get('Category');
+        $category = $categoryTable->find()->where(['slug'=>$slug])->first();
+        if(!empty($category))
+        {
+            $products = $this->Product->find()->where(['id_category'=>$category->id]);
+            $this->set(['products'=>$products,'name_category'=>$category->name]);
+            $this->viewBuilder()->setLayout('user');
+            $this->render('list_product_by_category');
+        }
+        else{
+            $this->viewBuilder()->setLayout('login');
+            $this->render('../Error/404');
+        }
+    }
 }

@@ -1,15 +1,11 @@
-table.dataTable tbody tr{
-    background-color: #eae8e8;
+.even{
+    background:white !important;
 }
 
-table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover{
-    background-color:#c7c7c7;
+tr:hover{
+    background:#e2dcdc !important
 }
-
-table.dataTable.display tbody tr.odd>.sorting_1, table.dataTable.order-column.stripe tbody tr.odd>.sorting_1{
-    background:white;
-}
-
-h3{
-    color: #888585;
+.change_status{
+    color: #2121af;
+    cursor: pointer;
 }

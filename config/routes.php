@@ -156,6 +156,10 @@ $routes->scope('/admin', function (RouteBuilder $builder) {
 
     $builder->get('/test',['controller'=>'Test','action'=>'abc']);
 
+    $builder->connect('/category',['controller'=>'Category'],['_name'=>"category"]);
+
+    $builder->get('/category/render-list-categories',['controller'=>'Category','action'=>'renderListCategories']);
+
     $builder->fallbacks();
 });
 
@@ -216,6 +220,18 @@ $routes->scope('/',function (RouteBuilder $builder){
 
     $builder->post('/create-account',
         ['controller'=>'Bill','action'=>'createAccountUserAndCreateBill']
+    );
+
+    $builder->get('/trial',
+        ['controller'=>'Product','action'=>'trial']
+    );
+
+    $builder->get('/trial-order/:id_product',
+        ['controller'=>'Bill','action'=>'trialOrder']
+    );
+
+    $builder->get('/danh-muc/:slug',
+        ['controller'=>'Product','action'=>'showProductByCategory']
     );
 
     $builder->fallbacks();

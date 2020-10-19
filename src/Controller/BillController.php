@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Service\SendMail;
+use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 
 class BillController extends AppController
@@ -56,6 +57,14 @@ class BillController extends AppController
             elseif($total_point > 0 && $total_price > 0){
                 $total = number_format($total_price,0,'.','.')." VNĐ và ".$total_point." point";
             }
+            elseif($total_point > 0 && $total_price ==0)
+            {
+                $total = $total_point." point";
+            }
+            elseif($total_point == 0 && $total_price == 0)
+            {
+                $total = 0;
+            }
 
             $data['data'][]=[
                 $bill->id,
@@ -65,7 +74,7 @@ class BillController extends AppController
                 $bill->user->address,
                 $total,
                 $status,
-                '<span>Chi tiết</span>'
+                '<span class="detail>Chi tiết</span>'
             ];
             $count++;
         }
@@ -91,6 +100,7 @@ class BillController extends AppController
             $billDetailTable = TableRegistry::getTableLocator()->get('BillDetail');
             if ($bill) {
                 $products = [];
+                $total_point = 0;
                 foreach ($arr_cart as $id_product => $product) {
                     $product = TableRegistry::getTableLocator()->get('Product')->get($id_product);
                     $price = 0;
@@ -111,7 +121,14 @@ class BillController extends AppController
                     $billDetailTable->save($billDetail);
                     $product->amount = $arr_cart[$id_product]['quantity'];
                     $products[] = $product;
+                    $total_point += $arr_cart[$id_product]['quantity'] * $point;
                 }
+
+                //update point user
+                $userTable = TableRegistry::getTableLocator()->get('User');
+                $user = $userTable->get($id_user);
+                $user->point = $user->point - $total_point;
+                $userTable->save($user);
 
                 //send mail user
                 $user = TableRegistry::getTableLocator()->get('User')->get($id_user);
@@ -135,7 +152,7 @@ class BillController extends AppController
                     $receiver[$admin->full_name] = $admin->email;
                 }
 
-                $viewVars['datetime']= date('Y-m-d H:i:s');
+                $viewVars['datetime']= Time::now();
                 $viewVars['email']= $user->email;
                 $templateAndLayout = ['template' => 'order_success_admin'];
                 SendMail::send($config,$receiver,$viewVars,$templateAndLayout);
@@ -266,6 +283,13 @@ class BillController extends AppController
                 case 4:
                     $data="Đã hủy";
                     foreach ($billDetails as $product) {
+                        if($product->point > 0)
+                        {
+                            $userTable = TableRegistry::getTableLocator()->get('User');
+                            $user = $userTable->get($id_user);
+                            $user->point += $product->amount * $product->point;
+                            $userTable->save($user);
+                        }
                         $this->changeAmountProduct($product->id_product, -$product->amount);
                     }
                 break;
@@ -292,5 +316,52 @@ class BillController extends AppController
         $product = $productTable->get($id_product);
         $product->amount = $product->amount - $amount;
         $productTable->save($product);
+    }
+
+    public function trialOrder()
+    {
+        $session = $this->request->getSession();
+        if($session->check('id_user'))
+        {
+            $id_product = $this->request->getParam('id_product');
+            $billTable = TableRegistry::getTableLocator()->get('Bill');
+            $bills = $billTable->find()->where(['id_user'=>$session->read('id_user')]);
+            $billDetailTable = TableRegistry::getTableLocator()->get('BillDetail');
+            foreach ($bills as $bill) {
+                $billDetails = $billDetailTable->find()->where(['id_bill'=>$bill->id]);
+                foreach ($billDetails as $billDetail) {
+                    if($billDetail->id_product == $id_product)
+                    {
+                        $data = [
+                            'status' => '403',
+                            'message' => 'Bạn chỉ được đặt sản phẩm này một lần'
+                        ];
+                        $this->set($data);
+                        $this->viewBuilder()->setOption('serialize', true);
+                        return $this->RequestHandler->renderAs($this, 'json');
+                    }
+                }
+            }
+
+            $bill = $billTable->newEmptyEntity();
+            $bill->id_user = $session->read('id_user');
+            $bill->status = 0;
+            $bill = $billTable->save($bill);
+            $billDetail = $billDetailTable->newEmptyEntity();
+            $billDetail->id_bill = $bill->id;
+            $billDetail->id_product = $id_product;
+            $billDetail->amount = 1;
+            $billDetailTable->save($billDetail);
+            $data = [
+                'status' => '201',
+                'message' => 'Đặt hàng thành công'
+            ];
+            $this->set($data);
+            $this->viewBuilder()->setOption('serialize', true);
+            $this->RequestHandler->renderAs($this, 'json');
+        }else{
+            $this->Flash->set('Đăng ký mua hàng dùng thử');
+            $this->redirect('/register');
+        }
     }
 }

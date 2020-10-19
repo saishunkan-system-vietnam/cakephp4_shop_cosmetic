@@ -2,7 +2,7 @@
 
 use Cake\Routing\Router;
 ?>
-<link rel="stylesheet" href="<?= Router::url('/css/custom-datatable.css') ?>">
+<link rel="stylesheet" href="<?= Router::url('/css/custom-datatable.css',true) ?>">
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <div class="content-header">
@@ -10,7 +10,7 @@ use Cake\Routing\Router;
       <div class="row mb-2">
         <div class="col-sm-6">
           <h1 class="m-0 text-dark">Dashboard</h1>
-          <h3><?= $this->Flash->render() ?></h3>
+          <h3 class="flash-session"><?= $this->Flash->render(); ?></h3>
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -26,33 +26,20 @@ use Cake\Routing\Router;
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
-        <table id="list_user" class="display dataTable">
+        <table id="list_user" class="table table-striped table-bordered">
             <thead style="color: #888383;">
                 <tr>
-                    <th>id</th>
-                    <th>email</th>
-                    <th>tên</th>
-                    <th>ảnh</th>
-                    <th>số điện thoại</th>
-                    <th>địa chỉ</th>
-                    <th>giới tính</th>
-                    <th>tình trạng</th>
+                    <th>Id</th>
+                    <th>Email</th>
+                    <th>Tên</th>
+                    <th>Ảnh</th>
+                    <th>Số điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Giới tính</th>
+                    <th>Tình trạng</th>
                     <th></th>
                 </tr>
             </thead>
-            <tfoot style="color: #888383;">
-                <tr>
-                    <th>id</th>
-                    <th>email</th>
-                    <th>tên</th>
-                    <th>ảnh</th>
-                    <th>số điện thoại</th>
-                    <th>địa chỉ</th>
-                    <th>giới tính</th>
-                    <th>tình trạng</th>
-                    <th></th>
-                </tr>
-            </tfoot>
         </table>
     </div><!-- /.container-fluid -->
   </section>
@@ -66,8 +53,14 @@ use Cake\Routing\Router;
             "ajax": "<?=Router::url('/admin/render-list-user','true')?>"
         });
 
-        setTimeout(function(){
-            $("h3").slideUp();
+        setTimeout(function () {
+            $(".flash-session").slideUp("slow");
         },2000);
     });
+
+    function imgError(image){
+        image.onerror = "";
+        image.src = "<?= Router::url('/images/unnamed.png') ?>";
+        return true;
+    }
 </script>

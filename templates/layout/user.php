@@ -27,6 +27,13 @@ $session = $this->request->getSession();
 <script src="<?= Router::url('/user/plugins/easing/easing.js',true) ?>"></script>
 <script src="<?= Router::url('/user/js/custom.js',true) ?>"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<style>
+    .dropdown:hover>.dropdown-menu {
+  display: block;
+}
+
+
+</style>
 </head>
 
 <body>
@@ -119,7 +126,7 @@ $session = $this->request->getSession();
                                     <ul>
                                         <form action="<?= Router::url('/',true) ?>" method="get">
                                             <li>
-                                                <input type="text" style="color: black" name="q" class="form-control" placeholder="Bạn tìm gì...">
+                                                <input type="text" value="<?= $this->request->getQuery('q') ?>" style="color: black" name="q" class="form-control" placeholder="Bạn tìm gì...">
                                             </li>
                                             <li>
                                                 <button class="btn btn-light"type="submit">
@@ -129,11 +136,66 @@ $session = $this->request->getSession();
                                         </form>
                                     </ul>
                                 </li>
-								<li><a href="#">home</a></li>
-								<li><a href="#">shop</a></li>
-								<li><a href="#">promotion</a></li>
-								<li><a href="#">pages</a></li>
-								<li><a href="#">blog</a></li>
+								<li>
+                                    <div class="dropdown">
+                                        <p class="dropdown-toggle" data-toggle="dropdown">Trang điểm</p>
+                                        <ul class="dropdown-menu">
+                                            <?php foreach($categories as $category): ?>
+                                            <?php if($category->id_parent == 2): ?>
+                                                <li><a href="<?= Router::url('/danh-muc/'.$category->slug,true) ?>"><?= $category->name ?></a></li>
+                                            <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </li>
+								<li>
+                                    <div class="dropdown">
+                                        <p class="dropdown-toggle" data-toggle="dropdown"> Chăm sóc da</p>
+                                        <ul class="dropdown-menu">
+                                            <?php foreach($categories as $category): ?>
+                                            <?php if($category->id_parent == 3): ?>
+                                                <li><a href="<?= Router::url('/danh-muc/'.$category->slug,true) ?>"><?= $category->name ?></a></li>
+                                            <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </li>
+								<li>
+                                    <div class="dropdown">
+                                        <p class="dropdown-toggle" data-toggle="dropdown"> Chăm sóc tóc</p>
+                                        <ul class="dropdown-menu">
+                                            <?php foreach($categories as $category): ?>
+                                            <?php if($category->id_parent == 4): ?>
+                                                <li><a href="<?= Router::url('/danh-muc/'.$category->slug,true) ?>"><?= $category->name ?></a></li>
+                                            <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </li>
+								<li>
+                                    <div class="dropdown">
+                                        <p class="dropdown-toggle" data-toggle="dropdown"> Phụ kiện</p>
+                                        <ul class="dropdown-menu">
+                                            <?php foreach($categories as $category): ?>
+                                            <?php if($category->id_parent == 5): ?>
+                                                <li><a href="<?= Router::url('/danh-muc/'.$category->slug,true) ?>"><?= $category->name ?></a></li>
+                                            <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </li>
+								<li>
+                                    <div class="dropdown">
+                                        <p class="dropdown-toggle" data-toggle="dropdown"> Nước hoa</p>
+                                        <ul class="dropdown-menu">
+                                            <?php foreach($categories as $category): ?>
+                                            <?php if($category->id_parent == 1): ?>
+                                                <li><a href="<?= Router::url('/danh-muc/'.$category->slug,true) ?>"><?= $category->name ?></a></li>
+                                            <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </li>
 								<li><a href="<?= Router::url('/trial',true) ?>">sản phẩm dùng thử</a></li>
 							</ul>
 							<ul class="navbar_user">
@@ -264,40 +326,6 @@ $session = $this->request->getSession();
 	</footer>
 
 </div>
-<script>
-    $(document).ready(function () {
-        $(".addCartWithAjax").click(function (e) {
-            $.ajax({
-                type: "GET",
-                url: "<?= Router::url('/add-to-cart',true) ?>",
-                data: {
-                    id_product: $(this).attr("id-product"),
-                    quantity: 1
-                },
-                dataType: "JSON",
-                success: function (response) {
-                    if(response.status == 201 && response.data > 0)
-                    {
-                        $("#checkout_items").html(parseInt($("#checkout_items").html())+1);
-                    }else{
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Lỗi server',
-                            text: 'Xin lỗi bạn vì sự bất tiện này hiện tại server chúng tôi đang lỗi hẹn gặp lại bạn vào khi khác!!!'
-                        })
-                    }
-                }
-            })
-            .catch(function(){
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Lỗi server',
-                    text: 'Xin lỗi bạn vì sự bất tiện này hiện tại server chúng tôi đang lỗi hẹn gặp lại bạn vào khi khác'
-                })
-            })
-        });
-    });
-</script>
 <?php
 if($session->check('id_user'))
 {

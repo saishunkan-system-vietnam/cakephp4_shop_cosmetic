@@ -113,6 +113,7 @@ use Cake\Routing\Router;
             editCart($(this).attr('id_product'),1);
         });
 
+
         $('.icon-minus').click(function () {
             editCart($(this).attr('id_product'),-1);
         });
@@ -128,8 +129,9 @@ use Cake\Routing\Router;
                 },
                 dataType: "JSON",
                 success: function (response) {
+                    var err = 'Xin lỗi bạn vì sự bất tiện này hiện tại server chúng tôi đang lỗi hẹn gặp lại bạn vào khi khác!!!';
                     $(".quantity").each(function(){
-                        if($(this).attr('id_product') == response.data)
+                        if($(this).attr('id_product') == response.data && response.status == 201)
                         {
                             var index = $(".quantity").index(this);
                             $(this).html(parseInt($(this).html()) + quantity);
@@ -147,6 +149,16 @@ use Cake\Routing\Router;
                                     </div>`);
                                 }
                             }
+                        }else if(response.status != 201){
+                            if(response.status != 500)
+                            {
+                                err = response.message
+                            }
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: err
+                            })
                         }
                     })
                 }

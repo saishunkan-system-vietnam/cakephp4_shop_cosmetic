@@ -4,10 +4,17 @@
 use Cake\Routing\Router;
 
 ?>
-<div class="main_slider">
+<div class="new_arrivals">
     <div class="container">
-        <h4 class="p-3">
-            Kết quả tìm kiếm cho <?= $this->request->getQuery('q') ?>
+        <h4 class="p-3" style="margin-top:150px">
+            <?php
+                if(!empty($this->request->getQuery('q')))
+                {
+            ?>
+                Kết quả tìm kiếm cho '<?= $this->request->getQuery('q') ?>'
+            <?php
+                }
+            ?>
         </h4>
         <div class="row">
             <div class="col">
@@ -82,6 +89,41 @@ use Cake\Routing\Router;
     $(document).ready(function () {
         $(".redirectLogin").click(function () {
             window.location.assign("<?= Router::url('/login',true) ?>")
+        });
+    });
+
+    var err = 'Xin lỗi bạn vì sự bất tiện này hiện tại server chúng tôi đang lỗi hẹn gặp lại bạn vào khi khác!!!';
+    $(document).ready(function () {
+        $(".addCartWithAjax").click(function (e) {
+            $.ajax({
+                type: "GET",
+                url: "<?= Router::url('/add-to-cart',true) ?>",
+                data: {
+                    id_product: $(this).attr("id-product"),
+                    quantity: 1
+                },
+                dataType: "JSON",
+                success: function (response) {
+                    if(response.status == 201 && response.data > 0)
+                    {
+                        $("#checkout_items").html(parseInt($("#checkout_items").html())+1);
+                    }else{
+                        err = response.message;
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: err
+                        })
+                    }
+                }
+            })
+            .catch(function(){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi server',
+                    text: err
+                })
+            })
         });
     });
 </script>
