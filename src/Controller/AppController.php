@@ -46,12 +46,30 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
 
-        $session = $this->request->getSession();
-        if(!$session->check('id_admin'))
+        $currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+        $array = explode('/',$currentUrl);
+
+        $flag = 0;
+        foreach($array as $value)
+        {
+            if($value == "admin")
+            {
+                $flag++;
+            }
+        }
+
+        if($flag == 0)
         {
             $categoryTable= TableRegistry::getTableLocator()->get('Category');
-            $categories = $categoryTable->find();
-            $this->set('categories', $categories);
+                $categories = $categoryTable->find();
+
+                $arr_category = [];
+                foreach ($categories as $category) {
+                    $arr_category[] = $category;
+                }
+
+                $this->set(['categories'=>$categories,'arr_category'=>$arr_category]);
         }
         /*
          * Enable the following component for recommended CakePHP form protection settings.

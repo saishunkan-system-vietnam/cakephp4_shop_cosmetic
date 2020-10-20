@@ -224,8 +224,10 @@ class ProductController extends AppController{
                 $products[] = $key;
             }
 
-            $products = $this->Product->find()->select(['id','name','image','price','point'])->where(['id In'=>$products]);
+            $products = $this->Product->find()->select(['id','name','image','price','point','type_product'])->where(['id In'=>$products]);
             $data=[];
+            $total_money = 0;
+            $total_point = 0;
             foreach ($products as $product) {
                 foreach ($arr_cart as $key_cart => $cart) {
                     if($product->id == $key_cart)
@@ -234,17 +236,27 @@ class ProductController extends AppController{
                         $data[$product->id]['image'] = $product->image;
                         $data[$product->id]['price'] = $product->price;
                         $data[$product->id]['point'] = $product->point;
+                        $data[$product->id]['type_product'] = $product->type_product;
                         $data[$product->id]['quantity'] = $cart['quantity'];
+                        switch ($product->type_product) {
+                            case 0:
+                                $total_money += $product->price * $cart['quantity'];
+                                break;
+                            case 1:
+                                $total_point += $product->point * $cart['quantity'];
+                                break;
+                        }
                     }
                 }
             }
+            // dd($total_money);
             $id_user = $session->read('id_user');
             if($id_user > 0){
                 $user = TableRegistry::getTableLocator()->get('user')->get($id_user);
-                $this->set(['products'=>$data,'user'=>$user]);
+                $this->set(['products'=>$data,'user'=>$user,'total_money'=>$total_money,'total_point'=>$total_point]);
             }
             else{
-                $this->set('products',$data);
+                $this->set(['products'=>$data,'total_money'=>$total_money,'total_point'=>$total_point]);
             }
             $this->setView('cart');
         }else{
@@ -260,6 +272,7 @@ class ProductController extends AppController{
             $session = $this->request->getSession();
             $product = $this->Product->find()->where(['id'=>$id_product])->first();
             $arr_cart = [];
+            $total = 0;
             if($session->check('arr_cart'))
             {
                 $arr_cart = $session->read('arr_cart');
@@ -342,10 +355,48 @@ class ProductController extends AppController{
                 $total = $total." point";
             }
             $session->write('arr_cart', $arr_cart);
+
+            //calculate all total
+            $total_point = 0;
+            $total_money = 0;
+            $all_total = 0;
+            $array_id_product = [];
+            if(!empty($arr_cart))
+            {
+                foreach ($arr_cart as $id_product => $product) {
+                    $array_id_product[] = $id_product;
+                }
+                $products = $this->Product->find()->select(['id','price','point','type_product'])->where(['id IN'=>$array_id_product]);
+                foreach ($products as $product) {
+                    switch ($product->type_product) {
+                        case 0:
+                            $total_money += $product->price * $arr_cart[$product->id]['quantity'];
+                            break;
+                        case 1:
+                            $total_point += $product->point * $arr_cart[$product->id]['quantity'];
+                            break;
+                    }
+                }
+
+                if($total_money == 0 && $total_point == 0)
+                {
+                    $all_total = 0;
+                }elseif($total_money == 0)
+                {
+                    $all_total = $total_point." POINT";
+                }elseif($total_point == 0)
+                {
+                    $all_total = number_format($total_money,0,'.','.')."₫";
+                }else{
+                    $all_total = number_format($total_money,0,'.','.')."₫ và ".$total_point." POINT";
+                }
+            }
+
             $data=[
                 'status'=>201,
                 'data'=>$id_product,
-                'total' => $total
+                'total' => $total,
+                'all_total'=>$all_total
             ];
 
             $this->set($data);
@@ -371,7 +422,44 @@ class ProductController extends AppController{
             unset($arr_cart[$id_product]);
             $session->write('arr_cart', $arr_cart);
 
+            //calculate all total
+            $total_point = 0;
+            $total_money = 0;
+            $all_total = 0;
+            $array_id_product = [];
+            if(!empty($arr_cart))
+            {
+                foreach ($arr_cart as $id_product => $product) {
+                    $array_id_product[] = $id_product;
+                }
+                $products = $this->Product->find()->select(['id','price','point','type_product'])->where(['id IN'=>$array_id_product]);
+                foreach ($products as $product) {
+                    switch ($product->type_product) {
+                        case 0:
+                            $total_money += $product->price * $arr_cart[$product->id]['quantity'];
+                            break;
+                        case 1:
+                            $total_point += $product->point * $arr_cart[$product->id]['quantity'];
+                            break;
+                    }
+                }
+
+                if($total_money == 0 && $total_point == 0)
+                {
+                    $all_total = 0;
+                }elseif($total_money == 0)
+                {
+                    $all_total = $total_point." POINT";
+                }elseif($total_point == 0)
+                {
+                    $all_total = number_format($total_money,0,'.','.')."₫";
+                }else{
+                    $all_total = number_format($total_point,0,'.','.')."₫ và ".$total_point." POINT";
+                }
+            }
+
             $data['status'] = true;
+            $data['all_total'] = $all_total;
             $this->set($data);
             $this->viewBuilder()->setOption('serialize', true);
             $this->RequestHandler->renderAs($this, 'json');
@@ -399,7 +487,7 @@ class ProductController extends AppController{
         $category = $categoryTable->find()->where(['slug'=>$slug])->first();
         if(!empty($category))
         {
-            $products = $this->Product->find()->where(['id_category'=>$category->id]);
+            $products = $this->Product->find()->where(['id_category'=>$category->id,'type_product'=>0]);
             $this->set(['products'=>$products,'name_category'=>$category->name]);
             $this->viewBuilder()->setLayout('user');
             $this->render('list_product_by_category');
@@ -408,5 +496,13 @@ class ProductController extends AppController{
             $this->viewBuilder()->setLayout('login');
             $this->render('../Error/404');
         }
+    }
+
+    public function listGift()
+    {
+        $giftProducts = $this->Product->find()->where(['type_product'=>1]);
+        $this->set(['giftProducts'=>$giftProducts]);
+        $this->viewBuilder()->setLayout('user');
+        $this->render('gift');
     }
 }

@@ -16,7 +16,7 @@ class UserController extends AppController
             $products = TableRegistry::getTableLocator()
             ->get('Product')
             ->find()
-            ->where(['deleted !='=>1,'type_product !=' => 2])
+            ->where(['deleted !='=>1,'type_product' => 0])
             ->select(['id','name','price','image','slug','point','type_product']);
             $id_user = $this->getSessionUser();
             $user=empty($id_user)? '' : $this->User->find()->where(['id'=>$id_user])->first();
@@ -32,7 +32,7 @@ class UserController extends AppController
             $products = TableRegistry::getTableLocator()
             ->get('Product')
             ->find()
-            ->where(['name LIKE'=> "%$search%"]);
+            ->where(['name LIKE'=> "%$search%",'type_product'=>0]);
 
             $this->set('products',$products);
             $this->viewBuilder()->setLayout('user');
@@ -101,6 +101,8 @@ class UserController extends AppController
             $id_user = $this->User->find()->where(['email'=>$email])->first();
             $session = $this->request->getSession();
             $session->write('id_user',$id_user->id);
+            $session->write('full_name', $full_name);
+            $session->write('avatar', '');
             return $this->redirect('/');
         } catch (\Throwable $th) {
             $this->redirect('/register');
@@ -336,5 +338,11 @@ class UserController extends AppController
         $this->set($data);
         $this->viewBuilder()->setOption('serialize', true);
         $this->RequestHandler->renderAs($this, 'json');
+    }
+
+    public function introduce()
+    {
+        $this->viewBuilder()->setLayout('user');
+        $this->render('introduce');
     }
 }

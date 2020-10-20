@@ -35,7 +35,7 @@ use Cake\Routing\Router;
                     <th>Số điện thoại</th>
                     <th>Địa chỉ</th>
                     <th>Tổng tiền</th>
-                    <th>Tình trạng</th>
+                    <th>Thiết lập</th>
                     <th></th>
                 </tr>
             </thead>

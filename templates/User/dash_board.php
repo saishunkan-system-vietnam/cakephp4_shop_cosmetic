@@ -43,34 +43,22 @@ $session = $this->request->getSession();
                                     </h6>
                                     <div class="product_price">
                                         <?=
-                                            !empty($product->price) ?
-                                            number_format("$product->price",0,".",".")." VNĐ" : $product->point." point"
+                                            number_format("$product->price",0,".",".")." VNĐ"
                                         ?>
                                     </div>
                                 </div>
+                                <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center">
+                                    <span>
+                                        +50point
+                                    </span>
+                                </div>
                             </div>
                             <div class="red_button add_to_cart_button">
-                                <?php
-                                    if($product->type_product == 0 || ($product->type_product == 1 && $session->check('id_user')))
-                                    {
-                                ?>
-                                    <span class="addCartWithAjax" id-product="<?= $product->id ?>">
-                                        <a href="#">
-                                            add to cart
-                                        </a>
-                                    </span>
-                                <?php
-                                    }
-                                    else{
-                                ?>
-                                    <span class="redirectLogin">
-                                        <a href="#">
-                                            đăng nhập
-                                        </a>
-                                    </span>
-                                <?php
-                                    }
-                                ?>
+                                <span class="addCartWithAjax" id-product="<?= $product->id ?>">
+                                    <a href="#">
+                                        add to cart
+                                    </a>
+                                </span>
                             </div>
                         </div>
                     <?php
@@ -92,12 +80,6 @@ $session = $this->request->getSession();
     }
 ?>
 <script>
-    $(document).ready(function () {
-        $(".redirectLogin").click(function () {
-            window.location.assign("<?= Router::url('/login',true) ?>")
-        });
-    });
-
     var err = 'Xin lỗi bạn vì sự bất tiện này hiện tại server chúng tôi đang lỗi hẹn gặp lại bạn vào khi khác!!!';
     $(document).ready(function () {
         $(".addCartWithAjax").click(function (e) {
@@ -131,5 +113,14 @@ $session = $this->request->getSession();
                 })
             })
         });
+    });
+</script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="<?= Router::url('/js/flyto.min.js',true) ?>"></script>
+<script>
+    $('.col').flyto({
+        item      : '.product_image',
+        target    : '.fa-shopping-cart',
+        button    : '.add_to_cart_button'
     });
 </script>

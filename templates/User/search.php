@@ -11,7 +11,7 @@ use Cake\Routing\Router;
                 if(!empty($this->request->getQuery('q')))
                 {
             ?>
-                Kết quả tìm kiếm cho '<?= $this->request->getQuery('q') ?>'
+                Kết quả tìm kiếm cho '<?= h($this->request->getQuery('q')) ?>'
             <?php
                 }
             ?>
@@ -26,7 +26,9 @@ use Cake\Routing\Router;
                         <div class="product-item man">
                             <div class="product discount product_filter">
                                 <div class="product_image">
-                                    <img src="<?= Router::url('/images/product/'.$product->image,true) ?>" alt="">
+                                    <a href="<?= Router::url("/$product->slug"); ?>">
+                                        <img src="<?= Router::url('/images/product/'.$product->image,true) ?>" alt="">
+                                    </a>
                                 </div>
                                 <div class="product_bubble d-flex flex-column align-items-center"></div>
                                 <div class="product_info">
@@ -43,6 +45,11 @@ use Cake\Routing\Router;
                                     </div>
                                 </div>
                             </div>
+                            <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center">
+                                <span>
+                                    +50point
+                                </span>
+                             </div>
                             <div class="red_button add_to_cart_button">
                                 <?php
                                     if($product->type_product == 0)
@@ -125,5 +132,14 @@ use Cake\Routing\Router;
                 })
             })
         });
+    });
+</script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="<?= Router::url('/js/flyto.min.js',true) ?>"></script>
+<script>
+    $('.col').flyto({
+        item      : '.product_image',
+        target    : '.fa-shopping-cart',
+        button    : '.add_to_cart_button'
     });
 </script>

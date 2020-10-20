@@ -42,6 +42,7 @@ use Cake\Routing\Router;
                             <tr class="table100-head">
                                 <th class="column1">Tên sản phẩm</th>
                                 <th class="column2">Ảnh</th>
+                                <th>Điểm</th>
                                 <th class="column3">Giá</th>
                                 <th class="column4">Số lượng</th>
                                 <th class="column5">Tổng tiền</th>
@@ -53,6 +54,18 @@ use Cake\Routing\Router;
                                 <tr>
                                     <td class="column1"><?= h($product['name']) ?></td>
                                     <td class="column2"><img src="<?= Router::url('/images/product/' . $product['image'], true) ?>" style="width:50px"></td>
+                                    <td>
+                                        <?php
+                                            switch ($product['type_product']) {
+                                                case 0:
+                                                    echo "+50POINT";
+                                                    break;
+                                                case 1:
+                                                    echo "0POINT";
+                                                    break;
+                                            }
+                                        ?>
+                                    </td>
                                     <td class="column3">
                                         <?=
                                             !empty($product['price']) ?
@@ -75,6 +88,30 @@ use Cake\Routing\Router;
                                     <td class="column6"><img id_product=<?= $id_product ?> class="close" src="<?= Router::url('/images/close-button.png',true) ?>" alt=""></td>
                                 </tr>
                             <?php endforeach; ?>
+                            <tr>
+                                <td class="all_total" colspan="7">
+                                    Tổng tiền:
+                                    <span class="total">
+                                    <?php
+                                        if($total_money == 0 && $total_point == 0){
+                                        }elseif($total_money == 0){
+                                            echo $total_point." POINT";
+                                        }elseif($total_point == 0)
+                                        {
+                                            echo number_format($total_money,0,'.','.')."₫";
+                                        }
+                                        else{
+                                            echo number_format($total_money,0,'.','.')."₫ và ".$total_point." POINT";
+                                        }
+
+                                        if(!isset($user) || $user->address != "Hà Nội")
+                                        {
+                                            echo " + 30.000₫ phí vận chuyển";
+                                        }
+                                    ?>
+                                    </span>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -110,15 +147,17 @@ use Cake\Routing\Router;
 <script>
     $(document).ready(function () {
         $('.icon-plus').click(function () {
-            editCart($(this).attr('id_product'),1);
+            var index = $(".icon-plus").index(this);
+            editCart($(this).attr('id_product'),1,index);
         });
 
 
         $('.icon-minus').click(function () {
-            editCart($(this).attr('id_product'),-1);
+            var index = $(".icon-minus").index(this);
+            editCart($(this).attr('id_product'),-1,index);
         });
 
-        function editCart(id_product,quantity)
+        function editCart(id_product,quantity,index)
         {
             $.ajax({
                 type: "GET",
@@ -133,19 +172,23 @@ use Cake\Routing\Router;
                     $(".quantity").each(function(){
                         if($(this).attr('id_product') == response.data && response.status == 201)
                         {
-                            var index = $(".quantity").index(this);
-                            $(this).html(parseInt($(this).html()) + quantity);
+                            $(".quantity")[index].innerHTML = parseInt($(".quantity")[index].innerHTML) + quantity;
                             $("#checkout_items").html(parseInt($("#checkout_items").html()) + quantity);
                             $(".column5")[index+1].innerText = response.total;
-                            if($(this).html() == "0")
+                            $(".total").html(response.all_total);
+                            if($("#address").val() != "Hà Nội")
+                            {
+                                $(".total").html(response.all_total + " + 30.000₫ phí vận chuyển");
+                            }
+                            if($(".quantity")[index].innerHTML == "0")
                             {
                                 $(".table100 tbody tr")[index].remove();
-
-                                if($(".table100 tbody tr").length == 0)
+                                if($(".table100 tbody tr").length == 1)
                                 {
+                                    $(".all_total").remove();
                                     const home = "<?= Router::url('/',true) ?>";
                                     $(".limiter .table100").append(`<div>
-                                        <a href='`+home+`'>Vui lòng quay lại để thêm sản phẩn vào giỏ hàng</a>
+                                        <a href='`+home+`'>Vui lòng quay lại để thêm sản phẩm vào giỏ hàng</a>
                                     </div>`);
                                 }
                             }
@@ -180,8 +223,10 @@ use Cake\Routing\Router;
                         const quantity = $('.quantity')[index].innerText;
                         $(".table100 tbody tr")[index].remove();
                         $("#checkout_items").html(parseInt($("#checkout_items").html()) - quantity);
-                        if($(".table100 tbody tr").length == 0)
+                        $(".total").html(response.all_total);
+                        if($(".table100 tbody tr").length == 1)
                         {
+                            $(".all_total").remove();
                             const home = "<?= Router::url('/',true) ?>";
                             $(".limiter .table100").append(`<div>
                                 <a href='`+home+`'>Vui lòng quay lại để thêm sản phẩn vào giỏ hàng</a>
@@ -190,6 +235,17 @@ use Cake\Routing\Router;
                     }
                 }
             });
+        });
+
+        $("#address").keyup(function () {
+            var string = $(".total").html();
+            if($(this).val() == "Hà Nội")
+            {
+                $(".total").html(string.replace(" + 30.000₫ phí vận chuyển",''));
+            }
+            else if(string.search("vận chuyển") < 0){
+                $(".total").html($(".total").html()+" + 30.000₫ phí vận chuyển");
+            }
         });
     });
 </script>

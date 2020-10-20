@@ -14,6 +14,10 @@ class AdminController extends AppController
 
     public function dashBoard()
     {
+
+        $newOrders = TableRegistry::getTableLocator()->get('Bill')->find()->where(['status'=>0])->count();
+        $countUsers = TableRegistry::getTableLocator()->get('User')->find()->count();
+        $this->set(['newOrders' => $newOrders,'countUsers' => $countUsers]);
         $this->render('dashboard');
     }
 

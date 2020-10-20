@@ -160,6 +160,10 @@ $routes->scope('/admin', function (RouteBuilder $builder) {
 
     $builder->get('/category/render-list-categories',['controller'=>'Category','action'=>'renderListCategories']);
 
+    $builder->get('/bill-detail/:id_bill',
+        ['controller'=>'Bill','action'=>'showBillDetail']
+    );
+
     $builder->fallbacks();
 });
 
@@ -232,6 +236,14 @@ $routes->scope('/',function (RouteBuilder $builder){
 
     $builder->get('/danh-muc/:slug',
         ['controller'=>'Product','action'=>'showProductByCategory']
+    );
+
+    $builder->get('/gioi-thieu',
+        ['controller'=>'User','action'=>'introduce']
+    );
+
+    $builder->get('/gift',
+        ['controller'=>'Product','action'=>'listGift']
     );
 
     $builder->fallbacks();

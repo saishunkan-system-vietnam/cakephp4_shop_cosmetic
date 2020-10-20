@@ -41,7 +41,17 @@ use Cake\Routing\Router;
                     </h2>
                 </div>
                 <div class="card-body">
-                    <form action="<?= Router::url('/process-register',true) ?>" method="POST">
+                    <form action="
+                        <?php
+                            if(isset($flag))
+                            {
+                                echo Router::url('/create-account',true);
+                            }
+                            else{
+                                echo Router::url('/process-register',true);
+                            }
+                        ?>
+                    " method="POST">
                         <div class="form-row">
                             <div class="name">Họ Tên</div>
                             <div class="value">

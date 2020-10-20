@@ -36,6 +36,11 @@ $session = $this->request->getSession();
                                     </div>
                                 </div>
                             </div>
+                            <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center">
+                                <span>
+                                    +50point
+                                </span>
+                            </div>
                             <div class="red_button add_to_cart_button">
                                 <?php
                                     if($product->type_product == 0 || ($product->type_product == 1 && $session->check("id_user")))
@@ -118,5 +123,14 @@ $session = $this->request->getSession();
                 })
             })
         });
+    });
+</script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="<?= Router::url('/js/flyto.min.js',true) ?>"></script>
+<script>
+    $('.col').flyto({
+        item      : '.product_image',
+        target    : '.fa-shopping-cart',
+        button    : '.add_to_cart_button'
     });
 </script>

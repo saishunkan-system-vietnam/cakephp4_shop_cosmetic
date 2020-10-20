@@ -8,9 +8,26 @@ $session = $this->getRequest()->getSession();
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Beauty Shop</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="57x57" href="<?= Router::url('/images/ico/apple-icon-57x57.png') ?>">
+    <link rel="apple-touch-icon" sizes="60x60" href="<?= Router::url('/images/ico/apple-icon-60x60.png') ?>">
+    <link rel="apple-touch-icon" sizes="72x72" href="<?= Router::url('/images/ico/apple-icon-72x72.png') ?>">
+    <link rel="apple-touch-icon" sizes="76x76" href="<?= Router::url('/images/ico/apple-icon-76x76.png') ?>">
+    <link rel="apple-touch-icon" sizes="114x114" href="<?= Router::url('/images/ico/apple-icon-114x114.png') ?>">
+    <link rel="apple-touch-icon" sizes="120x120" href="<?= Router::url('/images/ico/apple-icon-120x120.png') ?>">
+    <link rel="apple-touch-icon" sizes="144x144" href="<?= Router::url('/images/ico/apple-icon-144x144.png') ?>">
+    <link rel="apple-touch-icon" sizes="152x152" href="<?= Router::url('/images/ico/apple-icon-152x152.png') ?>">
+    <link rel="apple-touch-icon" sizes="180x180" href="<?= Router::url('/images/ico/apple-icon-180x180.png') ?>">
+    <link rel="icon" type="image/png" sizes="192x192"  href="<?= Router::url('/images/ico/android-icon-192x192.png') ?>">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?= Router::url('/images/ico/favicon-32x32.png') ?>">
+    <link rel="icon" type="image/png" sizes="96x96" href="<?= Router::url('/images/ico/favicon-96x96.png') ?>">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= Router::url('/images/ico/favicon-16x16.png') ?>">
+    <link rel="manifest" href="<?= Router::url('/images/ico/manifest.json') ?>">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="<?= Router::url('/images/ico/ms-icon-144x144.png') ?>">
+    <meta name="theme-color" content="#ffffff">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<?= Router::url('/plugins/fontawesome-free/css/all.min.css',true); ?>">
     <!-- Ionicons -->
@@ -115,11 +132,10 @@ $session = $this->getRequest()->getSession();
                         </li>
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-copy"></i>
+                                <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     Người dùng
                                     <i class="fas fa-angle-left right"></i>
-                                    <span class="badge badge-info right">6</span>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
@@ -127,42 +143,6 @@ $session = $this->getRequest()->getSession();
                                     <a href="<?= Router::url(['_name' => 'list_users', 'fullBase' => 'true']) ?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Danh sách người dùng</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Top Navigation + Sidebar</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/layout/boxed.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Boxed</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/layout/fixed-sidebar.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Fixed Sidebar</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/layout/fixed-topnav.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Fixed Navbar</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/layout/fixed-footer.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Fixed Footer</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Collapsed Sidebar</p>
                                     </a>
                                 </li>
                             </ul>
