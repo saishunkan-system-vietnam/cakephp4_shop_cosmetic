@@ -33,6 +33,6 @@
     cursor: pointer;
 }
 
-.form-group input{
+.form-group input, .form-group select{
     color: black !important;
 }

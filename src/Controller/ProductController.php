@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\Utility\Text;
@@ -275,7 +276,71 @@ class ProductController extends AppController{
             $total = 0;
             if($session->check('arr_cart'))
             {
-                $arr_cart = $session->read('arr_cart');
+                if(!empty($this->request->getQuery('trial'))){
+                    $session->delete('arr_cart');
+                }
+                else{
+                    $arr_cart = $session->read('arr_cart');
+                    foreach ($arr_cart as $cart) {
+                        if(!empty($cart['trial']))
+                        {
+                            $data = [
+                                'status' => 403,
+                                'message' => 'Sản phẩm dùng thử không được đặt cùng các sản phẩm khác'
+                            ];
+                            $this->set($data);
+                            $this->viewBuilder()->setOption('serialize', true);
+                            return $this->RequestHandler->renderAs($this, 'json');
+                        }
+                    }
+                }
+            }
+
+            if($product->type_product == 2)
+            {
+                $id_user = $session->read('id_user');
+                if(!empty($id_user)){
+                    if(array_key_exists($product->id, $arr_cart))
+                    {
+                        $data = [
+                            'status' => 403,
+                            'message' => 'Sản phẩm dùng thử chỉ đặt được 1 lần'
+                        ];
+                        $this->set($data);
+                        $this->viewBuilder()->setOption('serialize', true);
+                        return $this->RequestHandler->renderAs($this, 'json');
+                    }
+                    $billTable = TableRegistry::getTableLocator()->get('Bill');
+                    $bills = $billTable->find()
+                    ->contain('BillDetail')
+                    ->where(['id_user'=>$id_user]);
+                    foreach ($bills as $bill) {
+                        foreach($bill->bill_detail as $bill_detail)
+                        {
+                            if($bill_detail->id_product == $id_product)
+                            {
+                                $data = [
+                                    'status' => 403,
+                                    'message' => 'Sản phẩm dùng thử chỉ đặt được 1 lần'
+                                ];
+                                $this->set($data);
+                                $this->viewBuilder()->setOption('serialize', true);
+                                return $this->RequestHandler->renderAs($this, 'json');
+                            }
+                        }
+                    }
+                }else{
+                    if(array_key_exists($product->id, $arr_cart))
+                    {
+                        $data = [
+                            'status' => 403,
+                            'message' => 'Sản phẩm dùng thử chỉ đặt được 1 lần'
+                        ];
+                        $this->set($data);
+                        $this->viewBuilder()->setOption('serialize', true);
+                        return $this->RequestHandler->renderAs($this, 'json');
+                    }
+                }
             }
 
             if(!empty($arr_cart[$id_product]))
@@ -342,6 +407,9 @@ class ProductController extends AppController{
                 if($quantity > 0)
                 {
                     $arr_cart[$id_product]['quantity'] = $quantity;
+                    if(!empty($this->request->getQuery('trial'))){
+                        $arr_cart[$id_product]['trial'] = true;
+                    }
                     $total = 0;
                 }
             }
@@ -378,16 +446,31 @@ class ProductController extends AppController{
                     }
                 }
 
+
                 if($total_money == 0 && $total_point == 0)
                 {
                     $all_total = 0;
                 }elseif($total_money == 0)
                 {
-                    $all_total = $total_point." POINT";
+                    if($this->request->getQuery('location')!="Hà Nội")
+                    {
+                        $all_total = "30.000₫ và ".$total_point." POINT";
+                    }
+                    else{
+                        $all_total = $total_point." POINT";
+                    }
                 }elseif($total_point == 0)
                 {
+                    if($this->request->getQuery('location')!="Hà Nội")
+                    {
+                        $total_money += 30000;
+                    }
                     $all_total = number_format($total_money,0,'.','.')."₫";
                 }else{
+                    if($this->request->getQuery('location')!="Hà Nội")
+                    {
+                        $total_money += 30000;
+                    }
                     $all_total = number_format($total_money,0,'.','.')."₫ và ".$total_point." POINT";
                 }
             }
@@ -449,11 +532,25 @@ class ProductController extends AppController{
                     $all_total = 0;
                 }elseif($total_money == 0)
                 {
-                    $all_total = $total_point." POINT";
+                    if($this->request->getQuery('location')!="Hà Nội")
+                    {
+                        $all_total = "30.000₫ và ".$total_point." POINT";
+                    }
+                    else{
+                        $all_total = $total_point." POINT";
+                    }
                 }elseif($total_point == 0)
                 {
+                    if($this->request->getQuery('location')!="Hà Nội")
+                    {
+                        $total_money += 30000;
+                    }
                     $all_total = number_format($total_money,0,'.','.')."₫";
                 }else{
+                    if($this->request->getQuery('location')!="Hà Nội")
+                    {
+                        $total_money += 30000;
+                    }
                     $all_total = number_format($total_point,0,'.','.')."₫ và ".$total_point." POINT";
                 }
             }

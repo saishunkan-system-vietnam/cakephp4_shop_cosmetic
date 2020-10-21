@@ -72,7 +72,8 @@ $('.col').flyto({
                 url: "<?= Router::url('/add-to-cart',true) ?>",
                 data: {
                     id_product: $(this).attr("id-product"),
-                    quantity: 1
+                    quantity: 1,
+                    trial:true
                 },
                 dataType: "JSON",
                 success: function (response) {
@@ -99,3 +100,4 @@ $('.col').flyto({
         });
     });
 </script>
+

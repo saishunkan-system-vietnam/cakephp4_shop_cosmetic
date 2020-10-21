@@ -26,7 +26,7 @@ use Cake\Routing\Router;
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
-        <table id="list_user" class="display dataTable">
+        <table id="list_user" class="table table-striped table-bordered">
             <thead style="color: #888383;">
                 <tr>
                     <th>Id</th>
@@ -36,15 +36,6 @@ use Cake\Routing\Router;
                     <th></th>
                 </tr>
             </thead>
-            <tfoot style="color: #888383;">
-                <tr>
-                    <th>Id</th>
-                    <th>Tên Danh mục</th>
-                    <th>Danh mục cha</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </tfoot>
         </table>
     </div><!-- /.container-fluid -->
   </section>

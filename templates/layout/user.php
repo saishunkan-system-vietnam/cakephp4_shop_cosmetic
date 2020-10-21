@@ -45,6 +45,12 @@ $session = $this->request->getSession();
 <script src="<?= Router::url('/user/plugins/easing/easing.js',true) ?>"></script>
 <script src="<?= Router::url('/user/js/custom.js',true) ?>"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<style>
+    .addCartWithAjax{
+        display:block;
+        width:100%;
+    }
+</style>
 </head>
 
 <body>
@@ -162,14 +168,6 @@ $session = $this->request->getSession();
 								<li><a href="<?= Router::url('/trial',true) ?>">sản phẩm dùng thử</a></li>
 							</ul>
 							<ul class="navbar_user">
-                                <?php
-                                    if($session->check('id_user'))
-                                    {
-                                ?>
-                                    <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>
-                                <?php
-                                    }
-                                ?>
 								<li class="checkout">
 									<a href="<?= Router::url('/cart',true) ?>">
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
@@ -233,28 +231,6 @@ $session = $this->request->getSession();
 	<footer class="footer">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-6">
-					<div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
-						<ul class="footer_nav">
-							<li><a href="#">Blog</a></li>
-							<li><a href="#">FAQs</a></li>
-							<li><a href="contact.html">Contact us</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
-						<ul>
-							<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-							<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="row">
 				<div class="col-lg-12">
 					<div class="footer_nav_container">
                     Hệ Thống Phân Phối Mỹ Phẩm Chính Hãng
@@ -263,7 +239,6 @@ $session = $this->request->getSession();
 			</div>
 		</div>
 	</footer>
-
 </div>
 <?php
 if($session->check('id_user'))

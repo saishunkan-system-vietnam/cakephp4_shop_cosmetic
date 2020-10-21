@@ -164,6 +164,14 @@ $routes->scope('/admin', function (RouteBuilder $builder) {
         ['controller'=>'Bill','action'=>'showBillDetail']
     );
 
+    $builder->connect('/change-password',
+        ['controller'=>'Admin','action'=>'changePassword']
+    );
+
+    $builder->post('/password-check',
+        ['controller'=>'Admin','action'=>'passwordCheck']
+    );
+
     $builder->fallbacks();
 });
 
@@ -182,6 +190,8 @@ $routes->scope('/',function (RouteBuilder $builder){
     $builder->post('/process-register',['controller'=>'User','action'=>'processRegister']);
 
     $builder->get('/check-exist-email',['controller'=>'User','action'=>'checkExistEmail']);
+
+    $builder->get('/check-exist-phone',['controller'=>'User','action'=>'checkExistPhone']);
 
     $builder->get('/forgot-password',['controller'=>'User','action'=>'forgotPassword'],'forgot_password_user');
 
@@ -216,10 +226,6 @@ $routes->scope('/',function (RouteBuilder $builder){
 
     $builder->get('/remove-product-from-cart',
         ['controller'=>'Product','action'=>'removeProductFromCart']
-    );
-
-    $builder->get('/create-account',
-        ['controller'=>'Bill','action'=>'createAccountUserAndCreateBill']
     );
 
     $builder->post('/create-account',

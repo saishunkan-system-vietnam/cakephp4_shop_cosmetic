@@ -1,6 +1,7 @@
 <?php
 
 use Cake\Routing\Router;
+$sessions = $this->request->getSession();
 ?>
 <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -14,15 +15,20 @@ use Cake\Routing\Router;
 <link rel="stylesheet" href="<?= Router::url('/css/custom-cart.css',true) ?>">
 <script src="<?= Router::url('/vendor/bootstrap/js/popper.js') ?>"></script>
 <script src="<?= Router::url('/js/main-cart.js') ?>"></script>
+<style>
+.table100{
+    text-align: center;
+}
+</style>
 <div class="container single_product_container">
     <div class="row">
         <div class="col">
 
             <div class="breadcrumbs d-flex flex-row align-items-center">
                 <ul>
-                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="<?= Router::url('/',true) ?>">Trang chủ</a></li>
                     <li>
-                        <a href="categories.html">
+                        <a href="#">
                             <i class="fa fa-angle-right" aria-hidden="true"></i>
                             Giỏ hàng</a>
                     </li>
@@ -61,52 +67,80 @@ use Cake\Routing\Router;
                                                     echo "+50POINT";
                                                     break;
                                                 case 1:
-                                                    echo "0POINT";
+                                                    echo "+0POINT";
                                                     break;
+                                                default:
+                                                    echo 0;
+                                                break;
                                             }
                                         ?>
                                     </td>
                                     <td class="column3">
-                                        <?=
-                                            !empty($product['price']) ?
-                                            number_format($product['price'], 0, '.', '.') . "₫" :
-                                            $product['point']." point"
+                                        <?php
+                                            if($product['price'] == '' && $product['point'] == '')
+                                            {
+                                                echo 0;
+                                            }
+                                            else{
+                                                echo !empty($product['price']) ?
+                                                number_format($product['price'], 0, '.', '.') . "₫" :
+                                                $product['point']." point";
+                                            }
                                         ?>
                                     </td>
                                     <td class="column4">
-                                        <img class="icon-minus" id_product="<?=$id_product ?>" src="<?= Router::url('/images/minus.png',true) ?>" alt="">
+                                        <?php if($product['price'] != '' || $product['point'] != ''): ?>
+                                            <img class="icon-minus" id_product="<?=$id_product ?>" src="<?= Router::url('/images/minus.png',true) ?>" alt="">
+                                        <?php endif; ?>
                                         <span class="quantity" id_product="<?= $id_product ?>"><?= $product['quantity'] ?></span>
-                                        <img class="icon-plus" id_product="<?= $id_product ?>" src="<?= Router::url('/images/plus.png',true) ?>" alt="">
+                                        <?php if($product['price'] != '' || $product['point'] != ''): ?>
+                                            <img class="icon-plus" id_product="<?= $id_product ?>" src="<?= Router::url('/images/plus.png',true) ?>" alt="">
+                                        <?php endif; ?>
                                     </td>
                                     <td class="column5">
-                                        <?=
-                                            !empty($product['price']) ?
-                                            number_format($product['quantity'] * $product['price'], 0, '.', '.') . "₫" :
-                                            $product['point'] * $product['quantity']." point"
+                                        <?php
+                                            if($product['price'] == '' && $product['point'] == '')
+                                            {
+                                                echo 0;
+                                            }else{
+                                                echo !empty($product['price']) ?
+                                                number_format($product['quantity'] * $product['price'], 0, '.', '.') . "₫" :
+                                                $product['point'] * $product['quantity']." point";
+                                            }
                                         ?>
                                     </td>
                                     <td class="column6"><img id_product=<?= $id_product ?> class="close" src="<?= Router::url('/images/close-button.png',true) ?>" alt=""></td>
                                 </tr>
                             <?php endforeach; ?>
-                            <tr>
+                            <?php if(!isset($user) || $user->address != "Hà Nội"): ?>
+                                <tr class="transport_fee">
+                                    <td colspan="7">
+                                    Thêm 30.000₫ phí vận chuyển
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                            <tr class="tt">
                                 <td class="all_total" colspan="7">
                                     Tổng tiền:
                                     <span class="total">
                                     <?php
-                                        if($total_money == 0 && $total_point == 0){
-                                        }elseif($total_money == 0){
+                                        if(!isset($user->address) || $user->address != "Hà Nội"){
+                                            $total_money += 30000;
+                                        }
+
+                                        if($total_money == 0 && $total_point == 0 && (!isset($user->address) || $user->address != "Hà Nội")){
+                                            echo "30.000₫";
+                                        }elseif(isset($user->address) && $user->address != "Hà Nội")
+                                        {
+                                            echo 0;
+                                        }
+                                        elseif($total_money == 0){
                                             echo $total_point." POINT";
                                         }elseif($total_point == 0)
                                         {
                                             echo number_format($total_money,0,'.','.')."₫";
-                                        }
-                                        else{
+                                        }else{
                                             echo number_format($total_money,0,'.','.')."₫ và ".$total_point." POINT";
-                                        }
-
-                                        if(!isset($user) || $user->address != "Hà Nội")
-                                        {
-                                            echo " + 30.000₫ phí vận chuyển";
                                         }
                                     ?>
                                     </span>
@@ -119,133 +153,61 @@ use Cake\Routing\Router;
         </div>
         <div class="col-lg-4">
             <h4>Thông tin người đặt hàng</h4>
-            <?= $this->Form->create(null, [
-                'url' => '/bill',
-                'type' => 'post'
-            ]); ?>
-            <div class="form-group mt-3">
-                <label for="full_name">Họ tên</label>
-                <input type="text" id="full_name" value="<?= !empty($user) ? h($user->full_name) : '' ?>" class="form-control" name="full_name" placeholder="Nhập họ tên">
-            </div>
-            <div class="form-group">
-                <label for="phone">Số điện thoại</label>
-                <input type="text" id="phone" value="<?= !empty($user) ? h($user->phone) : '' ?>" class="form-control" name="phone" placeholder="Nhập số điện thoại">
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="text" id="Email" value="<?= !empty($user) ? h($user->email) : '' ?>" class="form-control" name="email" placeholder="Nhập email">
-            </div>
-            <div class="form-group">
-                <label for="address">Địa chỉ</label>
-                <input type="text" id="address" value="<?= !empty($user) ? h($user->address) : '' ?>"class="form-control" name="address" placeholder="Nhập địa chỉ">
-            </div>
-            <button type="submit" class="btn btn-success">Đặt hàng</button>
-            <?= $this->Form->end() ?>
+            <form action="<?= $sessions->check('id_user') ? Router::url('/bill',true) : Router::url('/create-account',true)  ?>" method="post">
+                <div class="form-group mt-3">
+                    <label for="full_name">Họ tên</label>
+                    <input type="text" id="full_name" <?= $sessions->check('id_user') ? 'disabled' : '' ?>
+                    value="<?= !empty($user) ? h($user->full_name) : '' ?>"
+                    class="form-control" name="full_name" placeholder="Nhập họ tên">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Số điện thoại</label>
+                    <input type="text" id="phone" <?= $sessions->check('id_user') ? 'disabled' : '' ?>
+                    value="<?= !empty($user) ? h($user->phone) : '' ?>"
+                    class="form-control" name="phone" placeholder="Nhập số điện thoại">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" id="Email" <?= $sessions->check('id_user') ? 'disabled' : '' ?>
+                    value="<?= !empty($user) ? h($user->email) : '' ?>"
+                    class="form-control" name="email" placeholder="Nhập email">
+                </div>
+                <div class="form-group">
+                    <label for="address">Địa chỉ</label>
+                    <input type="text" id="address" <?= $sessions->check('id_user') ? 'disabled' : '' ?>
+                    value="<?= !empty($user) ? h($user->address) : '' ?>"
+                    class="form-control" name="address" placeholder="Nhập địa chỉ">
+                </div>
+                <div class="form-group">
+                    <label for="address">Hình thức giao hàng</label>
+                    <select class="form-control" id="">
+                        <option value="">Giao hàng thông thường</option>
+                        <option value="">Giao hàng hỏa tốc</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="address">Phương thức thanh toán</label>
+                    <select class="form-control" id="">
+                        <option value="">Thu tiền khi giao hàng (COD)</option>
+                        <option value="">Thẻ tín dụng / thẻ ghi nợ</option>
+                        <option value="">Thẻ ATM</option>
+                    </select>
+                </div>
+                <?php if(!$sessions->check('id_user')): ?>
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" <?= $sessions->check('id_user') ? 'disabled' : '' ?>
+                    class="form-control" name="password" placeholder="Nhập mật khẩu">
+                </div>
+                <?php endif; ?>
+                <button type="submit" class="btn btn-success">Đặt hàng</button>
+            </form>
         </div>
     </div>
 </div>
 <script>
-    $(document).ready(function () {
-        $('.icon-plus').click(function () {
-            var index = $(".icon-plus").index(this);
-            editCart($(this).attr('id_product'),1,index);
-        });
-
-
-        $('.icon-minus').click(function () {
-            var index = $(".icon-minus").index(this);
-            editCart($(this).attr('id_product'),-1,index);
-        });
-
-        function editCart(id_product,quantity,index)
-        {
-            $.ajax({
-                type: "GET",
-                url: "<?= Router::url('/add-to-cart',true) ?>",
-                data: {
-                    id_product: id_product,
-                    quantity: quantity
-                },
-                dataType: "JSON",
-                success: function (response) {
-                    var err = 'Xin lỗi bạn vì sự bất tiện này hiện tại server chúng tôi đang lỗi hẹn gặp lại bạn vào khi khác!!!';
-                    $(".quantity").each(function(){
-                        if($(this).attr('id_product') == response.data && response.status == 201)
-                        {
-                            $(".quantity")[index].innerHTML = parseInt($(".quantity")[index].innerHTML) + quantity;
-                            $("#checkout_items").html(parseInt($("#checkout_items").html()) + quantity);
-                            $(".column5")[index+1].innerText = response.total;
-                            $(".total").html(response.all_total);
-                            if($("#address").val() != "Hà Nội")
-                            {
-                                $(".total").html(response.all_total + " + 30.000₫ phí vận chuyển");
-                            }
-                            if($(".quantity")[index].innerHTML == "0")
-                            {
-                                $(".table100 tbody tr")[index].remove();
-                                if($(".table100 tbody tr").length == 1)
-                                {
-                                    $(".all_total").remove();
-                                    const home = "<?= Router::url('/',true) ?>";
-                                    $(".limiter .table100").append(`<div>
-                                        <a href='`+home+`'>Vui lòng quay lại để thêm sản phẩm vào giỏ hàng</a>
-                                    </div>`);
-                                }
-                            }
-                        }else if(response.status != 201){
-                            if(response.status != 500)
-                            {
-                                err = response.message
-                            }
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Lỗi',
-                                text: err
-                            })
-                        }
-                    })
-                }
-            });
-        }
-
-        $('.close').click(function(){
-            var index = $('.close').index(this);
-            $.ajax({
-                type: "GET",
-                url: "<?= Router::url('/remove-product-from-cart',true) ?>",
-                data: {
-                    id_product: $(this).attr('id_product')
-                },
-                dataType: "JSON",
-                success: function (response) {
-                    if(response.status == true)
-                    {
-                        const quantity = $('.quantity')[index].innerText;
-                        $(".table100 tbody tr")[index].remove();
-                        $("#checkout_items").html(parseInt($("#checkout_items").html()) - quantity);
-                        $(".total").html(response.all_total);
-                        if($(".table100 tbody tr").length == 1)
-                        {
-                            $(".all_total").remove();
-                            const home = "<?= Router::url('/',true) ?>";
-                            $(".limiter .table100").append(`<div>
-                                <a href='`+home+`'>Vui lòng quay lại để thêm sản phẩn vào giỏ hàng</a>
-                            </div>`);
-                        }
-                    }
-                }
-            });
-        });
-
-        $("#address").keyup(function () {
-            var string = $(".total").html();
-            if($(this).val() == "Hà Nội")
-            {
-                $(".total").html(string.replace(" + 30.000₫ phí vận chuyển",''));
-            }
-            else if(string.search("vận chuyển") < 0){
-                $(".total").html($(".total").html()+" + 30.000₫ phí vận chuyển");
-            }
-        });
-    });
+    const url_add_to_cart = "<?= Router::url('/add-to-cart',true) ?>";
+    const url_remove_from_cart = "<?= Router::url('/remove-product-from-cart',true) ?>";
+    const url_home = "<?= Router::url('/',true) ?>";
 </script>
+<script src="<?= Router::url('/js/cart.js',true) ?>"></script>

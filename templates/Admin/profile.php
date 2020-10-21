@@ -23,6 +23,10 @@ use Cake\Routing\Router;
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
+        <h3 class="flash">
+            <?= $this->Flash->render('change_password') ?>
+            <?= $this->Flash->render('change_profile') ?>
+        </h3>
     <div class="row">
         <!-- left column -->
         <div class="col-md-12">
@@ -71,8 +75,9 @@ use Cake\Routing\Router;
                 <input accept="image/x-png,image/gif,image/jpeg" type="file" class="custom-file-input" name="avatar" id="exampleInputFile">
                 </div>
                 <button type="submit" id="submit" class="btn btn-primary">Lưu thay đổi</button>
+                <button type="button" class="btn btn-danger">Đổi mật khẩu</button>
             </div>
-            </form>
+        </form>
         </div>
         </div>
     </div>
@@ -149,5 +154,13 @@ use Cake\Routing\Router;
                 reader.readAsDataURL(input.files[0]);
             }
         }
+
+        $(".btn-danger").click(function () {
+            window.location.assign("<?= Router::url('/admin/change-password',true) ?>");
+        });
+
+        setTimeout(()=>{
+            $(".flash").slideUp("slow");
+        },2000)
     });
 </script>

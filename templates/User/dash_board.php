@@ -74,7 +74,12 @@ $session = $this->request->getSession();
     {
 ?>
     <script>
-        alert("Đặt hàng thành công");
+        Swal.fire({
+        icon: 'success',
+        title: 'Đặt hàng thành công bạn vui lòng vào email để kiểm tra thông tin hóa đơn',
+        showConfirmButton: false,
+        timer: 3000,
+    })
     </script>
 <?php
     }

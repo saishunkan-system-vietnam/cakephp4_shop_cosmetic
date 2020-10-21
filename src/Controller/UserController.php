@@ -129,6 +129,19 @@ class UserController extends AppController
         $this->RequestHandler->renderAs($this, 'json');
     }
 
+    public function checkExistPhone()
+    {
+        $phone    = $this->request->getQuery('phone');
+        $user     = $this->User->find()->where(['phone'=>$phone])->first();
+        $response = false;
+        if(!empty($user)){
+            $response = true;
+        }
+        $this->set(['status' => $response]);
+        $this->viewBuilder()->setOption('serialize', true);
+        $this->RequestHandler->renderAs($this, 'json');
+    }
+
     public function forgotPassword()
     {
         $this->viewBuilder()->setLayout('login');

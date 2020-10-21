@@ -95,6 +95,9 @@ class AdminController extends AppController
             $session = $this->request->getSession();
             $session->write('avatar', $admin->avatar);
             $session->write('full_name', $admin->full_name);
+            $this->Flash->set('Đổi thông tin thành công',[
+                'key' =>'change_profile'
+            ]);
             return $this->redirect('/admin/profile');
         } catch (\Throwable $th) {
             return $this->redirect('/admin/profile');
@@ -257,6 +260,51 @@ class AdminController extends AppController
                 "<a href='".Router::url('')."'>Chi tiết</a>"
             ];
         }
+        $this->set($data);
+        $this->viewBuilder()->setOption('serialize', true);
+        $this->RequestHandler->renderAs($this, 'json');
+    }
+
+    public function changePassword()
+    {
+        if($this->request->is('get'))
+        {
+            return $this->render('change_password');
+        }elseif($this->request->is('post'))
+        {
+            $password = $this->request->getData('password');
+            $session = $this->request->getSession();
+            $id_admin = $session->read('id_admin');
+            $adminTable = $this->Admin;
+            $admin = $adminTable->get($id_admin);
+            $admin->password = md5($password);
+            $adminTable->save($admin);
+            $this->Flash->set('Đổi mật khẩu thành công',[
+                'key' => 'change_password'
+            ]);
+            $this->redirect('/admin/profile');
+        }
+    }
+
+    public function passwordCheck()
+    {
+        $password = $this->request->getData('password');
+        $session = $this->request->getSession();
+        $id_admin = $session->read('id_admin');
+        $admin = $this->Admin->get($id_admin);
+        if(md5($password) != $admin->password)
+        {
+            $data = [
+                'status' => 404,
+                'message' => 'Mật khẩu cũ không đúng'
+            ];
+        }
+        else{
+            $data = [
+                'status' => 200,
+            ];
+        }
+
         $this->set($data);
         $this->viewBuilder()->setOption('serialize', true);
         $this->RequestHandler->renderAs($this, 'json');
