@@ -210,6 +210,29 @@ $session = $this->getRequest()->getSession();
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fab fa-buffer"></i>
+                                <p>
+                                    Hình thức vận chuyển
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?= Router::url('/admin/transport',true) ?>" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>D/S hình thức vận chuyển</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?= Router::url('/admin/transport/add',true) ?>" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Thêm hình thức vận chuyển</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

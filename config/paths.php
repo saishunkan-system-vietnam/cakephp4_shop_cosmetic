@@ -92,3 +92,7 @@ define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'vendor' . DS . 'cakephp' . DS . 'c
  */
 define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
 define('CAKE', CORE_PATH . 'src' . DS);
+
+//Path to the images directory.
+define('AVATAR_PATH',WWW_ROOT.'images\avatar');
+define('PRODUCT_PHOTO_PATH',WWW_ROOT.'images\product');

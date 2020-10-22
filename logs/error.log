@@ -6975,3 +6975,900 @@ Stack trace:
 #31 C:\xampp\htdocs\cakephp4_shop_cosmetic\webroot\index.php(40): Cake\Http\Server->run()
 #32 {main}
 2020-10-21 17:02:53 Warning: DebugKit is disabling itself as your host `cuchuoi.com` is not in the known safe list of top-level-domains (localhost, invalid, test, example, local). If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.
+2020-10-22 16:42:18 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 16:42:18 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 16:42:18 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 16:42:18 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 16:44:06 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 16:44:06 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 16:44:07 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 16:44:07 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 16:44:09 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 16:44:09 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 16:44:11 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 16:44:11 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 16:44:12 Error: [Cake\Http\Exception\MissingControllerException] Controller class RenderListTransports could not be found. in C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Controller\ControllerFactory.php on line 158
+Exception Attributes: array (
+  'class' => 'RenderListTransports',
+  'plugin' => NULL,
+  'prefix' => NULL,
+  '_ext' => NULL,
+)
+Stack Trace:
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Controller\ControllerFactory.php:46
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\BaseApplication.php:249
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:77
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Middleware\BodyParserMiddleware.php:159
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:73
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:77
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\src\Middleware\CheckLoginAdminMiddleware.php:18
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:73
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:58
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Routing\Middleware\RoutingMiddleware.php:172
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:73
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Routing\Middleware\AssetMiddleware.php:68
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:73
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Error\Middleware\ErrorHandlerMiddleware.php:121
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:73
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php:60
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:73
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:58
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Server.php:90
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\webroot\index.php:40
+
+Request URL: /admin/render-list-transports?draw=1&columns%5B0%5D%5Bdata%5D=0&columns%5B0%5D%5Bname%5D=&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=1&columns%5B1%5D%5Bname%5D=&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=2&columns%5B2%5D%5Bname%5D=&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=3&columns%5B3%5D%5Bname%5D=&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=4&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=true&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B5%5D%5Bdata%5D=5&columns%5B5%5D%5Bname%5D=&columns%5B5%5D%5Bsearchable%5D=true&columns%5B5%5D%5Borderable%5D=true&columns%5B5%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B5%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=10&search%5Bvalue%5D=&search%5Bregex%5D=false&_=1603359851720
+Referer URL: http://localhost/cakephp4_shop_cosmetic-develop/admin/transport
+
+
+2020-10-22 16:44:12 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 16:44:12 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 16:44:41 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 16:44:41 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 16:44:42 Error: [Cake\Http\Exception\MissingControllerException] Controller class RenderListTransports could not be found. in C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Controller\ControllerFactory.php on line 158
+Exception Attributes: array (
+  'class' => 'RenderListTransports',
+  'plugin' => NULL,
+  'prefix' => NULL,
+  '_ext' => NULL,
+)
+Stack Trace:
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Controller\ControllerFactory.php:46
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\BaseApplication.php:249
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:77
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Middleware\BodyParserMiddleware.php:159
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:73
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:77
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\src\Middleware\CheckLoginAdminMiddleware.php:18
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:73
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:58
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Routing\Middleware\RoutingMiddleware.php:172
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:73
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Routing\Middleware\AssetMiddleware.php:68
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:73
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Error\Middleware\ErrorHandlerMiddleware.php:121
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:73
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php:60
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:73
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php:58
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Server.php:90
+- C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\webroot\index.php:40
+
+Request URL: /admin/render-list-transports?draw=1&columns%5B0%5D%5Bdata%5D=0&columns%5B0%5D%5Bname%5D=&columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=true&columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B1%5D%5Bdata%5D=1&columns%5B1%5D%5Bname%5D=&columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=true&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=2&columns%5B2%5D%5Bname%5D=&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=true&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=3&columns%5B3%5D%5Bname%5D=&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=true&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=4&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=true&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B5%5D%5Bdata%5D=5&columns%5B5%5D%5Bname%5D=&columns%5B5%5D%5Bsearchable%5D=true&columns%5B5%5D%5Borderable%5D=true&columns%5B5%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B5%5D%5Bsearch%5D%5Bregex%5D=false&order%5B0%5D%5Bcolumn%5D=0&order%5B0%5D%5Bdir%5D=asc&start=0&length=10&search%5Bvalue%5D=&search%5Bregex%5D=false&_=1603359882028
+Referer URL: http://localhost/cakephp4_shop_cosmetic-develop/admin/transport
+
+
+2020-10-22 16:44:42 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 16:44:42 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 16:46:28 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 16:46:28 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 16:46:29 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 16:46:29 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 16:46:32 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 16:46:32 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 16:46:33 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 16:46:33 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic-develop\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 16:50:51 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 16:50:51 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 16:50:55 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 16:50:55 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 16:50:55 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 16:50:55 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 16:50:57 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 16:50:57 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 17:11:51 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 17:11:51 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 17:11:52 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 17:11:52 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 17:27:30 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 17:27:30 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 17:27:30 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 17:27:30 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}
+2020-10-22 17:27:34 Error: [Error] Class 'App\Controller\Component\CommonComponent' not found in C:\xampp\htdocs\cakephp4_shop_cosmetic\src\Controller\Component\CommonComponent.php on line 6
+Stack Trace:
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\composer\ClassLoader.php:444
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\composer\ClassLoader.php:322
+- spl_autoload_call - [internal], line ??- C:\xampp\htdocs\cakephp4_shop_cosmetic\src\Controller\Component\DBComponent.php:8
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\composer\ClassLoader.php:444
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\composer\ClassLoader.php:322
+- spl_autoload_call - [internal], line ??- class_exists - [internal], line ??- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Core\App.php:161
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Core\App.php:67
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Controller\ComponentRegistry.php:95
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Core\ObjectRegistry.php:99
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Controller\Controller.php:286
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\src\Controller\ProductController.php:13
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Controller\Controller.php:213
+- ReflectionClass::newInstance() - [internal], line ??- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Controller\ControllerFactory.php:56
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\BaseApplication.php:249
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php:77
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Middleware\BodyParserMiddleware.php:159
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php:73
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php:77
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\src\Middleware\CheckLoginAdminMiddleware.php:18
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php:73
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php:58
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Routing\Middleware\RoutingMiddleware.php:172
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php:73
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Routing\Middleware\AssetMiddleware.php:68
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php:73
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Error\Middleware\ErrorHandlerMiddleware.php:121
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php:73
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php:60
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php:73
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php:58
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Server.php:90
+- C:\xampp\htdocs\cakephp4_shop_cosmetic\webroot\index.php:40
+
+Request URL: /admin/create-product
+Referer URL: http://localhost/cakephp4_shop_cosmetic/admin
+
+
+2020-10-22 17:27:34 Warning: Unable to save request. This is probably due to concurrent requests.
+2020-10-22 17:27:34 Warning: PDOException: SQLSTATE[HY000]: General error: 11 database disk image is malformed in C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php:178
+Stack trace:
+#0 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\StatementDecorator.php(178): PDOStatement->execute(NULL)
+#1 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\BufferedStatement.php(150): Cake\Database\Statement\StatementDecorator->execute(NULL)
+#2 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Statement\SqliteStatement.php(41): Cake\Database\Statement\BufferedStatement->execute(NULL)
+#3 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(341): Cake\Database\Statement\SqliteStatement->execute()
+#4 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Core\Retry\CommandRetry.php(70): Cake\Database\Connection->Cake\Database\{closure}()
+#5 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(344): Cake\Core\Retry\CommandRetry->run(Object(Closure))
+#6 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Query.php(249): Cake\Database\Connection->run(Object(Cake\ORM\Query))
+#7 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(2042): Cake\Database\Query->execute()
+#8 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1934): Cake\ORM\Table->_insert(Object(DebugKit\Model\Entity\Panel), Array)
+#9 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#10 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#11 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#12 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#13 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#14 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(228): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Panel), Object(ArrayObject))
+#15 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Association\HasMany.php(185): Cake\ORM\Association\HasMany->_saveTarget(Array, Object(DebugKit\Model\Entity\Request), Array, Array)
+#16 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(317): Cake\ORM\Association\HasMany->saveAssociated(Object(DebugKit\Model\Entity\Request), Array)
+#17 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(287): Cake\ORM\AssociationCollection->_save(Object(Cake\ORM\Association\HasMany), Object(DebugKit\Model\Entity\Request), Array, Array)
+#18 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\AssociationCollection.php(247): Cake\ORM\AssociationCollection->_saveAssociations(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array, true)
+#19 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1967): Cake\ORM\AssociationCollection->saveChildren(Object(DebugKit\Model\Table\RequestsTable), Object(DebugKit\Model\Entity\Request), Array, Array)
+#20 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1940): Cake\ORM\Table->_onSaveSuccess(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#21 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1835): Cake\ORM\Table->_processSave(Object(DebugKit\Model\Entity\Request), Object(ArrayObject))
+#22 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1535): Cake\ORM\Table->Cake\ORM\{closure}()
+#23 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Database\Connection.php(691): Cake\ORM\Table->Cake\ORM\{closure}(Object(Cake\Database\Connection))
+#24 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1536): Cake\Database\Connection->transactional(Object(Closure))
+#25 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\ORM\Table.php(1836): Cake\ORM\Table->_executeTransaction(Object(Closure), true)
+#26 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\ToolbarService.php(283): Cake\ORM\Table->save(Object(DebugKit\Model\Entity\Request))
+#27 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\debug_kit\src\Middleware\DebugKitMiddleware.php(66): DebugKit\ToolbarService->saveData(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#28 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php(73): DebugKit\Middleware\DebugKitMiddleware->process(Object(Cake\Http\ServerRequest), Object(Cake\Http\Runner))
+#29 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Runner.php(58): Cake\Http\Runner->handle(Object(Cake\Http\ServerRequest))
+#30 C:\xampp\htdocs\cakephp4_shop_cosmetic\vendor\cakephp\cakephp\src\Http\Server.php(90): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(App\Application))
+#31 C:\xampp\htdocs\cakephp4_shop_cosmetic\webroot\index.php(40): Cake\Http\Server->run()
+#32 {main}

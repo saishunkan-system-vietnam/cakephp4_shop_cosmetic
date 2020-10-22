@@ -9,9 +9,13 @@ use Cake\Utility\Text;
 
 class ProductController extends AppController{
 
+    public function initialize(): void{
+        $this->loadComponent('DB');
+    }
+
     public function createProduct()
     {
-        $trademarks = TableRegistry::getTableLocator()->get('Trademark')->find();
+        $trademarks = $this->DB->table('Trademark')->get();
         $category = TableRegistry::getTableLocator()->get('Category')->find();
         $this->set(['trademarks'=>$trademarks,'category'=>$category]);
         return $this->render('create_product');

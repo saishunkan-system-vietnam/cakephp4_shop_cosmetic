@@ -172,6 +172,10 @@ $routes->scope('/admin', function (RouteBuilder $builder) {
         ['controller'=>'Admin','action'=>'passwordCheck']
     );
 
+    $builder->connect('/transport',['controller'=>'Transport']);
+
+    $builder->get('/render-list-transports',['controller'=>'Transport','action'=>'renderListTransports']);
+
     $builder->fallbacks();
 });
 
