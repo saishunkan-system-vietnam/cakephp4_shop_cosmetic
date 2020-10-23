@@ -94,5 +94,7 @@ define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
 define('CAKE', CORE_PATH . 'src' . DS);
 
 //Path to the images directory.
-define('AVATAR_PATH',WWW_ROOT.'images\avatar');
-define('PRODUCT_PHOTO_PATH',WWW_ROOT.'images\product');
+define('AVATAR_PATH','images/avatar');
+define('PRODUCT_PHOTO_PATH','images/product');
+define('NOT_DELETED',0);
+define('DELETED',1);

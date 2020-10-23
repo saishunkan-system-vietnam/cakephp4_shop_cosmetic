@@ -68,7 +68,7 @@ use Cake\Routing\Router;
                         </div>
                         <div class="form-group">
                         <label for="exampleInputEmail1">Nhà sản xuất</label>
-                        <select class="form-control" name="trademark">
+                        <select class="form-control" name="id_trademark">
                             <?php foreach ($trademarks as $trademark) {
                             ?>
                                 <option value="<?= $trademark->id ?>"><?= $trademark->name ?></option>
@@ -78,8 +78,8 @@ use Cake\Routing\Router;
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Danh mục</label>
-                            <select class="form-control" name="category">
-                                <?php foreach ($category as $type_product) {
+                            <select class="form-control" name="id_category">
+                                <?php foreach ($categories as $type_product) {
                                 ?>
                                     <option value="<?= $type_product->id ?>"><?= $type_product->name ?></option>
                                 <?php

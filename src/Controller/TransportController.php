@@ -36,12 +36,14 @@ class TransportController extends ApiController
                 'function'=>'route',
                 'url'=>'/admin/transport/view',
                 'col'=>'id',
+                'card' =>'a',
                 'text'=>'Chi tiết'
             ],
             [
                 'function'=>'route',
                 'url'=>'/admin/transport/delete',
                 'col'=>'id',
+                'card' =>'a',
                 'text'=>'Xóa'
             ]
         ];

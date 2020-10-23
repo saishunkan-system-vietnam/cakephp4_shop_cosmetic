@@ -7,25 +7,36 @@ use Cake\ORM\TableRegistry;
 
 class DBComponent extends Component{
 
-    private $table;
-    private $query;
+    public $table;
+    public $query;
+    public $where;
 
-    public function table(String $table): object
+    public function table(String $table)
     {
         $this->table = $table;
+        $this->query = TableRegistry::getTableLocator()->get($this->table);
         return $this;
     }
 
-    public function get(): object
+    public function where(Array $conditions)
     {
-        $this->query = TableRegistry::getTableLocator()->get($this->table)->find();
+        $this->where = $conditions;
         return $this;
     }
 
-
-
-    public function find(Int $id): object
+    public function getAll()
     {
-        return TableRegistry::getTableLocator()->get($this->table)->get($id);
+        $this->query = $this->query->find()->where($this->where);
+        return $this->query;
+    }
+
+    public function find(Array $conditions)
+    {
+        return $this->query->find()->where($conditions)->first();
+    }
+
+    public function all(String $table)
+    {
+        return $this->table($table)->get();
     }
 }

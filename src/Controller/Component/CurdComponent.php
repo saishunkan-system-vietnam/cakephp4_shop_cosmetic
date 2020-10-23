@@ -4,16 +4,9 @@ namespace App\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\ORM\TableRegistry;
-use Cake\View\View;
 
 class CurdComponent extends Component
 {
-
-    public function render(String $view)
-    {
-        view('name', $data)->render();
-    }
-
     public function add(String $model, array $data): bool
     {
         $dataTable = TableRegistry::getTableLocator()->get($model);

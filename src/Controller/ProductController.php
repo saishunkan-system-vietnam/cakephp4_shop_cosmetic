@@ -2,83 +2,50 @@
 
 namespace App\Controller;
 
-use Cake\ORM\Query;
+use App\Controller\Api\ApiController;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\Utility\Text;
 
-class ProductController extends AppController{
+class ProductController extends ApiController{
 
     public function initialize(): void{
-        $this->loadComponent('DB');
+        parent::initialize();
+        $this->loadComponent('File');
+        $this->loadComponent('Curd');
+        $this->loadComponent('Product');
     }
 
     public function createProduct()
     {
-        $trademarks = $this->DB->table('Trademark')->get();
-        $category = TableRegistry::getTableLocator()->get('Category')->find();
-        $this->set(['trademarks'=>$trademarks,'category'=>$category]);
+        $data = $this->Product->viewAdd();
+        $this->set($data);
         return $this->render('create_product');
     }
 
     public function processCreateProduct()
     {
         $infoProduct  = $this->request->getData();
-        $name         = $infoProduct['name'];
-        $file         = $infoProduct['image'];
-        $amount       = $infoProduct['amount'];
-        $id_trademark = $infoProduct['trademark'];
-        $id_category  = $infoProduct['category'];
-        $product_info = $infoProduct['product_info'];
-        $type_product = $infoProduct['type_product'];
-        $pathImg      = WWW_ROOT . "images\product";
-        if(!empty($file)){
-            $extFile = pathinfo($file->getclientFilename(), PATHINFO_EXTENSION);
-            if(in_array($extFile,['jpg', 'png', 'jpeg', 'gif']))
+        $file = $infoProduct['image'];
+        $fileName = $this->File->uploadImage($file,PRODUCT_PHOTO_PATH); //return file name or null
+        if($fileName != null)
+        {
+            $infoProduct['image'] = $fileName;
+            $infoProduct['deleted'] = NOT_DELETED;
+            $slug = Text::slug($infoProduct['name'],'-');
+            if($this->Product->checkSlugExists($slug) == true)
             {
-                if(!file_exists($pathImg))
-                {
-                    mkdir($pathImg, 0755, true);
-                }
-
-                $date       = date('Ymd');
-                $filename   = $date . "_" . uniqid() . "." . $extFile;
-                $targetFile = WWW_ROOT . "images\product" . DS . $filename;
-                $file->moveTo($targetFile);
-
-                $slug = Text::slug($name, '-');
-                $otherProduct = $this->Product->find()->where(['slug' => $slug])->first();
-                if(!empty($otherProduct))
-                {
-                    $slug.='-'.uniqid();
-                }
-                $productTable          = TableRegistry::getTableLocator()->get('Product');
-                $product               = $productTable->newEmptyEntity();
-                $product->name         = $name;
-                $product->image        = $filename;
-                $product->price        = '';
-                $product->point        = '';
-                $product->amount       = $amount;
-                $product->product_info = $product_info;
-                $product->type_product = $type_product;
-                $product->id_trademark = $id_trademark;
-                $product->id_category  = $id_category;
-                $product->slug         = $slug;
-
-                if(!empty($infoProduct['price'])){
-                    $product->price = $infoProduct['price'];
-                }
-                else if(!empty($infoProduct['point']))
-                {
-                    $product->point = $infoProduct['point'];
-                }
-
-                $productTable->save($product);
+                $slug = $slug.'-'.uniqid();
+            }
+            $infoProduct['slug'] = $slug;
+            if($this->Product->add($infoProduct)) //return true or false
+            {
+                $this->Flash->set('Thêm sản phẩm thành công');
+                return $this->redirect('/admin/list-product');
             }
         }
-
-        $this->Flash->set('Thêm sản phẩm thành công');
-        $this->redirect('/admin/list-product');
+        $this->Flash->set('Thêm sản phẩm thất bại');
+        return $this->redirect('/admin/list-product');
     }
 
     public function listProduct()
@@ -88,58 +55,16 @@ class ProductController extends AppController{
 
     public function renderListProduct()
     {
-        $productTable = TableRegistry::getTableLocator()->get('Product');
-        $inputData    = $this->request->getQuery();
-        $search       = $inputData['search']['value'];
-        $limit        = $inputData['length'];
-        $start        = $inputData['start'];
-        $page         = ceil($start / $limit) + 1;
-        $products     = $productTable->find('all')
-        ->where(['product.name LIKE'=>"%$search%",'deleted'=>0])
-        ->limit($limit)
-        ->page($page);
-        $products = $products->contain(['Trademark','Category']);
-
-        $totalProduct = $productTable->find()->count();
-        $data=[];
-        $data["draw"]            = intval($inputData['draw']);
-        $data["recordsTotal"]    = $totalProduct;
-        $data["recordsFiltered"] = $totalProduct;
-        $data['data']            = [];
-        foreach ($products as $product) {
-            $created_at = strtotime($product->created_at);
-            $updated_at = strtotime($product->updated_at);
-            $data['data'][]=[
-                $product->id,
-                h($product->name),
-                "<img src='".Router::url('/images/product/'.$product->image,true)."' style='width: 70px'>",
-                !empty($product->price) ? number_format("$product->price",0,".",".")." VNĐ" : '',
-                $product->point,
-                h($product->amount),
-                h($product->trademark->name),
-                h($product->category->name),
-                date("d/m/Y H:i:s",$created_at),
-                date("d/m/Y H:i:s",$updated_at),
-                "<a href='".Router::url('/admin/product/'.$product->id,true)."'>Chi tiết</a>",
-                "<a href='".Router::url('/admin/product/delete/'.$product->id,true)."'>Xóa</a>"
-            ];
-        }
-        $this->set($data);
-        $this->viewBuilder()->setOption('serialize', true);
-        $this->RequestHandler->renderAs($this, 'json');
+        $id = $this->request->getQuery();
+        $products = $this->Product->renderListProduct($id);
+        $this->responseJson($products);
     }
 
     public function showProduct()
     {
-        $id_product = $this->request->getParam('id_product');
-        $product = $this->Product->find()->where(['id'=>$id_product])->first();
-        $trademarks    = TableRegistry::getTableLocator()->get('Trademark')->find();
-        $type_products = TableRegistry::getTableLocator()->get('Category')->find();
-
-        $pattern = '/src="(.*)\/images\/product/';
-        $product->product_info = preg_replace($pattern, 'src="'.Router::url('/',true).'images/product', $product->product_info);
-
-        $this->set(['product'=>$product,'trademarks'=>$trademarks,'type_products'=>$type_products]);
+        $id = $this->request->getParam('id_product');
+        $data = $this->Product->show($id);
+        $this->set($data);
         $this->render('show_product');
     }
 
@@ -147,39 +72,23 @@ class ProductController extends AppController{
     {
         $id_product = $this->request->getParam('id_product');
         $infoProduct     = $this->request->getData();
-        $name            = $infoProduct['name'];
         $file            = $infoProduct['image'];
-        $price           = $infoProduct['price'];
-        $amount          = $infoProduct['amount'];
-        $id_trademark    = $infoProduct['trademark'];
-        $id_type_product = $infoProduct['type_product'];
-        $product_info    = $infoProduct['product_info'];
-        $pathImg         = WWW_ROOT . "images\product";
         if(!empty($file)){
-            $extFile = pathinfo($file->getclientFilename(), PATHINFO_EXTENSION);
-            if(in_array($extFile,['jpg', 'png', 'jpeg', 'gif']))
-            {
-                if(!file_exists($pathImg))
-                {
-                    mkdir($pathImg, 0755, true);
-                }
-
-                $date       = date('Ymd');
-                $filename   = $date . "_" . uniqid() . "." . $extFile;
-                $targetFile = WWW_ROOT . "images\product" . DS . $filename;
-                $file->moveTo($targetFile);
-            }
+            $fileName = $this->File->uploadImage($file,PRODUCT_PHOTO_PATH);
+            $infoProduct['image'] = $fileName;
         }
-        $productTable             = TableRegistry::getTableLocator()->get('Product');
-        $product                  = $productTable->get($id_product);
-        $product->name            = $name;
-        $product->image           = !empty($filename) ? $filename : $product->image;
-        $product->price           = $price;
-        $product->amount          = $amount;
-        $product->product_info    = $product_info;
-        $product->id_trademark    = $id_trademark;
-        $product->id_type_product = $id_type_product;
-        $productTable->save($product);
+
+        $slug = Text::slug($infoProduct['name']);
+        if($this->Product->checkSlugExists($slug))
+        {
+            $slug = $slug.'-'.uniqid();
+        }
+        $infoProduct['slug'] = $slug;
+        if($this->Product->update($infoProduct,$id_product))
+        {
+            $this->Flash->set('Sửa sản phẩm thành công');
+            return $this->redirect('/admin/list-product');
+        }
 
         $this->Flash->set('Sửa sản phẩm thành công');
         $this->redirect('/admin/list-product');
@@ -188,14 +97,13 @@ class ProductController extends AppController{
     public function deleteProduct()
     {
         $id_product = $this->request->getParam('id_product');
-        $productTable = TableRegistry::getTableLocator()->get('Product');
-
-        $product = $productTable->get($id_product);
-        $product->deleted = 1;
-        $productTable->save($product);
-
-        $this->Flash->set('Xóa sản phẩm thành công!!!');
-        $this->redirect('/admin/list-product');
+        if($this->Product->delete($id_product))
+        {
+            $this->Flash->set('Xóa sản phẩm thành công!!!');
+            return $this->redirect('/admin/list-product');
+        }
+        $this->Flash->set('Xóa sản phẩm thất bại!!!');
+        return $this->redirect('/admin/list-product');
     }
 
     public function showProductInUser()
