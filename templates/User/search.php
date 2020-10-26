@@ -104,14 +104,14 @@ use Cake\Routing\Router;
         $(".addCartWithAjax").click(function (e) {
             $.ajax({
                 type: "GET",
-                url: "<?= Router::url('/add-to-cart',true) ?>",
+                url: "<?= Router::url('/add-normal-product-to-cart',true) ?>",
                 data: {
-                    id_product: $(this).attr("id-product"),
+                    product_id: $(this).attr("id-product"),
                     quantity: 1
                 },
                 dataType: "JSON",
                 success: function (response) {
-                    if(response.status == 201 && response.data > 0)
+                    if(response.status == 201)
                     {
                         $("#checkout_items").html(parseInt($("#checkout_items").html())+1);
                     }else{

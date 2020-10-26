@@ -17,8 +17,8 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Event\EventInterface;
 use Cake\ORM\TableRegistry;
-use Cake\Routing\Router;
 
 /**
  * Application Controller
@@ -45,7 +45,6 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
-
         $currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
         $array = explode('/',$currentUrl);
@@ -77,4 +76,5 @@ class AppController extends Controller
          */
         //$this->loadComponent('FormProtection');
     }
+
 }

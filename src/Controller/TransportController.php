@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\Api\ApiController;
+use App\Controller\CommonController;
 
-class TransportController extends ApiController
+class TransportController extends CommonController
 {
 
     public function initialize(): void
@@ -34,16 +34,14 @@ class TransportController extends ApiController
             'description',
             [
                 'function'=>'route',
-                'url'=>'/admin/transport/view',
-                'col'=>'id',
-                'card' =>'a',
+                'url'=>'/admin/transport/view/:id',
+                'tag' =>'a',
                 'text'=>'Chi tiết'
             ],
             [
                 'function'=>'route',
-                'url'=>'/admin/transport/delete',
-                'col'=>'id',
-                'card' =>'a',
+                'url'=>'/admin/transport/delete/:id',
+                'tag' =>'a',
                 'text'=>'Xóa'
             ]
         ];

@@ -7,13 +7,14 @@ use Cake\ORM\TableRegistry;
 
 class CurdComponent extends Component
 {
-    public function add(String $model, array $data): bool
+    public function add(String $model, array $data)
     {
         $dataTable = TableRegistry::getTableLocator()->get($model);
         $newData = $dataTable->newEmptyEntity();
         $newData = $dataTable->patchEntity($newData, $data);
-        if ($dataTable->save($newData)) {
-            return true;
+        $data = $dataTable->save($newData);
+        if ($data !== false) {
+            return $data;
         }
         return false;
     }

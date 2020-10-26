@@ -42,4 +42,9 @@ class FileComponent extends Component{
             return true;
         return false;
     }
+
+    public function deleteFile($dirFile)
+    {
+        return unlink($dirFile);
+    }
 }

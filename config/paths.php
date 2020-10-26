@@ -98,3 +98,10 @@ define('AVATAR_PATH','images/avatar');
 define('PRODUCT_PHOTO_PATH','images/product');
 define('NOT_DELETED',0);
 define('DELETED',1);
+define('MALE',1);
+define('FEMALE',0);
+
+//type product
+define('NORMAL_TYPE',0);
+define('GIFT_TYPE',1);
+define('TRIAL_TYPE',2);

@@ -18,7 +18,6 @@ use Cake\Routing\Router;
         </div>
       </div><!-- /.container-fluid -->
     </section>
-
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -27,9 +26,8 @@ use Cake\Routing\Router;
           <div class="col-md-12">
             <!-- general form elements -->
             <div class="card card-primary">
-              <form role="form" action="<?= Router::url(['_name'=>'update_profile_user','fullBase' => true]) ?>" method="post" enctype="multipart/form-data">
+              <form role="form" action="<?= Router::url(['_name'=>'update_profile_user','fullBase' => true,'user_id'=>$user->id]) ?>" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="_csrfToken" value="<?= $this->request->getAttribute('csrfToken') ?>">
-                <input type="hidden" name="id_user" value=<?= $user->id ?>>
                 <div class="card-body">
                   <div class="form-group">
                     <label for="email">Email</label><span class="err" id="err_email"></span>
@@ -73,7 +71,7 @@ use Cake\Routing\Router;
                             <img style="cursor:pointer" id="avatar"
                             src="<?= Router::url('/images/avatar/'.$user->avatar,true) ?>" width="80px" alt="">
                         </label>
-                        <input type="file" class="custom-file-input" name="avatar" id="exampleInputFile">
+                        <input type="file" class="custom-file-input" name="img" id="exampleInputFile">
                       </div>
                     </div>
                   </div>

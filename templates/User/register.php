@@ -130,7 +130,7 @@ use Cake\Routing\Router;
             {
                 $.ajax({
                     type: "GET",
-                    url: "<?= Router::url('/check-exist-email',true) ?>",
+                    url: "<?= Router::url('/check-email-exists',true) ?>",
                     data: {
                         email: $(this).val()
                     },
@@ -183,72 +183,58 @@ use Cake\Routing\Router;
             var dem = 0;
             if($("#full_name").val().length == 0)
             {
-                console.log(1);
                 $("#err_name").html(" *Không được bỏ trống họ tên");
                 dem++;
             }
             else if(regex_full_name.test($("#full_name").val()) == false)
             {
-                console.log(2);
                 $("#err_name").html(" *Họ tên không có kí tự đặc biệt hoặc số");
                 dem++;
             }else{
-                console.log(3);
                 $("#err_name").html("");
             }
 
             if($("#email").val().length == 0)
             {
-                console.log(4);
                 $("#err_email").html(" *Không được bỏ trống email");
                 dem++;
             }else if(regex_email.test($("#email").val()) == false)
             {
-                console.log(5);
                 $("#err_email").html(" *Định dạng email không đúng");
                 dem++;
             }
 
             if($("#password").val().length == 0)
             {
-                console.log(6);
                 $("#err_password").html(" *Không được bỏ trống mật khẩu");
                 dem++;
             }else if(regex_password.test($("#password").val()) == false)
             {
-                console.log(7);
                 $("#err_password").html(" *Mật khẩu tối thiểu tám ký tự, ít nhất một chữ cái và một số");
                 dem++;
             }
             else{
-                console.log(8);
                 $("#err_password").html("");
             }
 
             if($("#address").val().length == 0)
             {
-                console.log(9);
                 $("#err_address").html(" *Không được bổ trống địa chỉ");
                 dem++;
             }else if(regex_address.test($("#address").val()) == false)
             {
-                console.log(10);
                 $("#err_address").html(" *Địa chỉ này không đúng");
                 dem++;
             }else{
-                console.log(11);
                 $("#err_address").html("");
             }
 
             if($("#phone").val().length == 0)
             {
-                console.log(12);
                 $("#err_phone").html(" *Số điện thoại không được bỏ trống");
                 dem++;
             }else if(regex_phone.test($("#phone").val()) == false)
             {
-                console.log(13);
-                console.log("ÁDas");
                 $("#err_phone").html(" *Số điện thoại này không đúng");
                 dem++;
             }

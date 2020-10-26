@@ -1,6 +1,5 @@
 <?php
 use Cake\Routing\Router;
-$session = $this->request->getSession();
 ?>
 
 <!DOCTYPE html>
@@ -69,19 +68,19 @@ $session = $this->request->getSession();
 								<li class="account">
 									<a href="#">
                                         <?php
-                                            if(!$session->check('id_user'))
+                                            if(!$this->Authen->guard('User')->check())
                                             {
                                                 echo "My Account";
                                             }
                                             else{
-                                                echo $session->read('full_name');
+                                                echo $this->Authen->guard('User')->getData()->full_name;
                                             }
                                         ?>
 										<i class="fa fa-angle-down"></i>
 									</a>
 									<ul class="account_selection">
                                         <?php
-                                            if(!$session->check('id_user'))
+                                            if(!$this->Authen->guard('User')->check())
                                             {
                                         ?>
                                         <li><a href="<?= Router::url('/login',true) ?>"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
@@ -173,9 +172,9 @@ $session = $this->request->getSession();
 										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
 										<span id="checkout_items" class="checkout_items">
                                             <?php
-                                                if($session->check('arr_cart'))
+                                                if($this->Session->check('arr_cart'))
                                                 {
-                                                    $arr_cart = $session->read('arr_cart');
+                                                    $arr_cart = $this->Session->read('arr_cart');
                                                     $quantity = 0;
                                                     foreach ($arr_cart as $cart) {
                                                         $quantity += $cart['quantity'];
@@ -241,12 +240,12 @@ $session = $this->request->getSession();
 	</footer>
 </div>
 <?php
-if($session->check('id_user'))
+if($this->Authen->guard('User')->check())
 {
 ?>
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <script>
-        const id_user = <?= $session->read('id_user')?>;
+        const id_user = <?= $this->Authen->guard('User')->getId(); ?>;
         const url = <?= "'".Router::url('/',true)."'"; ?>;
         var pusher = new Pusher('576aec32d50bd84ba5f3', {
         cluster: 'ap1'
@@ -256,8 +255,8 @@ if($session->check('id_user'))
             if(data.id_user == id_user)
             {
                 $.ajax({
-                    type: "POST",
-                    url: "<?= Router::url(['_name'=>"autoLogOut",'fullBase'=>true,'id_user'=>$session->read('id_user')]) ?>",
+                    type: "GET",
+                    url: "<?= Router::url('/logout',true) ?>",
                     dataType: "JSON",
                     success: function (response) {
                         console.log(response);

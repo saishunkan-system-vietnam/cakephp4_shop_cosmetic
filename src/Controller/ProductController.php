@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
-use App\Controller\Api\ApiController;
+use App\Controller\CommonController;
+use Cake\Http\Session;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\Utility\Text;
 
-class ProductController extends ApiController{
+class ProductController extends CommonController{
 
     public function initialize(): void{
         parent::initialize();
@@ -18,8 +19,8 @@ class ProductController extends ApiController{
 
     public function createProduct()
     {
-        $data = $this->Product->viewAdd();
-        $this->set($data);
+        $trademarkAndCategory = $this->Product->viewAdd();
+        $this->set($trademarkAndCategory);
         return $this->render('create_product');
     }
 
@@ -55,8 +56,8 @@ class ProductController extends ApiController{
 
     public function renderListProduct()
     {
-        $id = $this->request->getQuery();
-        $products = $this->Product->renderListProduct($id);
+        $params = $this->request->getQuery();
+        $products = $this->Product->renderListProduct($params);
         $this->responseJson($products);
     }
 
@@ -109,15 +110,11 @@ class ProductController extends ApiController{
     public function showProductInUser()
     {
         $slug = $this->request->getParam('slug');
-        $product = $this->Product->find()->contain(['Trademark'])->where(['slug' => $slug])->first();
-        if(!empty($product)){
-            $pattern = '/src="(.*)\/images\/product/';
-            $product->product_info = preg_replace($pattern, 'src="'.Router::url('/',true).'images/product', $product->product_info);
+        $product = $this->Product->detailProduct($slug);
+        if($product != false)
+        {
             $this->set('product',$product);
             $this->setView('product_detail');
-        }else{
-            $this->viewBuilder()->setLayout('login');
-            $this->render('../Error/404');
         }
     }
 
@@ -177,234 +174,40 @@ class ProductController extends ApiController{
         }
     }
 
-    public function addToCart()
+    public function addNormalProductToCart()
     {
         try {
-            $id_product = $this->request->getQuery()['id_product'];
-            $quantity = $this->request->getQuery()['quantity'];
-            $session = $this->request->getSession();
-            $product = $this->Product->find()->where(['id'=>$id_product])->first();
-            $arr_cart = [];
-            $total = 0;
-            if($session->check('arr_cart'))
-            {
-                if(!empty($this->request->getQuery('trial'))){
-                    $session->delete('arr_cart');
-                }
-                else{
-                    $arr_cart = $session->read('arr_cart');
-                    foreach ($arr_cart as $cart) {
-                        if(!empty($cart['trial']))
-                        {
-                            $data = [
-                                'status' => 403,
-                                'message' => 'Sản phẩm dùng thử không được đặt cùng các sản phẩm khác'
-                            ];
-                            $this->set($data);
-                            $this->viewBuilder()->setOption('serialize', true);
-                            return $this->RequestHandler->renderAs($this, 'json');
-                        }
-                    }
-                }
+            $params = $this->request->getQuery();
+            $product_id = $params['product_id'];
+            $quantity = $params['quantity'];
+            $session = new Session();
+            $cart = $session->read('arr_cart');
+            if(!empty($cart[$product_id])){
+                $cart[$product_id]['quantity'] += $quantity;
+            }else{
+                $cart[$product_id]['quantity'] = $quantity;
             }
-
-            if($product->type_product == 2)
-            {
-                $id_user = $session->read('id_user');
-                if(!empty($id_user)){
-                    if(array_key_exists($product->id, $arr_cart))
-                    {
-                        $data = [
-                            'status' => 403,
-                            'message' => 'Sản phẩm dùng thử chỉ đặt được 1 lần'
-                        ];
-                        $this->set($data);
-                        $this->viewBuilder()->setOption('serialize', true);
-                        return $this->RequestHandler->renderAs($this, 'json');
-                    }
-                    $billTable = TableRegistry::getTableLocator()->get('Bill');
-                    $bills = $billTable->find()
-                    ->contain('BillDetail')
-                    ->where(['id_user'=>$id_user]);
-                    foreach ($bills as $bill) {
-                        foreach($bill->bill_detail as $bill_detail)
-                        {
-                            if($bill_detail->id_product == $id_product)
-                            {
-                                $data = [
-                                    'status' => 403,
-                                    'message' => 'Sản phẩm dùng thử chỉ đặt được 1 lần'
-                                ];
-                                $this->set($data);
-                                $this->viewBuilder()->setOption('serialize', true);
-                                return $this->RequestHandler->renderAs($this, 'json');
-                            }
-                        }
-                    }
-                }else{
-                    if(array_key_exists($product->id, $arr_cart))
-                    {
-                        $data = [
-                            'status' => 403,
-                            'message' => 'Sản phẩm dùng thử chỉ đặt được 1 lần'
-                        ];
-                        $this->set($data);
-                        $this->viewBuilder()->setOption('serialize', true);
-                        return $this->RequestHandler->renderAs($this, 'json');
-                    }
-                }
-            }
-
-            if(!empty($arr_cart[$id_product]))
-            {
-                //check amount product
-                if($arr_cart[$id_product]['quantity'] + $quantity <= $product->amount)
-                {
-                    $arr_cart[$id_product]['quantity'] += $quantity;
-                    if(!empty($product->price))
-                    {
-                        $total = $arr_cart[$id_product]['quantity'] * $product->price;
-                    }
-                    elseif(!empty($product->point))
-                    {
-                        $id_user = $session->read('id_user');
-                        $user = TableRegistry::getTableLocator()->get('User')->get($id_user);
-                        $total = $arr_cart[$id_product]['quantity'] * $product->point;
-                        if($user->point < $total)
-                        {
-                            $data = [
-                                'status' => 403,
-                                'message' => 'Số point của bạn không đủ'
-                            ];
-                            $this->set($data);
-                            $this->viewBuilder()->setOption('serialize', true);
-                            return $this->RequestHandler->renderAs($this, 'json');
-                        }
-                    }
-
-                    if($arr_cart[$id_product]['quantity'] <= 0)
-                    {
-                        unset($arr_cart[$id_product]);
-                        $total = 0;
-                    }
-                }
-                else{
-                    $data = [
-                        'status' => 418,
-                        'message' => 'Số lượng sản phẩm này không đủ cho bạn'
-                    ];
-                    $this->set($data);
-                    $this->viewBuilder()->setOption('serialize', true);
-                    return $this->RequestHandler->renderAs($this, 'json');
-                }
-            }
-            else{
-                if(!empty($product->point))
-                {
-                    $id_user = $session->read('id_user');
-                    $user = TableRegistry::getTableLocator()->get('User')->get($id_user);
-                    $total = $quantity * $product->point;
-                    if($user->point < $total)
-                    {
-                        $data = [
-                            'status' => 403,
-                            'message' => 'Số point của bạn không đủ'
-                        ];
-                        $this->set($data);
-                        $this->viewBuilder()->setOption('serialize', true);
-                        return $this->RequestHandler->renderAs($this, 'json');
-                    }
-                }
-
-                if($quantity > 0)
-                {
-                    $arr_cart[$id_product]['quantity'] = $quantity;
-                    if(!empty($this->request->getQuery('trial'))){
-                        $arr_cart[$id_product]['trial'] = true;
-                    }
-                    $total = 0;
-                }
-            }
-
-            if(!empty($product->price))
-            {
-                $total = number_format($total,0,'.','.')."₫";
-            }
-            elseif(!empty($product->point))
-            {
-                $total = $total." point";
-            }
-            $session->write('arr_cart', $arr_cart);
-
-            //calculate all total
-            $total_point = 0;
-            $total_money = 0;
-            $all_total = 0;
-            $array_id_product = [];
-            if(!empty($arr_cart))
-            {
-                foreach ($arr_cart as $id_product => $product) {
-                    $array_id_product[] = $id_product;
-                }
-                $products = $this->Product->find()->select(['id','price','point','type_product'])->where(['id IN'=>$array_id_product]);
-                foreach ($products as $product) {
-                    switch ($product->type_product) {
-                        case 0:
-                            $total_money += $product->price * $arr_cart[$product->id]['quantity'];
-                            break;
-                        case 1:
-                            $total_point += $product->point * $arr_cart[$product->id]['quantity'];
-                            break;
-                    }
-                }
-
-
-                if($total_money == 0 && $total_point == 0)
-                {
-                    $all_total = 0;
-                }elseif($total_money == 0)
-                {
-                    if($this->request->getQuery('location')!="Hà Nội")
-                    {
-                        $all_total = "30.000₫ và ".$total_point." POINT";
-                    }
-                    else{
-                        $all_total = $total_point." POINT";
-                    }
-                }elseif($total_point == 0)
-                {
-                    if($this->request->getQuery('location')!="Hà Nội")
-                    {
-                        $total_money += 30000;
-                    }
-                    $all_total = number_format($total_money,0,'.','.')."₫";
-                }else{
-                    if($this->request->getQuery('location')!="Hà Nội")
-                    {
-                        $total_money += 30000;
-                    }
-                    $all_total = number_format($total_money,0,'.','.')."₫ và ".$total_point." POINT";
-                }
-            }
-
+            $session->write('arr_cart',$cart);
             $data=[
                 'status'=>201,
-                'data'=>$id_product,
-                'total' => $total,
-                'all_total'=>$all_total
+                'message'=>'Thêm sản phẩm vào giỏ hàng thành công'
             ];
-
-            $this->set($data);
-            $this->viewBuilder()->setOption('serialize', true);
-            $this->RequestHandler->renderAs($this, 'json');
+            return $this->responseJson($data);
         } catch (\Throwable $th) {
             $data=[
                 'status'=>500,
-                'message'=>$th->getMessage()
+                'message'=>'Hiện tại server chúng tôi đang gặp vấn đề hẹn gặp bạn vào 1 lần gần nhất'
             ];
-            $this->set($data);
-            $this->viewBuilder()->setOption('serialize', true);
-            $this->RequestHandler->renderAs($this, 'json');
+            $this->responseJson($data);
+        }
+    }
+
+    public function addGiftProductToCart()
+    {
+        try {
+
+        } catch (\Throwable $th) {
+
         }
     }
 
@@ -483,7 +286,7 @@ class ProductController extends ApiController{
 
     public function trial()
     {
-        $products = $this->Product->find()->where(['type_product'=>2]);
+        $products = $this->Product->getTrialProduct();
         $this->set('products', $products);
         $this->viewBuilder()->setLayout('user');
         $this->render('trial');
@@ -492,15 +295,14 @@ class ProductController extends ApiController{
     public function showProductByCategory()
     {
         $slug = $this->request->getParam('slug');
-        $categoryTable = TableRegistry::getTableLocator()->get('Category');
-        $category = $categoryTable->find()->where(['slug'=>$slug])->first();
-        if(!empty($category))
+        $productAndCategory = $this->Product->showProductByCategory($slug);
+        if($productAndCategory != false)
         {
-            $products = $this->Product->find()->where(['id_category'=>$category->id,'type_product'=>0]);
-            $this->set(['products'=>$products,'name_category'=>$category->name]);
+            $this->set($productAndCategory);
             $this->viewBuilder()->setLayout('user');
             $this->render('list_product_by_category');
         }
+
         else{
             $this->viewBuilder()->setLayout('login');
             $this->render('../Error/404');
@@ -509,8 +311,8 @@ class ProductController extends ApiController{
 
     public function listGift()
     {
-        $giftProducts = $this->Product->find()->where(['type_product'=>1]);
-        $this->set(['giftProducts'=>$giftProducts]);
+        $giftProducts = $this->Product->getGiftProduct();
+        $this->set($giftProducts);
         $this->viewBuilder()->setLayout('user');
         $this->render('gift');
     }

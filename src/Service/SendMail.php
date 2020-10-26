@@ -27,7 +27,7 @@ class SendMail extends AppController{
         'layout' => 'default'
     ]*/
 
-    static function send(Array $config , Array $nameAndEmail, Array $viewVars, Array $templateAndLayout): int
+    static function send(Array $config , Array $nameAndEmail, Array $viewVars, Array $templateAndLayout): bool
     {
         try {
             $from      = $config['from'];

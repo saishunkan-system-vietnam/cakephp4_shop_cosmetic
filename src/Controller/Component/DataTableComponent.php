@@ -113,7 +113,7 @@ class DataTableComponent extends Component
         foreach ($this->listData as $data) {
             foreach ($sampleArr as $value) {
                 if (gettype($value) == 'array') {
-                    $col = $value['col'];
+                    $col = isset($value['col']) ? $value['col'] : '';
                     switch ($value['function']) {
                         case 'num_format':
                             $result[] = $this->convertIntToMoney($data->$col);
@@ -126,13 +126,49 @@ class DataTableComponent extends Component
                             $result[] = date('Y-m-d H:i:s', $time);
                         break;
                         case 'route':
-                            switch ($value['card']) {
+                            switch ($value['tag']) {
                                 case 'img':
-                                    $result[] = "<img src='".Router::url('/'.$value['url'] . '/' . $data->$col, true)."' width='70px'>";
+                                    $url = $this->handleUrl($value['url'],$data);
+                                    $img = "<img src='$url' width='70px'";
+                                    if(!empty($value['attr'])){
+                                        foreach ($value['attr'] as $attrKey => $attrValue) {
+                                            $attr = $this->renderAttrForTag($attrKey,$attrValue);
+                                            $img = $img." $attr";
+                                        }
+                                    }
+                                    $img = $img."/>";
+                                    $result[] = $img;
                                 break;
                                 case 'a':
-                                    $result[] = "<a href='" .
-                                    Router::url('/'.$value['url'] . '/' . $data->$col, true) . "'>" . $value['text'] . "</a>";
+                                    $url = $this->handleUrl($value['url'],$data);
+                                    $result[] = "<a href='$url'>" . $value['text'] . "</a>";
+                                break;
+                            }
+                        break;
+                        case 'dissection':
+                            switch ($value['tag']) {
+                                case null:
+                                    foreach ($value['text'] as $key => $config) {
+                                        if($key == $data->$col){
+                                            $result[] = $config;
+                                            break;
+                                        }
+                                    }
+                                    break;
+                                case 'a':
+                                    foreach ($value['text'] as $keyConfig => $config) {
+                                        if($keyConfig == $data->$col){
+                                            foreach($value['url'] as $keyUrl => $url)
+                                            {
+                                                if($keyUrl == $data->$col)
+                                                {
+                                                    $url = $this->handleUrl($url,$data);
+                                                    $result[] = "<a href='$url'>$config</a>";
+                                                }
+                                            }
+                                            break;
+                                        }
+                                    }
                                 break;
                             }
                         break;
@@ -163,5 +199,24 @@ class DataTableComponent extends Component
     public function convertIntToMoney($number)
     {
         return number_format($number, 0, '.', '.') . " VNĐ";
+    }
+
+    public function handleUrl($url,$record)
+    {
+        $array_url = explode('/', $url);
+        foreach ($array_url as $key => $value)
+        {
+            if(strstr($value,':') != false)
+            {
+                $col = explode(':',$value)[1];
+                $array_url[$key] = $record->$col;
+            }
+        }
+        return Router::url(join('/',$array_url),true);
+    }
+
+    public function renderAttrForTag($attr,$value)
+    {
+        return $attr.'='."'$value'";
     }
 }

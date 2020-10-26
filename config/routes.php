@@ -55,13 +55,13 @@ $routes->scope('/admin', function (RouteBuilder $builder) {
         'list_users'
     );
 
-    $builder->get('/render-list-user',['controller'=>'User','action'=>'renderListUser']);
+    $builder->get('/render-list-user',['controller'=>'User','action'=>'renderUserList']);
 
     $builder->get('/logout',['controller'=>'Admin','action'=>'logOut']);
 
     $builder->get('/user/:id_user',['controller'=>'User','action'=>'userDetail']);
 
-    $builder->post('/update-profile-user',
+    $builder->post('/update-profile-user/:user_id',
         ['controller'=>'User','action'=>'updateProfileUser'],
         'update_profile_user'
     );
@@ -193,13 +193,11 @@ $routes->scope('/',function (RouteBuilder $builder){
 
     $builder->post('/process-register',['controller'=>'User','action'=>'processRegister']);
 
-    $builder->get('/check-exist-email',['controller'=>'User','action'=>'checkExistEmail']);
+    $builder->get('/check-email-exists',['controller'=>'User','action'=>'checkEmailExists']);
 
     $builder->get('/check-exist-phone',['controller'=>'User','action'=>'checkExistPhone']);
 
     $builder->get('/forgot-password',['controller'=>'User','action'=>'forgotPassword'],'forgot_password_user');
-
-    $builder->get('/check-email-exists',['controller'=>'User','action'=>'checkUserEmailExists'],'checkUserEmailExists');
 
     $builder->post('/send-user-email-forgot-password',
         ['controller'=>'User','action'=>'sendUserEmailForgotPassword'],
@@ -211,13 +209,8 @@ $routes->scope('/',function (RouteBuilder $builder){
         'showProductInUser'
     );
 
-    $builder->get('/add-to-cart',
-        ['controller'=>'Product', 'action'=>'addToCart']
-    );
-
-    $builder->post('/auto-logout/:id_user',
-        ['controller'=>'User', 'action'=>'autoLogOut'],
-        'autoLogOut'
+    $builder->get('/add-normal-product-to-cart',
+        ['controller'=>'Product', 'action'=>'addNormalProductToCart']
     );
 
     $builder->get('/cart',

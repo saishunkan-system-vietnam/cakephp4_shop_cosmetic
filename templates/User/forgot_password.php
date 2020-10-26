@@ -101,21 +101,15 @@ use Cake\Routing\Router;
             else{
                 $.ajax({
                     type: "GET",
-                    url: "<?= Router::url(['_name'=>'checkUserEmailExists','fullBase' => 'true']) ?>",
+                    url: "<?= Router::url('/check-email-exists',true) ?>",
                     data: {
                         email:email.val()
                     },
                     dataType: "JSON",
                     success: function (response) {
-                        if(response.isExists == false)
+                        if(response.status == false)
                         {
                             err.html("*Email này không tồn tại");
-                            err.css('visibility','inherit');
-                            flag = false;
-                        }
-                        else if(response.status == 500)
-                        {
-                            err.html("*Lỗi server");
                             err.css('visibility','inherit');
                             flag = false;
                         }
