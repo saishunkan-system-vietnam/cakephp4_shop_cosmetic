@@ -2,7 +2,6 @@
 <?php
 
 use Cake\Routing\Router;
-$sessions = $this->request->getSession();
 ?>
 <div class="new_arrivals">
     <div class="container">
@@ -35,10 +34,10 @@ $sessions = $this->request->getSession();
                                 </div>
                             </div>
                             <div class="red_button add_to_cart_button">
-                                <span class="<?= $sessions->check('id_user') ? "addCartWithAjax" : "login" ?>" id-product="<?= $product->id ?>">
+                                <span class="<?= $this->Authen->guard('User')->check() == true ? "addCartWithAjax" : "login" ?>" id-product="<?= $product->id ?>">
                                     <a href="#">
                                         <?php
-                                            if($sessions->check('id_user'))
+                                            if($this->Authen->guard("User")->check())
                                             {
                                                 echo "add to cart";
                                             }else{
@@ -63,14 +62,14 @@ $sessions = $this->request->getSession();
         $(".addCartWithAjax").click(function (e) {
             $.ajax({
                 type: "GET",
-                url: "<?= Router::url('/add-to-cart',true) ?>",
+                url: "<?= Router::url('/add-gift-product-to-cart',true) ?>",
                 data: {
-                    id_product: $(this).attr("id-product"),
+                    product_id: $(this).attr("id-product"),
                     quantity: 1
                 },
                 dataType: "JSON",
                 success: function (response) {
-                    if(response.status == 201 && response.data > 0)
+                    if(response.status == 201)
                     {
                         $("#checkout_items").html(parseInt($("#checkout_items").html())+1);
                     }else{
@@ -98,7 +97,7 @@ $sessions = $this->request->getSession();
     });
 </script>
 <?php
-    if($sessions->check('id_user'))
+    if($this->Authen->guard('User')->check())
     {
 ?>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>

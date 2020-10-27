@@ -15,6 +15,9 @@ class ProductController extends CommonController{
         $this->loadComponent('File');
         $this->loadComponent('Curd');
         $this->loadComponent('Product');
+        $this->loadComponent('Authen');
+        $this->loadComponent('User');
+        $this->loadComponent('Transport');
     }
 
     public function createProduct()
@@ -126,15 +129,14 @@ class ProductController extends CommonController{
 
     public function viewCart()
     {
-        $session = $this->request->getSession();
+        $session = new Session();
         $arr_cart = $session->read('arr_cart');
         if(!empty($arr_cart)){
-            $products=[];
-            foreach ($arr_cart as $key => $value) {
-                $products[] = $key;
+            $arr_id = [];
+            foreach ($arr_cart as $id_cart => $value) {
+                $arr_id[] = $id_cart;
             }
-
-            $products = $this->Product->find()->select(['id','name','image','price','point','type_product'])->where(['id In'=>$products]);
+            $products = $this->Product->getProductsByArrId($arr_id);
             $data=[];
             $total_money = 0;
             $total_point = 0;
@@ -159,15 +161,19 @@ class ProductController extends CommonController{
                     }
                 }
             }
-            // dd($total_money);
-            $id_user = $session->read('id_user');
-            if($id_user > 0){
-                $user = TableRegistry::getTableLocator()->get('user')->get($id_user);
-                $this->set(['products'=>$data,'user'=>$user,'total_money'=>$total_money,'total_point'=>$total_point]);
+            $user_id = $this->Authen->guard('User')->getId();
+            $transports = $this->Transport->getAll();
+            $result = [
+                'products' => $data,
+                'total_money' => $total_money,
+                'total_point' => $total_point,
+                'transports' => $transports
+            ];
+            if($user_id > 0){
+                $user = $this->User->getUserInfo($user_id);
+                $result['user'] = $user;
             }
-            else{
-                $this->set(['products'=>$data,'total_money'=>$total_money,'total_point'=>$total_point]);
-            }
+            $this->set($result);
             $this->setView('cart');
         }else{
             $this->redirect('/');
@@ -186,6 +192,7 @@ class ProductController extends CommonController{
                 $cart[$product_id]['quantity'] += $quantity;
             }else{
                 $cart[$product_id]['quantity'] = $quantity;
+                $cart[$product_id]['type_product'] = NORMAL_TYPE;
             }
             $session->write('arr_cart',$cart);
             $data=[
@@ -205,9 +212,69 @@ class ProductController extends CommonController{
     public function addGiftProductToCart()
     {
         try {
-
+            $params = $this->request->getQuery();
+            $product_id = $params['product_id'];
+            $quantity = $params['quantity'];
+            $session = new Session();
+            $arr_cart = $session->read('arr_cart');
+            $userPoint = $this->Product->getUserPoint();
+            if(!empty($arr_cart[$product_id])){
+                $total_point = $this->Product->getTotalPoint($arr_cart, $product_id);
+                if($total_point <= $userPoint)
+                {
+                    $arr_cart[$product_id]['quantity'] += $quantity;
+                    $data = [
+                        'status' => 201,
+                        'message' => 'Thêm sản phẩm vào giỏ hàng thành công',
+                    ];
+                }else{
+                    $data = [
+                        'status' => 403,
+                        'message' => 'Số point của bạn không đủ'
+                    ];
+                }
+            }
+            elseif(empty($arr_cart[$product_id]) && !empty($arr_cart)){
+                $total_point = $this->Product->getTotalPointWhenNoNewProductToCart($arr_cart,$product_id);
+                if($total_point <= $userPoint)
+                {
+                    $arr_cart[$product_id]['quantity'] = $quantity;
+                    $arr_cart[$product_id]['type_product'] = GIFT_TYPE;
+                    $data = [
+                        'status' => 201,
+                        'message' => 'Thêm sản phẩm vào giỏ hàng thành công',
+                    ];
+                }else{
+                    $data = [
+                        'status' => 403,
+                        'message' => 'Số point của bạn không đủ'
+                    ];
+                }
+            }else{
+                $productPoint = $this->Product->getProductPoint($product_id);
+                if($productPoint * $quantity <= $userPoint)
+                {
+                    $arr_cart[$product_id]['quantity'] = $quantity;
+                    $arr_cart[$product_id]['type_product'] = GIFT_TYPE;
+                    $data = [
+                        'status' => 201,
+                        'message' => 'Thêm sản phẩm vào giỏ hàng thành công',
+                    ];
+                }else{
+                    $data = [
+                        'status' => 403,
+                        'message' => 'Số point của bạn không đủ'
+                    ];
+                }
+            }
+            $session->write('arr_cart', $arr_cart);
+            $this->responseJson($data);
         } catch (\Throwable $th) {
-
+            $data = [
+                'status' => 500,
+                'message' => 'Lỗi server'
+            ];
+            $this->responseJson($data);
         }
     }
 
@@ -288,8 +355,7 @@ class ProductController extends CommonController{
     {
         $products = $this->Product->getTrialProduct();
         $this->set('products', $products);
-        $this->viewBuilder()->setLayout('user');
-        $this->render('trial');
+        $this->render('trial','user');
     }
 
     public function showProductByCategory()
@@ -299,13 +365,11 @@ class ProductController extends CommonController{
         if($productAndCategory != false)
         {
             $this->set($productAndCategory);
-            $this->viewBuilder()->setLayout('user');
-            $this->render('list_product_by_category');
+            $this->render('list_product_by_category','user');
         }
 
         else{
-            $this->viewBuilder()->setLayout('login');
-            $this->render('../Error/404');
+            $this->render('../Error/404','login');
         }
     }
 
@@ -313,7 +377,6 @@ class ProductController extends CommonController{
     {
         $giftProducts = $this->Product->getGiftProduct();
         $this->set($giftProducts);
-        $this->viewBuilder()->setLayout('user');
-        $this->render('gift');
+        $this->render('gift','user');
     }
 }

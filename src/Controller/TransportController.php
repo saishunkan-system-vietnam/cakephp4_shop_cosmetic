@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Controller\CommonController;
+use Cake\Http\Session;
 
 class TransportController extends CommonController
 {
@@ -13,6 +14,7 @@ class TransportController extends CommonController
         parent::initialize();
         $this->loadComponent('Curd');
         $this->loadComponent('DataTable');
+        $this->loadComponent('Transport');
     }
 
     public function index()
@@ -93,5 +95,21 @@ class TransportController extends CommonController
             $this->Flash->set('Xóa hình thức vận chuyển thất bại');
         }
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function changeTransport()
+    {
+        $transport_id = $this->request->getQuery('transport_id');
+        $transport = $this->Transport->show($transport_id);
+        $session = new Session();
+        $arr_cart = $session->read('arr_cart');
+        $total_point = 0;
+        $total_money = 0;
+        // foreach ($arr_cart as $cart) {
+        //     $product =
+        //     if($cart['type_product'] == NORMAL_TYPE){
+        //         $total_money +=
+        //     }
+        // }
     }
 }

@@ -213,6 +213,10 @@ $routes->scope('/',function (RouteBuilder $builder){
         ['controller'=>'Product', 'action'=>'addNormalProductToCart']
     );
 
+    $builder->get('/add-gift-product-to-cart',
+        ['controller'=>'Product', 'action'=>'addGiftProductToCart']
+    );
+
     $builder->get('/cart',
         ['controller'=>'Product','action'=>'viewCart']
     );
@@ -248,6 +252,8 @@ $routes->scope('/',function (RouteBuilder $builder){
     $builder->get('/gift',
         ['controller'=>'Product','action'=>'listGift']
     );
+
+    $builder->get('/change-transport',['controller'=>'Transport','action'=>'changeTransport']);
 
     $builder->fallbacks();
 });

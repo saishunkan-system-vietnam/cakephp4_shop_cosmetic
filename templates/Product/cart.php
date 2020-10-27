@@ -1,7 +1,5 @@
 <?php
-
 use Cake\Routing\Router;
-$sessions = $this->request->getSession();
 ?>
 <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -13,8 +11,8 @@ $sessions = $this->request->getSession();
 <link rel="stylesheet" type="text/css" href="<?= Router::url('/user/styles/single_styles.css', true) ?>">
 <link rel="stylesheet" type="text/css" href="<?= Router::url('/user/styles/single_responsive.css', true) ?>">
 <link rel="stylesheet" href="<?= Router::url('/css/custom-cart.css',true) ?>">
-<script src="<?= Router::url('/vendor/bootstrap/js/popper.js') ?>"></script>
-<script src="<?= Router::url('/js/main-cart.js') ?>"></script>
+<script src="<?= Router::url('/vendor/bootstrap/js/popper.js',true) ?>"></script>
+<script src="<?= Router::url('/js/main-cart.js',true) ?>"></script>
 <style>
 .table100{
     text-align: center;
@@ -63,11 +61,11 @@ $sessions = $this->request->getSession();
                                     <td>
                                         <?php
                                             switch ($product['type_product']) {
-                                                case 0:
+                                                case NORMAL_TYPE:
                                                     echo "+50POINT";
                                                     break;
-                                                case 1:
-                                                    echo "+0POINT";
+                                                case GIFT_TYPE:
+                                                    echo "0";
                                                     break;
                                                 default:
                                                     echo 0;
@@ -112,35 +110,35 @@ $sessions = $this->request->getSession();
                                     <td class="column6"><img id_product=<?= $id_product ?> class="close" src="<?= Router::url('/images/close-button.png',true) ?>" alt=""></td>
                                 </tr>
                             <?php endforeach; ?>
-                            <?php if(!isset($user) || $user->address != "Hà Nội"): ?>
                                 <tr class="transport_fee">
                                     <td colspan="7">
-                                    Thêm 30.000₫ phí vận chuyển
+                                    <?php
+                                        foreach ($transports as $transport) {
+                                            if($transport->id == 1 )
+                                            {
+                                                $transport_fee = $transport->price;
+                                                break;
+                                            }
+                                        }
+                                        echo "Thêm ".number_format($transport_fee,0,'.','.')."₫"." phí vận chuyển";
+                                    ?>
                                     </td>
                                 </tr>
-                            <?php endif; ?>
                             <tr class="tt">
                                 <td class="all_total" colspan="7">
                                     Tổng tiền:
                                     <span class="total">
                                     <?php
-                                        if(!isset($user->address) || $user->address != "Hà Nội"){
-                                            $total_money += 30000;
-                                        }
-
-                                        if($total_money == 0 && $total_point == 0 && (!isset($user->address) || $user->address != "Hà Nội")){
-                                            echo "30.000₫";
-                                        }elseif(isset($user->address) && $user->address != "Hà Nội")
-                                        {
-                                            echo 0;
-                                        }
-                                        elseif($total_money == 0){
-                                            echo $total_point." POINT";
-                                        }elseif($total_point == 0)
-                                        {
-                                            echo number_format($total_money,0,'.','.')."₫";
+                                        if($total_point == 0 && $total_money == 0){
+                                            echo "0₫";
+                                        }elseif($total_point == 0){
+                                            $total_money += $transport_fee;
+                                            echo number_format($total_money,0, '.', '.')."₫";
+                                        }elseif($total_money == 0){
+                                            echo number_format($transport_fee,0, '.', '.')."₫ và $total_point POINT";
                                         }else{
-                                            echo number_format($total_money,0,'.','.')."₫ và ".$total_point." POINT";
+                                            $total_money += $transport_fee;
+                                            echo number_format($total_money,0, '.', '.')."₫ và $total_point POINT";
                                         }
                                     ?>
                                     </span>
@@ -153,50 +151,43 @@ $sessions = $this->request->getSession();
         </div>
         <div class="col-lg-4">
             <h4>Thông tin người đặt hàng</h4>
-            <form action="<?= $sessions->check('id_user') ? Router::url('/bill',true) : Router::url('/create-account',true)  ?>" method="post">
+            <form action="<?= $this->Authen->guard('User')->check() ? Router::url('/bill',true) : Router::url('/create-account',true)  ?>" method="post">
                 <div class="form-group mt-3">
                     <label for="full_name">Họ tên</label>
-                    <input type="text" id="full_name" <?= $sessions->check('id_user') ? 'disabled' : '' ?>
+                    <input type="text" id="full_name" <?= $this->Authen->guard('User')->check() ? 'disabled' : '' ?>
                     value="<?= !empty($user) ? h($user->full_name) : '' ?>"
                     class="form-control" name="full_name" placeholder="Nhập họ tên">
                 </div>
                 <div class="form-group">
                     <label for="phone">Số điện thoại</label>
-                    <input type="text" id="phone" <?= $sessions->check('id_user') ? 'disabled' : '' ?>
+                    <input type="text" id="phone" <?= $this->Authen->guard('User')->check() ? 'disabled' : '' ?>
                     value="<?= !empty($user) ? h($user->phone) : '' ?>"
                     class="form-control" name="phone" placeholder="Nhập số điện thoại">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="text" id="Email" <?= $sessions->check('id_user') ? 'disabled' : '' ?>
+                    <input type="text" id="Email" <?= $this->Authen->guard('User')->check() ? 'disabled' : '' ?>
                     value="<?= !empty($user) ? h($user->email) : '' ?>"
                     class="form-control" name="email" placeholder="Nhập email">
                 </div>
                 <div class="form-group">
                     <label for="address">Địa chỉ</label>
-                    <input type="text" id="address" <?= $sessions->check('id_user') ? 'disabled' : '' ?>
+                    <input type="text" id="address" <?= $this->Authen->guard('User')->check() ? 'disabled' : '' ?>
                     value="<?= !empty($user) ? h($user->address) : '' ?>"
                     class="form-control" name="address" placeholder="Nhập địa chỉ">
                 </div>
                 <div class="form-group">
                     <label for="address">Hình thức giao hàng</label>
-                    <select class="form-control" id="">
-                        <option value="">Giao hàng thông thường</option>
-                        <option value="">Giao hàng hỏa tốc</option>
+                    <select class="form-control" id="transport">
+                        <?php foreach($transports as $transport): ?>
+                            <option value="<?= $transport->id ?>"><?= $transport->name ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="address">Phương thức thanh toán</label>
-                    <select class="form-control" id="">
-                        <option value="">Thu tiền khi giao hàng (COD)</option>
-                        <option value="">Thẻ tín dụng / thẻ ghi nợ</option>
-                        <option value="">Thẻ ATM</option>
-                    </select>
-                </div>
-                <?php if(!$sessions->check('id_user')): ?>
+                <?php if(!$this->Authen->guard('User')->check()): ?>
                 <div class="form-group">
                     <label for="password">Mật khẩu</label>
-                    <input type="password" id="password" <?= $sessions->check('id_user') ? 'disabled' : '' ?>
+                    <input type="password" id="password" <?= $this->Authen->guard('User')->check() ? 'disabled' : '' ?>
                     class="form-control" name="password" placeholder="Nhập mật khẩu">
                 </div>
                 <?php endif; ?>
@@ -208,6 +199,7 @@ $sessions = $this->request->getSession();
 <script>
     const url_add_to_cart = "<?= Router::url('/add-to-cart',true) ?>";
     const url_remove_from_cart = "<?= Router::url('/remove-product-from-cart',true) ?>";
+    const url_change_transport = "<?= Router::url('/change-transport',true) ?>";
     const url_home = "<?= Router::url('/',true) ?>";
 </script>
 <script src="<?= Router::url('/js/cart.js',true) ?>"></script>

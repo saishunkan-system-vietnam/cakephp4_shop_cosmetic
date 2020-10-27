@@ -81,14 +81,12 @@ class AuthenComponent extends Component{
 
     public function getId()
     {
-        session_start();
+        $session = new Session();
         $key = $this->guard."_id";
-        if(!empty($_SESSION[$key])){
-            $id = $_SESSION[$key];
-            session_write_close();
+        $id = $session->read($key);
+        if(!empty($id)){
             return $id;
         }
-        session_write_close();
         return false;
     }
 }

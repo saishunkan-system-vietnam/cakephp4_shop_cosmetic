@@ -7,13 +7,14 @@ use Cake\Routing\Router;
 
 class ProductComponent extends Component{
 
-    public $components = ['DB','DataTable','Curd'];
+    public $components = ['DB','DataTable','Curd','Authen'];
 
     public function initialize(array $config): void
     {
         $this->Curd;
         $this->DB;
         $this->DataTable;
+        $this->Authen;
     }
 
     public function show($id)
@@ -144,5 +145,55 @@ class ProductComponent extends Component{
         ->select('id','name','image','slug')
         ->where(['type_product'=>TRIAL_TYPE,'deleted'=>NOT_DELETED])
         ->get();
+    }
+
+    public function getUserPoint()
+    {
+        $user_id = $this->Authen->guard('User')->getId();
+        return $this->DB->table('User')->select('point')->find(['id'=>$user_id])->point;
+    }
+
+    public function getProductPoint($id)
+    {
+        return $this->DB->table('Product')->find(['id'=>$id])->point;
+    }
+
+    public function getProductsByArrId($arr_id)
+    {
+        return $this->DB->table('Product')
+        ->select('id','name','image','price','point','type_product')
+        ->where(['id In'=>$arr_id])->get();
+    }
+
+    public function getTotalPointWhenNoNewProductToCart(Array $arr_cart,Int $newProductId): int
+    {
+        $total_point = 0;
+        foreach ($arr_cart as $id => $cart) {
+            if($cart['type_product'] == GIFT_TYPE)
+            {
+                $productPoint = $this->getProductPoint($id);
+                $total_point += $productPoint * $cart['quantity'];
+            }
+        }
+        $newProductPoint = $this->getProductPoint($newProductId);
+        $total_point += $newProductPoint;
+        return $total_point;
+    }
+
+    public function getTotalPoint(Array $arr_cart,Int $newProductId): Int
+    {
+        $total_point = 0;
+        foreach ($arr_cart as $id => $cart) {
+            if($cart['type_product'] == GIFT_TYPE)
+            {
+                $productPoint = $this->getProductPoint($id);
+                $total_point += $productPoint * $cart['quantity'];
+                if($id == $newProductId)
+                {
+                    $total_point += $productPoint;
+                }
+            }
+        }
+        return $total_point;
     }
 }

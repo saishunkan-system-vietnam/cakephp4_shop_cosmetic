@@ -132,4 +132,18 @@ $(document).ready(function () {
             console.log(e)
         }
     }
+
+    $("#transport").change(function () {
+        $.ajax({
+            type: "GET",
+            url: url_change_transport,
+            data: {
+                transport_id:$(this).val()
+            },
+            dataType: "JSON",
+            success: function (response) {
+
+            }
+        });
+    });
 });

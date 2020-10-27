@@ -11,11 +11,14 @@ class DBComponent extends Component{
     private $query;
     private $where;
     private $select;
-    private $contain = [];
+    private $contain;
 
     public function table(String $table)
     {
         $this->table = $table;
+        $this->where = [];
+        $this->select = [];
+        $this->contain = [];
         $this->query = TableRegistry::getTableLocator()->get($this->table);
         return $this;
     }
@@ -35,11 +38,11 @@ class DBComponent extends Component{
     public function get()
     {
         $result = $this->query->find();
-        if($this->select != '')
+        if($this->select != [])
         {
             $result = $result->select($this->select);
         }
-        if($this->where != '')
+        if($this->where != [])
         {
             $result = $result->where($this->where);
         }

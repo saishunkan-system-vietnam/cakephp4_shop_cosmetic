@@ -130,4 +130,5 @@ class UserComponent extends Component{
         unset($profile['img']);
         return $this->DB->table('User')->update($user_id, $profile);
     }
+
 }
