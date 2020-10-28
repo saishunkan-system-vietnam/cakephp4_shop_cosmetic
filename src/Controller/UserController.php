@@ -73,8 +73,7 @@ class UserController extends CommonController
     {
         try {
             $userInfo = $this->request->getData();
-            $userInfo['gender']    = $userInfo['gender'] == true ? 1 : 0;
-            $userInfo['avatar'] = ' ';
+            $userInfo['gender'] = $userInfo['gender'] == true ? 1 : 0;
             $userInfo['point'] = 0;
             $userInfo['deleted'] = 0;
             if($this->Authen->guard('User')->register($userInfo));

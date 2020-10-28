@@ -219,8 +219,8 @@ class ProductController extends CommonController{
             $arr_cart = $session->read('arr_cart');
             $userPoint = $this->Product->getUserPoint();
             if(!empty($arr_cart[$product_id])){
-                $total_point = $this->Product->getTotalPoint($arr_cart, $product_id);
-                if($total_point <= $userPoint)
+                $total_point = $this->Product->getTotalPoint($arr_cart, $product_id, $quantity);
+                if($total_point + $userPoint >= 0)
                 {
                     $arr_cart[$product_id]['quantity'] += $quantity;
                     $data = [
@@ -235,8 +235,8 @@ class ProductController extends CommonController{
                 }
             }
             elseif(empty($arr_cart[$product_id]) && !empty($arr_cart)){
-                $total_point = $this->Product->getTotalPointWhenNoNewProductToCart($arr_cart,$product_id);
-                if($total_point <= $userPoint)
+                $total_point = $this->Product->getTotalPointWhenNoNewProductToCart($arr_cart, $product_id, $quantity);
+                if($total_point + $userPoint >= 0)
                 {
                     $arr_cart[$product_id]['quantity'] = $quantity;
                     $arr_cart[$product_id]['type_product'] = GIFT_TYPE;
@@ -244,6 +244,10 @@ class ProductController extends CommonController{
                         'status' => 201,
                         'message' => 'Thêm sản phẩm vào giỏ hàng thành công',
                     ];
+                    $bill = [
+                        'leftover_point' => $total_point + $userPoint
+                    ];
+                    $session->write('bill', $bill);
                 }else{
                     $data = [
                         'status' => 403,
@@ -260,6 +264,10 @@ class ProductController extends CommonController{
                         'status' => 201,
                         'message' => 'Thêm sản phẩm vào giỏ hàng thành công',
                     ];
+                    $bill = [
+                        'leftover_point' => $productPoint * $quantity
+                    ];
+                    $session->write('bill', $bill);
                 }else{
                     $data = [
                         'status' => 403,
@@ -281,73 +289,29 @@ class ProductController extends CommonController{
     public function removeProductFromCart()
     {
         try {
-            $id_product = $this->request->getQuery()['id_product'];
-            $session = $this->request->getSession();
+            $product_id = $this->request->getQuery('product_id');
+            $transport_id = $this->request->getQuery('transport_id');
+
+            //remove product from cart
+            $session = new Session();
             $arr_cart = $session->read('arr_cart');
-            unset($arr_cart[$id_product]);
+            unset($arr_cart[$product_id]);
             $session->write('arr_cart', $arr_cart);
 
-            //calculate all total
-            $total_point = 0;
-            $total_money = 0;
-            $all_total = 0;
-            $array_id_product = [];
-            if(!empty($arr_cart))
-            {
-                foreach ($arr_cart as $id_product => $product) {
-                    $array_id_product[] = $id_product;
-                }
-                $products = $this->Product->find()->select(['id','price','point','type_product'])->where(['id IN'=>$array_id_product]);
-                foreach ($products as $product) {
-                    switch ($product->type_product) {
-                        case 0:
-                            $total_money += $product->price * $arr_cart[$product->id]['quantity'];
-                            break;
-                        case 1:
-                            $total_point += $product->point * $arr_cart[$product->id]['quantity'];
-                            break;
-                    }
-                }
+            $transport = $this->Transport->show($transport_id);
+            $calculate = $this->Product->calculateTotalProduct($transport->price);
 
-                if($total_money == 0 && $total_point == 0)
-                {
-                    $all_total = 0;
-                }elseif($total_money == 0)
-                {
-                    if($this->request->getQuery('location')!="Hà Nội")
-                    {
-                        $all_total = "30.000₫ và ".$total_point." POINT";
-                    }
-                    else{
-                        $all_total = $total_point." POINT";
-                    }
-                }elseif($total_point == 0)
-                {
-                    if($this->request->getQuery('location')!="Hà Nội")
-                    {
-                        $total_money += 30000;
-                    }
-                    $all_total = number_format($total_money,0,'.','.')."₫";
-                }else{
-                    if($this->request->getQuery('location')!="Hà Nội")
-                    {
-                        $total_money += 30000;
-                    }
-                    $all_total = number_format($total_point,0,'.','.')."₫ và ".$total_point." POINT";
-                }
-            }
-
-            $data['status'] = true;
-            $data['all_total'] = $all_total;
-            $this->set($data);
-            $this->viewBuilder()->setOption('serialize', true);
-            $this->RequestHandler->renderAs($this, 'json');
+            $result = [
+                'status' => 200,
+                'total' => $calculate['total']
+            ];
+            $this->responseJson($result);
         } catch (\Throwable $th) {
-
-            $data['status'] = false;
-            $this->set($data);
-            $this->viewBuilder()->setOption('serialize', true);
-            $this->RequestHandler->renderAs($this, 'json');
+            $result = [
+                'status' => 500,
+                'message' => $th->getMessage()
+            ];
+            $this->responseJson($result);
         }
     }
 
@@ -378,5 +342,38 @@ class ProductController extends CommonController{
         $giftProducts = $this->Product->getGiftProduct();
         $this->set($giftProducts);
         $this->render('gift','user');
+    }
+
+    public function changeAmountProductFromCart()
+    {
+        try {
+            $product_id = $this->request->getQuery('product_id');
+            $quantity = $this->request->getQuery('quantity');
+            $transport_id = $this->request->getQuery('transport_id');
+            $session = new Session();
+            $arr_cart = $session->read('arr_cart');
+            $transport = $this->Transport->show($transport_id);
+            foreach ($arr_cart as $id => $product) {
+                if($id == $product_id){
+                    $arr_cart[$id]['quantity'] += $quantity;
+                }
+            }
+            $session->write('arr_cart', $arr_cart);
+            $calculate = $this->Product->calculateTotalProduct($transport->price, $product_id);
+            $result = [
+                'status' => 201,
+                'transport_fee' => "Thêm ".number_format($transport->price,0,'.','.')."₫ phí vận chuyển",
+                'total' => $calculate['total'],
+                'current_product_price' => $calculate['current_product_price'],
+                'product_id' => $product_id
+            ];
+            return $this->responseJson($result);
+        } catch (\Throwable $th) {
+            $result = [
+                'status' => 500,
+                'message' => $th->getMessage()
+            ];
+            return $this->responseJson($result);
+        }
     }
 }

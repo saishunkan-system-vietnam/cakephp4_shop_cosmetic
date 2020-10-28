@@ -28,13 +28,14 @@ use Cake\Routing\Router;
 <meta name="msapplication-TileImage" content="<?= Router::url('/images/ico/ms-icon-144x144.png') ?>">
 <meta name="theme-color" content="#ffffff">
 <link rel="stylesheet" type="text/css" href="<?= Router::url('/user/styles/bootstrap4/bootstrap.min.css',true) ?>">
-<link rel="stylesheet" type="text/css" href="<?= Router::url('/fonts/font-awesome-4.7.0/css/font-awesome.min.css',true) ?>">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 <link rel="stylesheet" type="text/css" href="<?= Router::url('/user/plugins/OwlCarousel2-2.2.1/owl.carousel.css',true) ?>">
 <link rel="stylesheet" type="text/css" href="<?= Router::url('/user/plugins/OwlCarousel2-2.2.1/owl.theme.default.css',true) ?>">
 <link rel="stylesheet" type="text/css" href="<?= Router::url('/user/plugins/OwlCarousel2-2.2.1/animate.css',true) ?>">
 <link rel="stylesheet" type="text/css" href="<?= Router::url('/user/styles/main_styles.css',true) ?>">
 <link rel="stylesheet" type="text/css" href="<?= Router::url('/user/styles/responsive.css',true) ?>">
 <link rel="stylesheet" href="<?= Router::url('/css/layout-user.css') ?>">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
 
 <script src="<?= Router::url('/user/js/jquery-3.2.1.min.js',true) ?>"></script>
 <script src="<?= Router::url('/user/styles/bootstrap4/popper.js',true) ?>"></script>
@@ -60,7 +61,7 @@ use Cake\Routing\Router;
 			<div class="container">
 				<div class="row">
 					<div class="col-md-6">
-						<div class="top_nav_left">Free ship cho đơn hàng ở nội thành hà nội</div>
+						<div class="top_nav_left"></div>
 					</div>
 					<div class="col-md-6 text-right">
 						<div class="top_nav_right">
@@ -227,17 +228,61 @@ use Cake\Routing\Router;
 
     <?= $this->fetch('content') ?>
 
-	<footer class="footer">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="footer_nav_container">
-                    Hệ Thống Phân Phối Mỹ Phẩm Chính Hãng
-					</div>
-				</div>
-			</div>
-		</div>
-	</footer>
+	<footer>
+        <div class="footer-main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-widget">
+                            <h4>Thông tin về shop</h4>
+                            <p>Beauty Shop là hệ thống mỹ phẩm chính hãng và uy tín có quy mô lớn số 1 Việt Nam,đa dạng các loại mỹ phẩm đến từ các hãng nổi tiếng trên toàn thế giới,,,Đến  với Beauty Shop các bạn có quyền được yên tâm khi mua sắm cũng như được đáp ứng mọi nhu cầu về làm đẹp. Với phương châm luôn nỗ lực vì khách hàng thân yêu, Beauty Shop không ngừng cố gắng để xứng đáng là địa điểm mua săm tin cậy trong lòng các bạn trẻ</p>
+                            <ul>
+                                <li><a href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-google-plus" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-pinterest-p" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-whatsapp" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-link">
+                            <h4>Thông tin thêm</h4>
+                            <ul>
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Customer Service</a></li>
+                                <li><a href="#">Our Sitemap</a></li>
+                                <li><a href="#">Terms &amp; Conditions</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Delivery Information</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-link-contact">
+                            <h4>Liên hệ với chúng tôi</h4>
+                            <ul>
+                                <li>
+                                    <p><i class="fas fa-map-marker-alt"></i>Address: Michael I. Days 3756 <br>Preston Street Wichita,<br> KS 67213 </p>
+                                </li>
+                                <li>
+                                    <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:+1-888705770">+1-888 705 770</a></p>
+                                </li>
+                                <li>
+                                    <p><i class="fas fa-envelope"></i>Email: <a href="mailto:contactinfo@gmail.com">contactinfo@gmail.com</a></p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="footer-copyright">
+        <p class="footer-company">All Rights Reserved. &copy; 2018 <a href="#">Beauty Shop</a></p>
+    </div>
 </div>
 <?php
 if($this->Authen->guard('User')->check())

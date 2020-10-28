@@ -4,12 +4,19 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Service\SendMail;
+use Cake\Http\Session;
 use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 
 class BillController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Authen');
+    }
+
     public function index()
     {
         $this->render('list_bills_admin');
@@ -103,159 +110,23 @@ class BillController extends AppController
 
     public function addBill()
     {
-        $session = $this->request->getSession();
-        $id_user = $session->read('id_user');
+        $user_id = $this->Authen->guard('User')->getId();
         $infoUser = $this->request->getData();
-        if(!empty($id_user))
+        $transport_id = $infoUser['transport_id'];
+        if($user_id == false)
         {
-            $arr_cart = $session->read('arr_cart');
-            $bill = $this->Bill->newEmptyEntity();
-            $bill->id_user = $id_user;
-            $bill->status = 0;
-            $bill = $this->Bill->save($bill);
-            $billDetailTable = TableRegistry::getTableLocator()->get('BillDetail');
-            if ($bill) {
-                $products = [];
-                $total_point = 0;
-                foreach ($arr_cart as $id_product => $product) {
-                    $product = TableRegistry::getTableLocator()->get('Product')->get($id_product);
-                    $price = 0;
-                    $point = 0;
-                    if(!empty($product->price)){
-                        $price = $product->price;
-                    }elseif(!empty($product->point))
-                    {
-                        $point = $product->point;
-                    }
-
-                    $billDetail = $billDetailTable->newEmptyEntity();
-                    $billDetail->id_bill = $bill->id;
-                    $billDetail->id_product = $id_product;
-                    $billDetail->amount = $arr_cart[$id_product]['quantity'];
-                    $billDetail->price = $arr_cart[$id_product]['quantity'] * $price;
-                    $billDetail->point = $arr_cart[$id_product]['quantity'] * $point;
-                    $billDetailTable->save($billDetail);
-                    $product->amount = $arr_cart[$id_product]['quantity'];
-                    $products[] = $product;
-                    $total_point += $arr_cart[$id_product]['quantity'] * $point;
-                }
-
-                //update point user
-                $userTable = TableRegistry::getTableLocator()->get('User');
-                $user = $userTable->get($id_user);
-                $user->point = $user->point - $total_point;
-                $userTable->save($user);
-
-                //send mail user
-                $user = TableRegistry::getTableLocator()->get('User')->get($id_user);
-                $config = [
-                    'from' => 'thuanvp012van@gmail.com',
-                    'subject' => 'Tạo đơn hàng thành công'
-                ];
-                $receiver = [$user->full_name => $user->email];
-                $viewVars = [
-                    'user_name' => $user->full_name,
-                    'products' => $products,
-                ];
-                $templateAndLayout = ['template' => 'order_success_user'];
-                SendMail::send($config,$receiver,$viewVars,$templateAndLayout);
-
-                //send mail admins
-                $config['subject'] = 'Đơn hàng mới';
-                $admins = TableRegistry::getTableLocator()->get('Admin')->find();
-                $receiver = [];
-                foreach ($admins as $admin) {
-                    $receiver[$admin->full_name] = $admin->email;
-                }
-
-                $viewVars['datetime']= Time::now();
-                $viewVars['email']= $user->email;
-                $templateAndLayout = ['template' => 'order_success_admin'];
-                SendMail::send($config,$receiver,$viewVars,$templateAndLayout);
-                $this->Flash->set('Đặt hàng thành công bạn vui lòng kiểm tra email xem thông tin hóa đơn');
-                $session->delete('arr_cart');
-                return $this->redirect('/');
-            }
+            //process register user
+            unset($infoUser['transport_id']);
+            $infoUser['gender'] = MALE;
+            $infoUser['point'] = 0;
+            $infoUser['deleted'] = 0;
+            $register = $this->Authen->guard('User')->register($infoUser);
         }
-        else{
-            $session->write('infoUser',$infoUser);
-            $this->redirect('/create-account');
-        }
-    }
 
-    public function createAccountUserAndCreateBill()
-    {
-        $session  = $this->request->getSession();
-        $infoUser = $this->request->getData();
-        $password = $this->request->getData()['password'];
-        $infoUser['password'] = md5($password);
-        $infoUser['point']    = 0;
-        $infoUser['deleted']  = 0;
-        $userTable = TableRegistry::getTableLocator()->get('User');
-        $user = $userTable->newEmptyEntity();
-        foreach ($infoUser as $key => $value) {
-            $user->$key = $value;
-        }
-        $user = $userTable->save($user);
-        if($user != false)
+        //process add bill
+        if($register == true || $user_id > 0)
         {
-            $arr_cart = $session->read('arr_cart');
-            $billTable = $this->Bill;
-            $bill = $billTable->newEmptyEntity();
-            $bill->id_user = $user->id;
-            $bill->status = 0;
-            $bill = $billTable->save($bill);
-
-            $billDetailTable = TableRegistry::getTableLocator()->get('BillDetail');
-            $user = $userTable->get($user->id);
-            $products = [];
-            foreach ($arr_cart as $id_product => $product) {
-                $productTable = TableRegistry::getTableLocator()->get('Product');
-                $orderProduct = $productTable->get($id_product);
-                $orderProduct->amount = $product['quantity'];
-                $products[] = $orderProduct;
-                $priceProduct = $productTable->get($id_product)->price;
-                $pointProduct = $productTable->get($id_product)->point;
-
-                $billDetail = $billDetailTable->newEmptyEntity();
-                $billDetail->id_bill = $bill->id;
-                $billDetail->id_product = $id_product;
-                $billDetail->amount = $product['quantity'];
-                $billDetail->price = $priceProduct == '' ? 0 : $priceProduct;
-                $billDetail->point = $pointProduct == '' ? 0 : $pointProduct;
-                $billDetailTable->save($billDetail);
-                $user->point += $product['quantity'] * 50;
-            }
-            $userTable->save($user);
-            //send mail user
-            $config = [
-                'from' => 'thuanvp012van@gmail.com',
-                'subject' => 'Tạo đơn hàng thành công'
-            ];
-            $receiver = [$user->full_name => $user->email];
-            $viewVars = [
-                'user_name' => $user->full_name,
-                'products' => $products,
-            ];
-            $templateAndLayout = ['template' => 'order_success_user'];
-            SendMail::send($config,$receiver,$viewVars,$templateAndLayout);
-
-            //send mail admins
-            $config['subject'] = 'Đơn hàng mới';
-            $admins = TableRegistry::getTableLocator()->get('Admin')->find();
-            $receiver = [];
-            foreach ($admins as $admin) {
-                $receiver[$admin->full_name] = $admin->email;
-            }
-
-            $viewVars['datetime']= Time::now();
-            $viewVars['email']= $user->email;
-            $templateAndLayout = ['template' => 'order_success_admin'];
-            SendMail::send($config,$receiver,$viewVars,$templateAndLayout);
-
-            $this->Flash->set('Đặt hàng thành công');
-            $session->delete('arr_cart');
-            return $this->redirect('/');
+            
         }
     }
 

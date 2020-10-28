@@ -15,6 +15,7 @@ class TransportController extends CommonController
         $this->loadComponent('Curd');
         $this->loadComponent('DataTable');
         $this->loadComponent('Transport');
+        $this->loadComponent('Product');
     }
 
     public function index()
@@ -99,17 +100,22 @@ class TransportController extends CommonController
 
     public function changeTransport()
     {
-        $transport_id = $this->request->getQuery('transport_id');
-        $transport = $this->Transport->show($transport_id);
-        $session = new Session();
-        $arr_cart = $session->read('arr_cart');
-        $total_point = 0;
-        $total_money = 0;
-        // foreach ($arr_cart as $cart) {
-        //     $product =
-        //     if($cart['type_product'] == NORMAL_TYPE){
-        //         $total_money +=
-        //     }
-        // }
+        try {
+            $transport_id = $this->request->getQuery('transport_id');
+            $transport = $this->Transport->show($transport_id);
+            $total = $this->Product->calculateTotalProduct($transport->price)['total'];
+            $result = [
+                'status' => 200,
+                'transport_fee' => "Thêm ".number_format($transport->price,0,'.','.')."₫ phí vận chuyển",
+                'total' => $total
+            ];
+            return $this->responseJson($result);
+        } catch (\Throwable $th) {
+            $result = [
+                'status' => 500,
+                'message' => $th->getMessage()
+            ];
+            return $this->responseJson($result);
+        }
     }
 }

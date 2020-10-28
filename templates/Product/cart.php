@@ -1,4 +1,5 @@
 <?php
+
 use Cake\Routing\Router;
 ?>
 <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
@@ -46,10 +47,11 @@ use Cake\Routing\Router;
                             <tr class="table100-head">
                                 <th class="column1">Tên sản phẩm</th>
                                 <th class="column2">Ảnh</th>
-                                <th>Điểm</th>
                                 <th class="column3">Giá</th>
                                 <th class="column4">Số lượng</th>
                                 <th class="column5">Tổng tiền</th>
+                                <th>Tổng point</th>
+                                <th>Point sử dụng</th>
                                 <th class="column6"></th>
                             </tr>
                         </thead>
@@ -58,31 +60,14 @@ use Cake\Routing\Router;
                                 <tr>
                                     <td class="column1"><?= h($product['name']) ?></td>
                                     <td class="column2"><img src="<?= Router::url('/images/product/' . $product['image'], true) ?>" style="width:50px"></td>
-                                    <td>
-                                        <?php
-                                            switch ($product['type_product']) {
-                                                case NORMAL_TYPE:
-                                                    echo "+50POINT";
-                                                    break;
-                                                case GIFT_TYPE:
-                                                    echo "0";
-                                                    break;
-                                                default:
-                                                    echo 0;
-                                                break;
-                                            }
-                                        ?>
-                                    </td>
                                     <td class="column3">
                                         <?php
-                                            if($product['price'] == '' && $product['point'] == '')
+                                            if($product['type_product'] == NORMAL_TYPE)
                                             {
-                                                echo 0;
+                                                echo number_format($product['price'],0,'.','.')."₫";
                                             }
                                             else{
-                                                echo !empty($product['price']) ?
-                                                number_format($product['price'], 0, '.', '.') . "₫" :
-                                                $product['point']." point";
+                                                echo 0;
                                             }
                                         ?>
                                     </td>
@@ -97,21 +82,58 @@ use Cake\Routing\Router;
                                     </td>
                                     <td class="column5">
                                         <?php
-                                            if($product['price'] == '' && $product['point'] == '')
+                                            if($product['type_product'] == NORMAL_TYPE)
                                             {
-                                                echo 0;
+                                                echo number_format($product['quantity'] * $product['price'], 0, '.', '.') . "₫";
                                             }else{
-                                                echo !empty($product['price']) ?
-                                                number_format($product['quantity'] * $product['price'], 0, '.', '.') . "₫" :
-                                                $product['point'] * $product['quantity']." point";
+                                                echo 0;
+                                            }
+                                        ?>
+                                    </td>
+                                    <td style="min-width: 70px;">
+                                        <?php
+                                            if($product['type_product'] == GIFT_TYPE)
+                                            {
+                                                echo $product['point']." point";
+                                            }else{
+                                                echo 0;
+                                            }
+                                        ?>
+                                    </td>
+                                    <td style="min-width: 70px;">
+                                        <?php
+                                            switch ($product['type_product']) {
+                                                case NORMAL_TYPE:
+                                                    echo "+50 point";
+                                                    break;
+                                                case GIFT_TYPE:
+                                                    echo "-".$product['quantity'] * $product['point']." point";
+                                                    break;
+                                                default:
+                                                    echo 0;
+                                                break;
                                             }
                                         ?>
                                     </td>
                                     <td class="column6"><img id_product=<?= $id_product ?> class="close" src="<?= Router::url('/images/close-button.png',true) ?>" alt=""></td>
                                 </tr>
                             <?php endforeach; ?>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <?php
+                                            echo $total_point == 0 ? 0 : $total_point." point";
+                                        ?>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
                                 <tr class="transport_fee">
-                                    <td colspan="7">
+                                    <td colspan="8" class="money">
                                     <?php
                                         foreach ($transports as $transport) {
                                             if($transport->id == 1 )
@@ -125,7 +147,7 @@ use Cake\Routing\Router;
                                     </td>
                                 </tr>
                             <tr class="tt">
-                                <td class="all_total" colspan="7">
+                                <td class="all_total money" colspan="8">
                                     Tổng tiền:
                                     <span class="total">
                                     <?php
@@ -151,7 +173,7 @@ use Cake\Routing\Router;
         </div>
         <div class="col-lg-4">
             <h4>Thông tin người đặt hàng</h4>
-            <form action="<?= $this->Authen->guard('User')->check() ? Router::url('/bill',true) : Router::url('/create-account',true)  ?>" method="post">
+            <form action="<?= Router::url('/bill',true) ?>" method="post">
                 <div class="form-group mt-3">
                     <label for="full_name">Họ tên</label>
                     <input type="text" id="full_name" <?= $this->Authen->guard('User')->check() ? 'disabled' : '' ?>
@@ -178,7 +200,7 @@ use Cake\Routing\Router;
                 </div>
                 <div class="form-group">
                     <label for="address">Hình thức giao hàng</label>
-                    <select class="form-control" id="transport">
+                    <select class="form-control" id="transport" name="transport_id">
                         <?php foreach($transports as $transport): ?>
                             <option value="<?= $transport->id ?>"><?= $transport->name ?></option>
                         <?php endforeach; ?>
@@ -197,7 +219,7 @@ use Cake\Routing\Router;
     </div>
 </div>
 <script>
-    const url_add_to_cart = "<?= Router::url('/add-to-cart',true) ?>";
+    const url_add_to_cart = "<?= Router::url('/change-amount-product-from-cart',true) ?>";
     const url_remove_from_cart = "<?= Router::url('/remove-product-from-cart',true) ?>";
     const url_change_transport = "<?= Router::url('/change-transport',true) ?>";
     const url_home = "<?= Router::url('/',true) ?>";

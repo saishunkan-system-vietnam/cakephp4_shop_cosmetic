@@ -255,5 +255,7 @@ $routes->scope('/',function (RouteBuilder $builder){
 
     $builder->get('/change-transport',['controller'=>'Transport','action'=>'changeTransport']);
 
+    $builder->get('/change-amount-product-from-cart',['controller'=>'Product','action'=>'changeAmountProductFromCart']);
+
     $builder->fallbacks();
 });

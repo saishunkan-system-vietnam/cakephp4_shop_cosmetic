@@ -3,6 +3,7 @@
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
+use Cake\Http\Session;
 use Cake\Routing\Router;
 
 class ProductComponent extends Component{
@@ -165,35 +166,80 @@ class ProductComponent extends Component{
         ->where(['id In'=>$arr_id])->get();
     }
 
-    public function getTotalPointWhenNoNewProductToCart(Array $arr_cart,Int $newProductId): int
+    public function getTotalPointWhenNoNewProductToCart(Array $arr_cart,Int $newProductId, Int $numberOfProduct = 1): int
     {
         $total_point = 0;
         foreach ($arr_cart as $id => $cart) {
-            if($cart['type_product'] == GIFT_TYPE)
-            {
+            if($cart['type_product'] == NORMAL_TYPE){
+                $total_point += 50 * $cart['quantity'];
+            }elseif($cart['type_product'] == GIFT_TYPE){
                 $productPoint = $this->getProductPoint($id);
-                $total_point += $productPoint * $cart['quantity'];
+                $total_point = $total_point - $productPoint * $cart['quantity'];
             }
         }
         $newProductPoint = $this->getProductPoint($newProductId);
-        $total_point += $newProductPoint;
+        $total_point -= $newProductPoint * $numberOfProduct;
         return $total_point;
     }
 
-    public function getTotalPoint(Array $arr_cart,Int $newProductId): Int
+    public function getTotalPoint(Array $arr_cart,Int $newProductId, Int $numberOfProduct = 1): Int
     {
         $total_point = 0;
         foreach ($arr_cart as $id => $cart) {
-            if($cart['type_product'] == GIFT_TYPE)
-            {
-                $productPoint = $this->getProductPoint($id);
-                $total_point += $productPoint * $cart['quantity'];
+            if($cart['type_product'] == NORMAL_TYPE){
+                $total_point += 50 * $cart['quantity'];
                 if($id == $newProductId)
                 {
-                    $total_point += $productPoint;
+                    $total_point += 50;
+                }
+            }elseif($cart['type_product'] == GIFT_TYPE){
+                $productPoint = $this->getProductPoint($id);
+                $total_point = $total_point - $productPoint * $cart['quantity'];
+                if($id == $newProductId)
+                {
+                    $total_point = $total_point - $productPoint * $numberOfProduct;
                 }
             }
         }
         return $total_point;
+    }
+
+    public function findProductById($id)
+    {
+        return $this->DB->table('Product')->find(['id'=>$id]);
+    }
+
+    public function calculateTotalProduct($transport_price, $current_product_id = 0)
+    {
+        $session = new Session();
+        $arr_cart = $session->read('arr_cart');
+        $total_point = 0;
+        $total_money = 0;
+        $current_product_price = 0;
+        foreach ($arr_cart as $product_id => $cart) {
+            $product = $this->findProductById($product_id);
+            if($cart['type_product'] == NORMAL_TYPE){
+                $total_money += $product->price * $cart['quantity'];
+                if($current_product_id == $product_id){
+                    $current_product_price = number_format($product->price * $cart['quantity'],0, '.', '.')."₫";
+                }
+            }
+            elseif($cart['type_product'] == GIFT_TYPE)
+            {
+                $total_point += $product->point * $cart['quantity'];
+                if($current_product_id == $product_id){
+                    $current_product_price = $product->point * $cart['quantity']." point";
+                }
+            }
+        }
+        $total_money += $transport_price;
+        if($total_point == 0)
+        {
+            $total = number_format($total_money,0, '.', '.')."₫";
+        }
+        else{
+            $total = number_format($total_money,0, '.', '.')." ₫ và $total_point POINT";
+        }
+        return ['total' => $total,'current_product_price' => $current_product_price];
     }
 }

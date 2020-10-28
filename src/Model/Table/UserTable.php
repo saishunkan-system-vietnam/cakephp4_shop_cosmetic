@@ -69,9 +69,7 @@ class UserTable extends Table
         $validator
             ->scalar('avatar')
             ->maxLength('avatar', 100)
-            ->requirePresence('avatar', 'create')
-            ->notEmptyString('avatar')
-            ->add('avatar', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->allowEmptyString('avatar');
 
         $validator
             ->scalar('full_name')
@@ -99,7 +97,6 @@ class UserTable extends Table
 
         $validator
             ->nonNegativeInteger('point')
-            ->requirePresence('point', 'create')
             ->notEmptyString('point');
 
         $validator
@@ -120,7 +117,6 @@ class UserTable extends Table
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->isUnique(['email']), ['errorField' => 'email']);
-        $rules->add($rules->isUnique(['avatar']), ['errorField' => 'avatar']);
         $rules->add($rules->isUnique(['phone']), ['errorField' => 'phone']);
 
         return $rules;
