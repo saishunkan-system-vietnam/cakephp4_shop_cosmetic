@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\CommonController;
 use Cake\Http\Session;
+use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\Utility\Text;
@@ -18,6 +19,7 @@ class ProductController extends CommonController{
         $this->loadComponent('Authen');
         $this->loadComponent('User');
         $this->loadComponent('Transport');
+        $this->loadComponent('Bill');
     }
 
     public function createProduct()
@@ -114,9 +116,20 @@ class ProductController extends CommonController{
     {
         $slug = $this->request->getParam('slug');
         $product = $this->Product->detailProduct($slug);
+        switch ($product->type_product) {
+            case NORMAL_TYPE:
+                $url = Router::url('/add-normal-product-to-cart',true);
+                break;
+            case GIFT_TYPE:
+                $url = Router::url('/add-gift-product-to-cart',true);
+                break;
+            case TRIAL_TYPE:
+                $url = Router::url('/add-trial-product-to-cart',true);
+                break;
+        }
         if($product != false)
         {
-            $this->set('product',$product);
+            $this->set(['product'=>$product,'url'=>$url]);
             $this->setView('product_detail');
         }
     }
@@ -286,32 +299,57 @@ class ProductController extends CommonController{
         }
     }
 
-    public function removeProductFromCart()
+    public function addTrialProductToCart()
     {
         try {
             $product_id = $this->request->getQuery('product_id');
-            $transport_id = $this->request->getQuery('transport_id');
-
-            //remove product from cart
             $session = new Session();
             $arr_cart = $session->read('arr_cart');
-            unset($arr_cart[$product_id]);
+            if($this->Authen->guard('User')->check())
+            {
+                $bills = $this->Bill->getBillByUserId($this->Authen->guard('User')->getId());
+                $bill_id = [];
+                foreach ($bills as $bill) {
+                    $bill_id[] = $bill->id;
+                }
+                $billDetails = $this->Bill->getBillDetailByArrId($bill_id);
+                foreach ($billDetails as $billDetail) {
+                    $product = $this->Product->findProductById($billDetail->id_product);
+                    if($product->type_product == TRIAL_TYPE && $product->id == $product_id)
+                    {
+                        $data = [
+                            'status' => 403,
+                            'message' => 'Sản phẩm này chỉ được mua 1 lần'
+                        ];
+                        return $this->responseJson($data);
+                    }
+                }
+            }
+            foreach ($arr_cart as $product) {
+                if($product['type_product'] == TRIAL_TYPE)
+                {
+                    $data = [
+                        'status' => 403,
+                        'message' => 'Sản phẩm này chỉ được mua 1 lần'
+                    ];
+                    return $this->responseJson($data);
+                }
+            }
+            $session->destroy();
+            $arr_cart[$product_id]['quantity'] = 1;
+            $arr_cart[$product_id]['type_product'] = TRIAL_TYPE;
             $session->write('arr_cart', $arr_cart);
-
-            $transport = $this->Transport->show($transport_id);
-            $calculate = $this->Product->calculateTotalProduct($transport->price);
-
-            $result = [
-                'status' => 200,
-                'total' => $calculate['total']
+            $data = [
+                'status' => 201,
+                'message' => 'Thêm sản phẩm vào giỏ hàng thành công'
             ];
-            $this->responseJson($result);
+            return $this->responseJson($data);
         } catch (\Throwable $th) {
-            $result = [
+            $data = [
                 'status' => 500,
                 'message' => $th->getMessage()
             ];
-            $this->responseJson($result);
+            return $this->responseJson($data);
         }
     }
 
@@ -352,28 +390,108 @@ class ProductController extends CommonController{
             $transport_id = $this->request->getQuery('transport_id');
             $session = new Session();
             $arr_cart = $session->read('arr_cart');
-            $transport = $this->Transport->show($transport_id);
+
+            //sum money
+            $price_to_pay = 0;
+            $point_to_pay = 0;
+            $pointAward = 0;
+            $currentPrice = 0;
+            $currentPoint = 0;
+            $currentPointAward = 0;
             foreach ($arr_cart as $id => $product) {
-                if($id == $product_id){
-                    $arr_cart[$id]['quantity'] += $quantity;
+                $infoProduct = $this->Product->findProductById($id);
+                if($product['type_product'] == NORMAL_TYPE)
+                {
+                    $price_to_pay += $infoProduct->price * $product['quantity'];
+                    $pointAward += 50 * $product['quantity'];
+                    if($product_id == $id)
+                    {
+                        $currentPrice = $infoProduct->price * ($product['quantity'] + $quantity);
+                        $price_to_pay += $infoProduct->price * $quantity;
+                        $pointAward += 50 * $quantity;
+                        $currentPointAward = 50 * ($product['quantity'] + $quantity);
+                    }
+                }
+                elseif($product['type_product'] == GIFT_TYPE)
+                {
+                    $point_to_pay += $infoProduct->point * $product['quantity'];
+                    if($product_id == $id)
+                    {
+                        $currentPoint = $infoProduct->point * ($product['quantity'] + $quantity);
+                        $point_to_pay += $infoProduct->point * $quantity;
+                    }
                 }
             }
-            $session->write('arr_cart', $arr_cart);
-            $calculate = $this->Product->calculateTotalProduct($transport->price, $product_id);
-            $result = [
-                'status' => 201,
-                'transport_fee' => "Thêm ".number_format($transport->price,0,'.','.')."₫ phí vận chuyển",
-                'total' => $calculate['total'],
-                'current_product_price' => $calculate['current_product_price'],
-                'product_id' => $product_id
-            ];
-            return $this->responseJson($result);
+
+            $leftoverPoint = $pointAward - $point_to_pay;
+            //if user logged
+            if($this->Authen->guard('User')->check())
+            {
+                if($leftoverPoint + $this->Product->getUserPoint() >= 0){
+                    $data = [
+                        'status' => 201,
+                        'point_to_pay' => $point_to_pay,
+                        'price_to_pay' =>
+                        $this->Product->numberFm($price_to_pay) == 0 ?
+                        0 : $this->Product->numberFm($price_to_pay)."₫",
+                        'point_award' => $pointAward,
+                        'current_price' => $this->Product->numberFm($currentPrice) == 0 ?
+                        0 : $this->Product->numberFm($currentPrice)."₫",
+                        'current_point' => $currentPoint,
+                        'current_point_award' => $currentPointAward,
+                        'product_id' => $product_id,
+                    ];
+                    $arr_cart[$product_id]['quantity'] += $quantity;
+                    if($arr_cart[$product_id]['quantity'] <= 0)
+                    {
+                        unset($arr_cart[$product_id]);
+                    }
+                    $session->write('arr_cart',$arr_cart);
+                }
+                else{
+                    $data = [
+                        'status' => 403,
+                        'message' => 'Số point của bạn không đủ'
+                    ];
+                }
+            }
+            else{
+                if($leftoverPoint >= 0)
+                {
+                    $data = [
+                        'status' => 201,
+                        'point_to_pay' => $point_to_pay,
+                        'price_to_pay' =>
+                        $this->Product->numberFm($price_to_pay) == 0 ?
+                        0 : $this->Product->numberFm($price_to_pay)."₫",
+                        'point_award' => $pointAward,
+                        'current_price' => $this->Product->numberFm($currentPrice) == 0 ?
+                        0 : $this->Product->numberFm($currentPrice)."₫",
+                        'current_point' => $currentPoint,
+                        'current_point_award' => $currentPointAward,
+                        'product_id' => $product_id,
+                    ];
+                    $arr_cart[$product_id]['quantity'] += $quantity;
+                    if($arr_cart[$product_id]['quantity'] <= 0)
+                    {
+                        unset($arr_cart[$product_id]);
+                    }
+                    $session->write('arr_cart',$arr_cart);
+                }
+                else{
+                    $data = [
+                        'status' => 403,
+                        'message' => 'Số point của bạn không đủ'
+                    ];
+                }
+            }
+            return $this->responseJson($data);
         } catch (\Throwable $th) {
-            $result = [
+            $data = [
                 'status' => 500,
                 'message' => $th->getMessage()
             ];
-            return $this->responseJson($result);
+            return $this->responseJson($data);
         }
     }
 }

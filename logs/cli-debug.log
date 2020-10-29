@@ -50,3 +50,59 @@ Cake\Console\CommandRunner::loadRoutes() - CORE\src\Console\CommandRunner.php, l
 Cake\Console\CommandRunner::run() - CORE\src\Console\CommandRunner.php, line 146
 [main] - ROOT\bin\cake.php, line 12
 
+2020-10-29 10:12:10 Notice: Notice (8): Undefined index: HTTP_HOST in [C:\xampp\htdocs\cakephp4_shop_cosmetic\src\Controller\AppController.php, line 48]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE\src\Error\BaseErrorHandler.php, line 188
+App\Controller\AppController::initialize() - APP/Controller\AppController.php, line 48
+App\Middleware\CheckLoginAdminMiddleware::initialize() - APP/Middleware\CheckLoginAdminMiddleware.php, line 16
+Cake\Controller\Controller::__construct() - CORE\src\Controller\Controller.php, line 213
+Cake\Http\BaseApplication::{closure}() - ROOT\config\routes.php, line 35
+Cake\Routing\RouteBuilder::scope() - CORE\src\Routing\RouteBuilder.php, line 934
+require - ROOT\config\routes.php, line 180
+Cake\Http\BaseApplication::routes() - CORE\src\Http\BaseApplication.php, line 186
+Cake\Console\CommandRunner::loadRoutes() - CORE\src\Console\CommandRunner.php, line 393
+Cake\Console\CommandRunner::run() - CORE\src\Console\CommandRunner.php, line 146
+[main] - ROOT\bin\cake.php, line 12
+
+2020-10-29 10:12:10 Notice: Notice (8): Undefined index: REQUEST_URI in [C:\xampp\htdocs\cakephp4_shop_cosmetic\src\Controller\AppController.php, line 48]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE\src\Error\BaseErrorHandler.php, line 188
+App\Controller\AppController::initialize() - APP/Controller\AppController.php, line 48
+App\Middleware\CheckLoginAdminMiddleware::initialize() - APP/Middleware\CheckLoginAdminMiddleware.php, line 16
+Cake\Controller\Controller::__construct() - CORE\src\Controller\Controller.php, line 213
+Cake\Http\BaseApplication::{closure}() - ROOT\config\routes.php, line 35
+Cake\Routing\RouteBuilder::scope() - CORE\src\Routing\RouteBuilder.php, line 934
+require - ROOT\config\routes.php, line 180
+Cake\Http\BaseApplication::routes() - CORE\src\Http\BaseApplication.php, line 186
+Cake\Console\CommandRunner::loadRoutes() - CORE\src\Console\CommandRunner.php, line 393
+Cake\Console\CommandRunner::run() - CORE\src\Console\CommandRunner.php, line 146
+[main] - ROOT\bin\cake.php, line 12
+
+2020-10-29 10:12:16 Notice: Notice (8): Undefined index: HTTP_HOST in [C:\xampp\htdocs\cakephp4_shop_cosmetic\src\Controller\AppController.php, line 48]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE\src\Error\BaseErrorHandler.php, line 188
+App\Controller\AppController::initialize() - APP/Controller\AppController.php, line 48
+App\Middleware\CheckLoginAdminMiddleware::initialize() - APP/Middleware\CheckLoginAdminMiddleware.php, line 16
+Cake\Controller\Controller::__construct() - CORE\src\Controller\Controller.php, line 213
+Cake\Http\BaseApplication::{closure}() - ROOT\config\routes.php, line 35
+Cake\Routing\RouteBuilder::scope() - CORE\src\Routing\RouteBuilder.php, line 934
+require - ROOT\config\routes.php, line 180
+Cake\Http\BaseApplication::routes() - CORE\src\Http\BaseApplication.php, line 186
+Cake\Console\CommandRunner::loadRoutes() - CORE\src\Console\CommandRunner.php, line 393
+Cake\Console\CommandRunner::run() - CORE\src\Console\CommandRunner.php, line 146
+[main] - ROOT\bin\cake.php, line 12
+
+2020-10-29 10:12:16 Notice: Notice (8): Undefined index: REQUEST_URI in [C:\xampp\htdocs\cakephp4_shop_cosmetic\src\Controller\AppController.php, line 48]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE\src\Error\BaseErrorHandler.php, line 188
+App\Controller\AppController::initialize() - APP/Controller\AppController.php, line 48
+App\Middleware\CheckLoginAdminMiddleware::initialize() - APP/Middleware\CheckLoginAdminMiddleware.php, line 16
+Cake\Controller\Controller::__construct() - CORE\src\Controller\Controller.php, line 213
+Cake\Http\BaseApplication::{closure}() - ROOT\config\routes.php, line 35
+Cake\Routing\RouteBuilder::scope() - CORE\src\Routing\RouteBuilder.php, line 934
+require - ROOT\config\routes.php, line 180
+Cake\Http\BaseApplication::routes() - CORE\src\Http\BaseApplication.php, line 186
+Cake\Console\CommandRunner::loadRoutes() - CORE\src\Console\CommandRunner.php, line 393
+Cake\Console\CommandRunner::run() - CORE\src\Console\CommandRunner.php, line 146
+[main] - ROOT\bin\cake.php, line 12
+

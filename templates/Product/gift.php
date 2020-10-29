@@ -34,17 +34,8 @@ use Cake\Routing\Router;
                                 </div>
                             </div>
                             <div class="red_button add_to_cart_button">
-                                <span class="<?= $this->Authen->guard('User')->check() == true ? "addCartWithAjax" : "login" ?>" id-product="<?= $product->id ?>">
-                                    <a href="#">
-                                        <?php
-                                            if($this->Authen->guard("User")->check())
-                                            {
-                                                echo "add to cart";
-                                            }else{
-                                                echo "Đăng nhập";
-                                            }
-                                        ?>
-                                    </a>
+                                <span class="addCartWithAjax" id-product="<?= $product->id ?>">
+                                    <a href="#"> add to cart</a>
                                 </span>
                             </div>
                         </div>
@@ -90,16 +81,8 @@ use Cake\Routing\Router;
                 })
             })
         });
-
-        $(".login").click(function () {
-            window.location.assign("<?= Router::url('/login',true)?>");
-        });
     });
 </script>
-<?php
-    if($this->Authen->guard('User')->check())
-    {
-?>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="<?= Router::url('/js/flyto.min.js',true) ?>"></script>
 <script>
@@ -109,6 +92,3 @@ use Cake\Routing\Router;
         button    : '.add_to_cart_button'
     });
 </script>
-<?php
-    }
-?>

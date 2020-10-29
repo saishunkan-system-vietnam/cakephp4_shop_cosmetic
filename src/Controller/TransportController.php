@@ -103,11 +103,12 @@ class TransportController extends CommonController
         try {
             $transport_id = $this->request->getQuery('transport_id');
             $transport = $this->Transport->show($transport_id);
-            $total = $this->Product->calculateTotalProduct($transport->price)['total'];
+            $total_price_and_leftover_point = $this->Product->calculateTotalPriceAndLeftoverPointProduct($transport->price);
             $result = [
                 'status' => 200,
                 'transport_fee' => "Thêm ".number_format($transport->price,0,'.','.')."₫ phí vận chuyển",
-                'total' => $total
+                'total' => number_format($total_price_and_leftover_point['total_price'],0,'.','.')."₫",
+                'leftover_point' => $total_price_and_leftover_point['leftover_point']
             ];
             return $this->responseJson($result);
         } catch (\Throwable $th) {

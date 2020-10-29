@@ -36,7 +36,7 @@ $sessions = $this->request->getSession();
                                 </div>
                             </div>
                             <div class="red_button add_to_cart_button">
-                                <span class="addCartWithAjax" id-product="<?= $product->id ?>">
+                                <span class="addCartWithAjax" product-id="<?= $product->id ?>">
                                     <a class="a" href="#">Đăng ký dùng thử</a>
                                 </span>
                             </div>
@@ -66,20 +66,19 @@ $('.col').flyto({
 
         var err = 'Xin lỗi bạn vì sự bất tiện này hiện tại server chúng tôi đang lỗi hẹn gặp lại bạn vào khi khác!!!';
         $(".addCartWithAjax").click(function () {
-            const url = "<?= Router::url('/trial-order',true) ?>/"+$(this).attr("id-product");
+            const url = "<?= Router::url('/trial-order',true) ?>/"+$(this).attr("product-id");
             $.ajax({
                 type: "GET",
-                url: "<?= Router::url('/add-to-cart',true) ?>",
+                url: "<?= Router::url('/add-trial-product-to-cart',true) ?>",
                 data: {
-                    id_product: $(this).attr("id-product"),
-                    quantity: 1,
-                    trial:true
+                    product_id: $(this).attr("product-id"),
+                    trial: true
                 },
                 dataType: "JSON",
                 success: function (response) {
-                    if(response.status == 201 && response.data > 0)
+                    if(response.status == 201)
                     {
-                        $("#checkout_items").html(parseInt($("#checkout_items").html())+1);
+                        $("#checkout_items").html(1);
                     }else{
                         err = response.message;
                         Swal.fire({

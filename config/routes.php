@@ -102,18 +102,26 @@ $routes->scope('/admin', function (RouteBuilder $builder) {
     );
 
     $builder->connect('/create-trademark',
-        ['controller'=>'Admin','action'=>'createTrademark'],
+        ['controller'=>'Trademark','action'=>'createTrademark'],
         ['_name'=>'createTrademark']
     );
 
     $builder->get('/list-trademark',
-        ['controller'=>'Admin','action'=>'listTrademark'],
+        ['controller'=>'Trademark','action'=>'listTrademark'],
         'listTrademark'
     );
 
     $builder->get('/render-list-trademark',
-        ['controller'=>'Admin','action'=>'renderListTrademark'],
+        ['controller'=>'Trademark','action'=>'renderListTrademark'],
         'renderListTrademark'
+    );
+
+    $builder->get('/trademark/:id',
+        ['controller'=>'Trademark','action'=>'show']
+    );
+
+    $builder->post('/update-trademark/:id',
+        ['controller'=>'Trademark','action'=>'updateTrademark']
     );
 
     $builder->get('/list-product',
@@ -217,20 +225,16 @@ $routes->scope('/',function (RouteBuilder $builder){
         ['controller'=>'Product', 'action'=>'addGiftProductToCart']
     );
 
+    $builder->get('/add-trial-product-to-cart',
+        ['controller'=>'Product', 'action'=>'addTrialProductToCart']
+    );
+
     $builder->get('/cart',
         ['controller'=>'Product','action'=>'viewCart']
     );
 
     $builder->post('/bill',
         ['controller'=>'Bill','action'=>'addBill']
-    );
-
-    $builder->get('/remove-product-from-cart',
-        ['controller'=>'Product','action'=>'removeProductFromCart']
-    );
-
-    $builder->post('/create-account',
-        ['controller'=>'Bill','action'=>'createAccountUserAndCreateBill']
     );
 
     $builder->get('/trial',

@@ -53,10 +53,13 @@ class AuthenComponent extends Component{
 
     public function getData()
     {
-        session_start();
+        $session = new Session();
         $key = $this->guard."_id";
-        session_write_close();
-        return $this->DB->table($this->guard)->find(['id'=>$_SESSION[$key]]);
+        if(empty($GLOBALS['data']))
+        {
+            $GLOBALS['data'] = $this->DB->table($this->guard)->find(['id'=>$session->read($key)]);
+        }
+        return $GLOBALS['data'];
     }
 
     public function register(Array $data): bool

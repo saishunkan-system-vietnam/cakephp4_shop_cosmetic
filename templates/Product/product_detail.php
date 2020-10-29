@@ -1,8 +1,6 @@
 <?php
 
 use Cake\Routing\Router;
-
-$session = $this->request->getSession();
 ?>
 
 <link rel="stylesheet" type="text/css" href="<?= Router::url('/user/styles/single_styles.css',true) ?>">
@@ -15,7 +13,7 @@ $session = $this->request->getSession();
 
 				<div class="breadcrumbs d-flex flex-row align-items-center">
 					<ul>
-						<li><a href="index.html">Home</a></li>
+						<li><a href="<?= Router::url('/') ?>">Home</a></li>
 						<li>
                             <a href="categories.html">
                                 <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -46,39 +44,30 @@ $session = $this->request->getSession();
 						<h2><?= h($product->name) ?></h2>
 					</div>
                     <div class="product_price mt-3">
-                        <?=
-                            !empty($product->price) ?
-                            number_format($product->price,'0','.','.')." VNĐ" :
-                            $product->point." POINT"
+                        <?php
+                            if($product->type_product == NORMAL_TYPE)
+                            {
+                                echo number_format($product->price,0,'.','.')."VNĐ";
+                            }elseif($product->type_product == GIFT_TYPE){
+                                echo $product->point." POINT";
+                            }else{
+                                echo "Dùng thử";
+                            }
                         ?>
                     </div>
                     <span> còn lại (<span><?= $product->amount ?></span>) sản phẩm</span>
                     <div class="mt-2">
                         <p>Thương hiệu: <?= $product->trademark->name ?></p>
                     </div>
-                    <?php
-                        if(!$session->check('id_user') && $product->type_product != 0)
-                        {
-                    ?>
-                        <div>
-                            <p>Sản phẩm này phải <a href="<?= Router::url('/login',true) ?>">đăng nhập</a> mới mua được</p>
+                    <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center mt-3">
+                        <span>Số lượng:</span>
+                        <div class="quantity_selector">
+                            <span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
+                            <span id="quantity_value">1</span>
+                            <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
                         </div>
-                    <?php
-                        }
-                        else{
-                    ?>
-                        <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center mt-3">
-                            <span>Số lượng:</span>
-                            <div class="quantity_selector">
-                                <span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
-                                <span id="quantity_value">1</span>
-                                <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
-                            </div>
-                            <div class="btn btn-danger text-uppercase ml-3" id="add_to_cart">add to cart</div>
-                        </div>
-                    <?php
-                        }
-                    ?>
+                        <div class="btn btn-danger text-uppercase ml-3" id="add_to_cart">add to cart</div>
+                    </div>
 				</div>
 			</div>
 		</div>
@@ -232,9 +221,9 @@ $session = $this->request->getSession();
             var err = 'Xin lỗi bạn vì sự bất tiện này hiện tại server chúng tôi đang lỗi hẹn gặp lại bạn vào khi khác!!!';
             $.ajax({
                 type: "GET",
-                url: "<?= Router::url('/add-to-cart',true) ?>",
+                url: "<?= $url ?>",
                 data: {
-                    id_product:<?= $product->id ?>,
+                    product_id:<?= $product->id ?>,
                     quantity:parseInt(quantity_value.html())
                 },
                 dataType: "JSON",
@@ -242,6 +231,14 @@ $session = $this->request->getSession();
                     if(response.status == 201)
                     {
                         $("#checkout_items").html(parseInt($("#checkout_items").html()) + parseInt(quantity_value.html()));
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thêm sản phẩm',
+                            text: "Thêm sản phẩm thành công vui lòng vào giỏ hàng kiểm tra sản phẩm và tiến hành đặt hàng",
+                            showConfirmButton: false,
+                            timer: 1000,
+                            timerProgressBar: true
+                        })
                     }else{
                         if(response.status != 500)
                         {

@@ -12,6 +12,7 @@ use Cake\ORM\Entity;
  * @property int $id_product
  * @property int $amount
  * @property float $price
+ * @property int $point
  */
 class BillDetail extends Entity
 {
@@ -25,7 +26,10 @@ class BillDetail extends Entity
      * @var array
      */
     protected $_accessible = [
+        'id_bill' => true,
+        'id_product' => true,   
         'amount' => true,
         'price' => true,
+        'point' => true,
     ];
 }

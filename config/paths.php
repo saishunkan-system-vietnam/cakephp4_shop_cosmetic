@@ -105,3 +105,10 @@ define('FEMALE',0);
 define('NORMAL_TYPE',0);
 define('GIFT_TYPE',1);
 define('TRIAL_TYPE',2);
+
+//status bill
+define('UNCONFIRM',0);
+define('PROCESSING',1);
+define('SHIPPING',2);
+define('FINISH',3);
+define('CANCEL',4);

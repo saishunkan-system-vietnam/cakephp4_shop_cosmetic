@@ -26,7 +26,8 @@ class BillDetailFixture extends TestFixture
         'id_bill' => ['type' => 'integer', 'length' => null, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'id_product' => ['type' => 'integer', 'length' => null, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'amount' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'price' => ['type' => 'float', 'length' => null, 'precision' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => ''],
+        'price' => ['type' => 'float', 'length' => null, 'precision' => null, 'unsigned' => false, 'null' => false, 'default' => '0', 'comment' => ''],
+        'point' => ['type' => 'integer', 'length' => null, 'unsigned' => true, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         '_indexes' => [
             'id_product' => ['type' => 'index', 'columns' => ['id_product'], 'length' => []],
         ],
@@ -54,6 +55,7 @@ class BillDetailFixture extends TestFixture
                 'id_product' => 1,
                 'amount' => 1,
                 'price' => 1,
+                'point' => 1,
             ],
         ];
         parent::init();

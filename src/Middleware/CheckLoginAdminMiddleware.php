@@ -10,17 +10,22 @@ use Psr\Http\Server\MiddlewareInterface;
 
 class CheckLoginAdminMiddleware  extends AppController implements MiddlewareInterface
 {
+
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Authen');
+    }
+
     public function process(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface
     {
-        $response = $handler->handle($request);
-        $session=$this->request->getSession();
-        $id_admin=$session->read('id_admin');
-        if(!isset($id_admin)){
+        if($this->Authen->guard('Admin')->check() == false){
             return $this->redirect('/admin/login');
         }
+        $response = $handler->handle($request);
         return $response;
     }
 }

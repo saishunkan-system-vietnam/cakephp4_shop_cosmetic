@@ -4,13 +4,19 @@ namespace App\Controller;
 
 use App\Service\CheckInfo;
 use App\Service\DataTable;
-use Cake\Database\Expression\QueryExpression;
 use Cake\Mailer\Mailer;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 
-class AdminController extends AppController
+class AdminController extends CommonController
 {
+
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Authen');
+        $this->loadComponent('DataTable');
+    }
 
     public function dashBoard()
     {
@@ -35,22 +41,18 @@ class AdminController extends AppController
     public function processLogin()
     {
         $email    = $this->request->getData('email');
-        $password = md5($this->request->getData('password'));
-        $admin    = $this->Admin->find()->where(['email' => $email, 'password' => $password])->first();
-        if (empty($admin)) {
-            $this->Flash->set('Sai email hoặc mật khẩu');
-            return $this->redirect('/admin/login');
+        $password = $this->request->getData('password');
+        if($this->Authen->guard('Admin')->login(['email'=>$email,'password'=>$password]))
+        {
+            return $this->redirect('/admin');
         }
-        $session = $this->request->getSession();
-        $session->write('id_admin', $admin['id']);
-        $session->write('full_name', $admin['full_name']);
-        $session->write('avatar', $admin['avatar']);
-        return $this->redirect('/admin');
+        $this->Flash->set('Sai email hoặc mật khẩu');
+        return $this->redirect('/admin/login');
     }
 
     public function profile()
     {
-        $id_admin = $this->getSessionAdmin();
+        $id_admin = $this->Authen->guard('Admin')->getId();
         if(!empty($id_admin)){
             $admin = $this->Admin->find()->where(['id' => $id_admin])->first();
             $this->set('admin', $admin);
@@ -112,8 +114,7 @@ class AdminController extends AppController
 
     public function logOut()
     {
-        $session = $this->request->getSession();
-        $session->destroy();
+        $this->Authen->guard('Admin')->logOut();
         return $this->redirect('/admin/login');
     }
 
@@ -206,63 +207,6 @@ class AdminController extends AppController
             }
         }
         dd();
-    }
-
-    public function createTrademark()
-    {
-        if($this->request->getMethod() == "GET")
-        {
-            return $this->render('Trademark/create_trademark');
-        }
-        elseif($this->request->getMethod() == "POST")
-        {
-            $trademarkName  = $this->request->getData()['name'];
-            $trademarkTable = TableRegistry::getTableLocator()->get('trademark');
-            $trademark      = $trademarkTable->newEmptyEntity();
-
-            $trademark->name=$trademarkName;
-            $trademarkTable->save($trademark);
-
-            $this->Flash->set('Thêm thương hiệu thành công');
-            return $this->redirect('/admin/list-trademark');
-        }
-    }
-
-    public function listTrademark()
-    {
-        return $this->render('Trademark/list_trademark');
-    }
-
-    public function renderListTrademark()
-    {
-        $paramUrl = $this->request->getQuery();
-        $columns = [
-            'id',
-            'name',
-            'created_at',
-            'updated_at'
-        ];
-
-        $dataTable = DataTable::input('Trademark',$columns,$paramUrl,['name']);
-        $data = [];
-        $data["draw"]            = $paramUrl['draw'];
-        $data["recordsTotal"]    = $dataTable['totalData'];
-        $data["recordsFiltered"] = $dataTable['totalData'];
-        $data['data']            = [];
-        foreach ($dataTable['listData'] as $trademark) {
-            $created_at = strtotime($trademark->created_at);
-            $updated_at = strtotime($trademark->updated_at);
-            $data['data'][] = [
-                $trademark->id,
-                $trademark->name,
-                date('d/m/Y H:i:s', $created_at),
-                date('d/m/Y H:i:s', $updated_at),
-                "<a href='".Router::url('')."'>Chi tiết</a>"
-            ];
-        }
-        $this->set($data);
-        $this->viewBuilder()->setOption('serialize', true);
-        $this->RequestHandler->renderAs($this, 'json');
     }
 
     public function changePassword()

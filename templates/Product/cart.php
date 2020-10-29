@@ -38,28 +38,32 @@ use Cake\Routing\Router;
     </div>
 
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-11">
             <h4>Thông tin giỏ hàng</h4>
             <div class="limiter">
                 <div class="table100 mt-4">
-                    <table>
+                    <table id="table">
                         <thead>
                             <tr class="table100-head">
                                 <th class="column1">Tên sản phẩm</th>
                                 <th class="column2">Ảnh</th>
+                                <th>Point</th>
                                 <th class="column3">Giá</th>
                                 <th class="column4">Số lượng</th>
                                 <th class="column5">Tổng tiền</th>
                                 <th>Tổng point</th>
-                                <th>Point sử dụng</th>
-                                <th class="column6"></th>
+                                <th class="column6">Point được tặng</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($products as $id_product => $product) : ?>
+                            <?php $pointAward = 0; foreach ($products as $id_product => $product) : ?>
                                 <tr>
                                     <td class="column1"><?= h($product['name']) ?></td>
                                     <td class="column2"><img src="<?= Router::url('/images/product/' . $product['image'], true) ?>" style="width:50px"></td>
+                                    <td>
+                                        <?= $product['point'] == 0 ? 0 : $product['point']." point" ?>
+                                    </td>
                                     <td class="column3">
                                         <?php
                                             if($product['type_product'] == NORMAL_TYPE)
@@ -90,24 +94,22 @@ use Cake\Routing\Router;
                                             }
                                         ?>
                                     </td>
-                                    <td style="min-width: 70px;">
+                                    <td class="point" style="min-width: 70px;">
                                         <?php
                                             if($product['type_product'] == GIFT_TYPE)
                                             {
-                                                echo $product['point']." point";
+                                                echo $product['point'] * $product['quantity']." point";
                                             }else{
                                                 echo 0;
                                             }
                                         ?>
                                     </td>
-                                    <td style="min-width: 70px;">
+                                    <td class="column6 point_award" style="min-width: 70px;">
                                         <?php
                                             switch ($product['type_product']) {
                                                 case NORMAL_TYPE:
-                                                    echo "+50 point";
-                                                    break;
-                                                case GIFT_TYPE:
-                                                    echo "-".$product['quantity'] * $product['point']." point";
+                                                    echo "+".(50 * $product['quantity'])." point";
+                                                    $pointAward += 50 * $product['quantity'];
                                                     break;
                                                 default:
                                                     echo 0;
@@ -115,25 +117,21 @@ use Cake\Routing\Router;
                                             }
                                         ?>
                                     </td>
-                                    <td class="column6"><img id_product=<?= $id_product ?> class="close" src="<?= Router::url('/images/close-button.png',true) ?>" alt=""></td>
+                                    <td class="column7"><img id_product=<?= $id_product ?> class="close" src="<?= Router::url('/images/close-button.png',true) ?>" alt=""></td>
                                 </tr>
                             <?php endforeach; ?>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <?php
-                                            echo $total_point == 0 ? 0 : $total_point." point";
-                                        ?>
+                                <?php if($total_point > 0): ?>
+                                <tr class="column8">
+                                    <td colspan="6" style="text-align: end;">Point còn lại <span class="text-equal"> = </span></td>
+                                    <td class="total_point"><?= $total_point ?></td>
+                                    <td class="subtract_result" colspan="2">
+                                        <span class="text-minus"> - </span><?= $pointAward ?>
+                                        <span class="result"> = </span> <?= $total_point - $pointAward ?> point
                                     </td>
-                                    <td></td>
-                                    <td></td>
                                 </tr>
+                                <?php endif; ?>
                                 <tr class="transport_fee">
-                                    <td colspan="8" class="money">
+                                    <td colspan="9" class="money">
                                     <?php
                                         foreach ($transports as $transport) {
                                             if($transport->id == 1 )
@@ -147,10 +145,11 @@ use Cake\Routing\Router;
                                     </td>
                                 </tr>
                             <tr class="tt">
-                                <td class="all_total money" colspan="8">
+                                <td class="all_total money" colspan="9">
                                     Tổng tiền:
                                     <span class="total">
                                     <?php
+                                        $total_point = $total_point - $pointAward > 0 ? $total_point - $pointAward : 0;
                                         if($total_point == 0 && $total_money == 0){
                                             echo "0₫";
                                         }elseif($total_point == 0){
@@ -171,49 +170,63 @@ use Cake\Routing\Router;
                 </div>
             </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-12 mt-5">
             <h4>Thông tin người đặt hàng</h4>
             <form action="<?= Router::url('/bill',true) ?>" method="post">
-                <div class="form-group mt-3">
-                    <label for="full_name">Họ tên</label>
-                    <input type="text" id="full_name" <?= $this->Authen->guard('User')->check() ? 'disabled' : '' ?>
-                    value="<?= !empty($user) ? h($user->full_name) : '' ?>"
-                    class="form-control" name="full_name" placeholder="Nhập họ tên">
+                <div class="row">
+                    <div class="col-lg-5 ml-4">
+                        <div class="form-group mt-3">
+                            <label for="full_name">Họ tên</label>
+                            <input type="text" id="full_name" <?= $this->Authen->guard('User')->check() ? 'disabled' : '' ?>
+                            value="<?= !empty($user) ? h($user->full_name) : '' ?>"
+                            class="form-control" name="full_name" placeholder="Nhập họ tên">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Số điện thoại</label>
+                            <input type="text" id="phone" <?= $this->Authen->guard('User')->check() ? 'disabled' : '' ?>
+                            value="<?= !empty($user) ? h($user->phone) : '' ?>"
+                            class="form-control" name="phone" placeholder="Nhập số điện thoại">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" id="Email" <?= $this->Authen->guard('User')->check() ? 'disabled' : '' ?>
+                            value="<?= !empty($user) ? h($user->email) : '' ?>"
+                            class="form-control" name="email" placeholder="Nhập email">
+                        </div>
+                    </div>
+                    <div class="col-lg-5 mt-3" style="margin-left: 4em;">
+                        <div class="form-group">
+                            <label for="address">Địa chỉ</label>
+                            <input type="text" id="address" <?= $this->Authen->guard('User')->check() ? 'disabled' : '' ?>
+                            value="<?= !empty($user) ? h($user->address) : '' ?>"
+                            class="form-control" name="address" placeholder="Nhập địa chỉ">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Hình thức giao hàng</label>
+                            <select class="form-control" id="transport" name="transport_id">
+                                <?php foreach($transports as $transport): ?>
+                                    <option value="<?= $transport->id ?>"><?= $transport->name ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Hình thức thanh toán</label>
+                            <select class="form-control">
+                                    <option value="">Thanh toán khi nhận hàng</option>
+                                    <option value="">Thanh toán qua ATM</option>
+                                    <option value="">Thanh toán qua thẻ tín dụng/thẻ ghi nợ</option>
+                            </select>
+                        </div>
+                        <?php if(!$this->Authen->guard('User')->check()): ?>
+                        <div class="form-group">
+                            <label for="password">Mật khẩu</label>
+                            <input type="password" id="password" <?= $this->Authen->guard('User')->check() ? 'disabled' : '' ?>
+                            class="form-control" name="password" placeholder="Nhập mật khẩu">
+                        </div>
+                        <?php endif; ?>
+                        <button type="submit" class="btn btn-success float-right">Đặt hàng</button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="phone">Số điện thoại</label>
-                    <input type="text" id="phone" <?= $this->Authen->guard('User')->check() ? 'disabled' : '' ?>
-                    value="<?= !empty($user) ? h($user->phone) : '' ?>"
-                    class="form-control" name="phone" placeholder="Nhập số điện thoại">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="text" id="Email" <?= $this->Authen->guard('User')->check() ? 'disabled' : '' ?>
-                    value="<?= !empty($user) ? h($user->email) : '' ?>"
-                    class="form-control" name="email" placeholder="Nhập email">
-                </div>
-                <div class="form-group">
-                    <label for="address">Địa chỉ</label>
-                    <input type="text" id="address" <?= $this->Authen->guard('User')->check() ? 'disabled' : '' ?>
-                    value="<?= !empty($user) ? h($user->address) : '' ?>"
-                    class="form-control" name="address" placeholder="Nhập địa chỉ">
-                </div>
-                <div class="form-group">
-                    <label for="address">Hình thức giao hàng</label>
-                    <select class="form-control" id="transport" name="transport_id">
-                        <?php foreach($transports as $transport): ?>
-                            <option value="<?= $transport->id ?>"><?= $transport->name ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <?php if(!$this->Authen->guard('User')->check()): ?>
-                <div class="form-group">
-                    <label for="password">Mật khẩu</label>
-                    <input type="password" id="password" <?= $this->Authen->guard('User')->check() ? 'disabled' : '' ?>
-                    class="form-control" name="password" placeholder="Nhập mật khẩu">
-                </div>
-                <?php endif; ?>
-                <button type="submit" class="btn btn-success">Đặt hàng</button>
             </form>
         </div>
     </div>

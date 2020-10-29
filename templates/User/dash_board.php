@@ -70,7 +70,7 @@ $session = $this->request->getSession();
     </div>
 </div>
 <?php
-    if($this->Flash->render())
+    if($this->Flash->render('orderSuccessfully'))
     {
 ?>
     <script>

@@ -3,90 +3,78 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Service\SendMail;
-use Cake\Http\Session;
-use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 
-class BillController extends AppController
+class BillController extends CommonController
 {
     public function initialize(): void
     {
         parent::initialize();
         $this->loadComponent('Authen');
+        $this->loadComponent('Bill');
+        $this->loadComponent('Mail');
+        $this->loadComponent('Product');
+        $this->loadComponent('Transport');
+        $this->loadComponent('Admin');
+        $this->loadComponent('User');
     }
 
     public function index()
     {
+        $this->Bill->listBills();
         $this->render('list_bills_admin');
     }
 
     public function renderBills()
     {
         $inputData = $this->request->getQuery();
-        $bills = $this->Bill->find('all')->contain(['BillDetail','User']);
+        $bills = $this->Bill->listBills();
         $data = [];
         $data["draw"] = intval($inputData['draw']);
         $count = 0;
         foreach ($bills as $bill) {
+
+            //get status bill
             switch ($bill->status) {
-                case 0:
+                case UNCONFIRM:
                     $status = "<span id_user='".$bill->user->id."' class='change_status'>Chưa xác nhận</span>";
                 break;
-                case 1:
+                case PROCESSING:
                     $status = "<span id_user='".$bill->user->id."' class='change_status'>Đang xử lí</span>";
                 break;
-                case 2:
+                case SHIPPING:
                     $status ="<span id_user='".$bill->user->id."' class='change_status'>Đang giao hàng</span>";
                 break;
-                case 3:
+                case FINISH:
                     $status ="Hoàn thành";
                 break;
-                case 4:
+                case CANCEL:
                     $status="Đã hủy";
                 break;
             }
+
+            //calculate point, price
             $total = 0;
-            $total_price = 0;
+            $total_price = $bill->transport->price;
             $total_point = 0;
+            $point_to_pay = 0;
             foreach ($bill->bill_detail as $value) {
                 if(!empty($value->price)){
                     $total_price += $value->amount * $value->price;
+                    $point_to_pay += 50 * $value->amount;
                 }elseif(!empty($value->point)){
                     $total_point += $value->amount * $value->point;
                 }
             }
-
-
-            $user = TableRegistry::getTableLocator()->get('User')->find()->where(['id'=>$bill->id_user])->first();
-
+            $total_point = $total_point - $point_to_pay;
+            $total_point = $total_point <= 0 ? 0 : $total_point;
             if($total_point == 0)
             {
-                if($user->address != "Hà Nội")
-                {
-                    $total_price += 30000;
-                }
                 $total = number_format($total_price,0,'.','.')." VNĐ";
             }
-            elseif($total_point > 0 && $total_price > 0){
-                if($user->address != "Hà Nội")
-                {
-                    $total_price += 30000;
-                }
-                $total = number_format($total_price,0,'.','.')." VNĐ và ".$total_point." point";
-            }
-            elseif($total_point > 0 && $total_price ==0)
-            {
-                $total = $total_point." point";
-                if($user->address != "Hà Nội")
-                {
-                    $total." và 30.000 VNĐ phí vận chuyển";
-                }
-            }
-            elseif($total_point == 0 && $total_price == 0)
-            {
-                $total = "30.000 VNĐ phí vận chuyển";
+            else{
+                $total = number_format($total_price,0,'.','.')." VNĐ và $total_point POINT";
             }
 
             $data['data'][]=[
@@ -103,9 +91,7 @@ class BillController extends AppController
         }
         $data["recordsTotal"]    = $count;
         $data["recordsFiltered"] = $count;
-        $this->set($data);
-        $this->viewBuilder()->setOption('serialize', true);
-        $this->RequestHandler->renderAs($this, 'json');
+        return $this->responseJson($data);
     }
 
     public function addBill()
@@ -124,10 +110,37 @@ class BillController extends AppController
         }
 
         //process add bill
-        if($register == true || $user_id > 0)
+        if((isset($register) && $register == true) || $user_id > 0)
         {
-            
+            $bill = $this->Bill->addBillDetail($transport_id); // return bill or false
+            if($bill != false)
+            {
+
+                //config send mail user
+                $config = ['from' => 'thuanvp012van@gmail.com','subject' => 'Đặt đơn hàng thành công'];
+                $user = $this->Authen->guard('User')->getData();
+                $nameAndEmail = [$user->name=>$user->email];
+                $products = $this->Product->getProductFromCart();
+                $transport = $this->Transport->show($transport_id);
+                $viewVars = ['user'=>$this->Authen->guard('User')->getData(),'products'=>$products,'transport'=>$transport];
+                $templateAndLayout = ['template' => 'order_success_user'];
+                $this->Mail->send($config, $nameAndEmail, $viewVars, $templateAndLayout);
+
+                //config send mail admin
+                $admins = $this->Admin->getAll();
+                $config['subject'] = 'Có đơn hàng mới';
+                $nameAndEmail = [];
+                foreach ($admins as $admin) {
+                    $nameAndEmail[$admin->full_name] = $admin->email;
+                }
+                $templateAndLayout['template'] = 'order_success_admin';
+                $this->Mail->send($config, $nameAndEmail, $viewVars, $templateAndLayout);
+                $this->Product->deleteCart();
+                $this->Flash->set(true,['key'=>'orderSuccessfully']);
+                return $this->redirect('/');
+            }
         }
+        return $this->Flash->set(false,['key'=>'orderFailure']);
     }
 
     public function changeStatusBill()
@@ -290,10 +303,9 @@ class BillController extends AppController
     public function showBillDetail()
     {
         $id_bill = $this->request->getParam('id_bill');
-        $bill = $this->Bill->get($id_bill);
-        $user = TableRegistry::getTableLocator()->get('User')->find()->where(['id'=>$bill->id_user])->first();
-        $billDetailTable = TableRegistry::getTableLocator()->get('BillDetail');
-        $billDetails = $billDetailTable->find()->where(['id_bill'=>$bill->id]);
+        $bill = $this->Bill->show($id_bill);
+        $user = $this->User->getUserInfo($bill->id_user);
+        $billDetails = $this->Bill->showBillDetails($bill->id);
         $arr = [];
         foreach ($billDetails as $product) {
             $arr[] = $product->id_product;

@@ -37,4 +37,9 @@ class CurdComponent extends Component
             return true;
         return false;
     }
+
+    public function show(String $model, Int $id)
+    {
+        return TableRegistry::getTableLocator()->get($model)->get($id);
+    }
 }

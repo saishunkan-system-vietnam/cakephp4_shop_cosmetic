@@ -13,7 +13,7 @@
 </head>
 <body>
     <h3>
-        Xin chào <?= $user_name ?>
+        Xin chào <?= $user->full_name ?>
     </h3>
     <p>Bạn đã hoàn thành các thủ tục đơn hàng bạn vui lòng xem lại hóa đơn gồm các sản phẩm dưới đây nếu có sai xót gì thì ....</p>
     <table border="1" cellspacing="0" cellpadding="0" width="80%">
@@ -23,45 +23,67 @@
             <th>Point</th>
             <th>Số lượng</th>
             <th>Tổng tiền</th>
+            <th>Tổng point</th>
         </tr>
         <?php
-            $point = 0;
-            $price = 0;
+            $total_point = 0;
+            $total_price = 0;
+            $pointAward = 0;
+            $pointPayable = 0;
             foreach($products as $product):
         ?>
             <tr>
                 <td><?= $product->name ?></td>
                 <td><?= !empty($product->price) ? number_format($product->price,0,'.','.')." VNĐ" : '0' ?></td>
-                <td><?= !empty($product->point) ? $product->point." POINT" : '0' ?></td>
+                <td>
+                    <?php
+                        if($product->type_product == NORMAL_TYPE)
+                        {
+                            $pointAward += 50 * $product->amount;
+                            echo "+50 POINT";
+                        }elseif($product->type_product == GIFT_TYPE){
+                            echo "-$product->point POINT";
+                        }
+                    ?>
+                </td>
                 <td><?= $product->amount ?></td>
                 <td>
                     <?php
-                        if(!empty($product->price)){
-                            $price += $product->price * $product->amount;
-                            echo number_format($product->price * $product->amount,0,'.','.')." VNĐ";
+                        if($product->type_product == NORMAL_TYPE){
+                            $total_price += $product->price * $product->amount;
+                            echo number_format($product->price,0,'.','.')." VNĐ";
+                        }else{
+                            echo 0;
                         }
-                        elseif(!empty($product->point))
-                        {
-                            $point += $product->point * $product->amount;
-                            echo $product->point * $product->amount." POINT";
+                    ?>
+                </td>
+                <td>
+                    <?php
+                        if($product->type_product == GIFT_TYPE){
+                            $total_point += $product->point * $product->amount;
+                            echo $product->point." POINT";
+                        }else{
+                            echo 0;
                         }
                     ?>
                 </td>
             </tr>
         <?php endforeach; ?>
         <tr>
-            <td style="text-align: center;" colspan="5">Tổng tiền:
+            <td style="text-align: center;" colspan="6">
+                Thêm <?= number_format($transport->price,0,'.','.')." VNĐ phí vận chuyển của hình thức $transport->name" ?>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center;" colspan="6">Tổng tiền:
             <?php
-                if($point > 0 && $price >0)
+                $total_price += $transport->price;
+                $total_point = $total_point - $pointAward;
+                if($total_point == 0)
                 {
-                    echo number_format($price,0,'.','.')." VNĐ và ". $point." POINT";
-                }
-                elseif($point > 0 && $price == 0)
-                {
-                    echo $point." POINT";
-                }
-                else{
-                    echo number_format($price,0,'.','.')." VNĐ";
+                    echo number_format($total_price,0, '.', '.')." VNĐ";
+                }else{
+                    echo number_format($total_price,0, '.', '.')." VNĐ và $total_point POINT";
                 }
             ?>
             </td>

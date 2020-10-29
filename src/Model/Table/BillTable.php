@@ -50,6 +50,11 @@ class BillTable extends Table
             'className'=>'User',
             'foreignKey'=>'id_user'
         ]);
+
+        $this->belongsTo('Transport',[
+            'className'=>'Transport',
+            'foreignKey'=>'id_transport'
+        ]);
     }
 
     /**
@@ -68,6 +73,11 @@ class BillTable extends Table
             ->integer('id_user')
             ->requirePresence('id_user', 'create')
             ->notEmptyString('id_user');
+
+        $validator
+            ->nonNegativeInteger('id_transport')
+            ->requirePresence('id_transport', 'create')
+            ->notEmptyString('id_transport');
 
         $validator
             ->requirePresence('status', 'create')

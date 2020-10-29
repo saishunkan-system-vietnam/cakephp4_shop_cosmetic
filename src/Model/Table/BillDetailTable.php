@@ -65,8 +65,11 @@ class BillDetailTable extends Table
 
         $validator
             ->numeric('price')
-            ->requirePresence('price', 'create')
             ->notEmptyString('price');
+
+        $validator
+            ->nonNegativeInteger('point')
+            ->notEmptyString('point');
 
         return $validator;
     }

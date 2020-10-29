@@ -10,6 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $id_user
+ * @property int $id_transport
  * @property int $status
  */
 class Bill extends Entity
@@ -25,6 +26,7 @@ class Bill extends Entity
      */
     protected $_accessible = [
         'id_user' => true,
+        'id_transport' => true,
         'status' => true,
     ];
 }

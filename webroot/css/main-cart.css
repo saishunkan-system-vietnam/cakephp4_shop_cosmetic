@@ -302,3 +302,20 @@ tbody tr:hover {
     text-align: right !important;
     padding-right: 20px;
 }
+
+.close{
+    margin-right: 200%;
+}
+
+.text-minus{
+    display: inline-block;
+    right: 17%;
+}
+
+.text-equal{
+    left: 10px;
+}
+
+.result{
+    margin: 0 10px;
+}

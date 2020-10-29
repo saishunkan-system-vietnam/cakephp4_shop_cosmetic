@@ -25,12 +25,17 @@ class BillFixture extends TestFixture
     public $fields = [
         'id' => ['type' => 'integer', 'length' => null, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
         'id_user' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'status' => ['type' => 'tinyinteger', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
+        'id_transport' => ['type' => 'integer', 'length' => null, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'status' => ['type' => 'tinyinteger', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '0:unconfirm, 1:processing,
+2: shipping, 3: finish, 4:cancel
+', 'precision' => null],
         '_indexes' => [
             'id_user' => ['type' => 'index', 'columns' => ['id_user'], 'length' => []],
+            'id_transport' => ['type' => 'index', 'columns' => ['id_transport'], 'length' => []],
         ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
+            'bill_ibfk_2' => ['type' => 'foreign', 'columns' => ['id_transport'], 'references' => ['transport', 'id'], 'update' => 'restrict', 'delete' => 'restrict', 'length' => []],
             'bill_ibfk_1' => ['type' => 'foreign', 'columns' => ['id_user'], 'references' => ['user', 'id'], 'update' => 'restrict', 'delete' => 'restrict', 'length' => []],
         ],
         '_options' => [
@@ -50,6 +55,7 @@ class BillFixture extends TestFixture
             [
                 'id' => 1,
                 'id_user' => 1,
+                'id_transport' => 1,
                 'status' => 1,
             ],
         ];

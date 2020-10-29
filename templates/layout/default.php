@@ -1,6 +1,5 @@
 <?php
 use Cake\Routing\Router;
-$session = $this->getRequest()->getSession();
 ?>
 <!DOCTYPE html>
 <html>
@@ -93,10 +92,10 @@ $session = $this->getRequest()->getSession();
                 <div id="profile_user" class="user-panel mt-3 pb-3 mb-3">
                    <div class="d-flex">
                         <div class="image">
-                            <img src="<?= Router::url('/images/avatar/'.$session->read('avatar'),true) ?>" class="img-circle elevation-2" alt="User Image">
+                            <img src="<?= Router::url('/images/avatar/'.$this->Authen->guard('Admin')->getData()->avatar,true) ?>" class="img-circle elevation-2" alt="User Image">
                         </div>
                         <div class="info">
-                            <a href="<?= Router::url('/admin/profile',true) ?>" style="font-size: 14px;" class="d-block"><?= $session->read('full_name') ?></a>
+                            <a href="<?= Router::url('/admin/profile',true) ?>" style="font-size: 14px;" class="d-block"><?= $this->Authen->guard('Admin')->getData()->full_name ?></a>
                         </div>
                    </div>
                    <div id="logout">

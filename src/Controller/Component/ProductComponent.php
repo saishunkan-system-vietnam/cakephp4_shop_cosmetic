@@ -151,7 +151,11 @@ class ProductComponent extends Component{
     public function getUserPoint()
     {
         $user_id = $this->Authen->guard('User')->getId();
-        return $this->DB->table('User')->select('point')->find(['id'=>$user_id])->point;
+        if($user_id != false)
+        {
+            return $this->DB->table('User')->select('point')->find(['id'=>$user_id])->point;
+        }
+        return 0;
     }
 
     public function getProductPoint($id)
@@ -164,6 +168,33 @@ class ProductComponent extends Component{
         return $this->DB->table('Product')
         ->select('id','name','image','price','point','type_product')
         ->where(['id In'=>$arr_id])->get();
+    }
+
+    public function getProductFromCart()
+    {
+        $session = new Session();
+        $arr_cart = $session->read('arr_cart');
+        $arr_product_id = [];
+        foreach ($arr_cart as $product_id => $product) {
+            $arr_product_id[] = $product_id;
+        }
+        $arr_product = $this->getProductsByArrId($arr_product_id);
+        $products = [];
+        foreach ($arr_cart as $product_id => $productInCart) {
+            foreach ($arr_product as $product) {
+                if($product_id == $product->id)
+                {
+                    $products[] = (object)[
+                        'name' => $product->name,
+                        'price' => $product->price == null ? 0 : $product->price,
+                        'point' => $product->point == null ? 0 : $product->point,
+                        'type_product' => $product->type_product,
+                        'amount' => $productInCart['quantity']
+                    ];
+                }
+            }
+        }
+        return $products;
     }
 
     public function getTotalPointWhenNoNewProductToCart(Array $arr_cart,Int $newProductId, Int $numberOfProduct = 1): int
@@ -209,37 +240,36 @@ class ProductComponent extends Component{
         return $this->DB->table('Product')->find(['id'=>$id]);
     }
 
-    public function calculateTotalProduct($transport_price, $current_product_id = 0)
+    public function numberFm(Int $number)
+    {
+        return number_format($number,0,'.','.');
+    }
+
+    public function calculateTotalPriceAndLeftoverPointProduct($transport_fee): Array
     {
         $session = new Session();
         $arr_cart = $session->read('arr_cart');
+        $total_price = 0;
         $total_point = 0;
-        $total_money = 0;
-        $current_product_price = 0;
-        foreach ($arr_cart as $product_id => $cart) {
-            $product = $this->findProductById($product_id);
-            if($cart['type_product'] == NORMAL_TYPE){
-                $total_money += $product->price * $cart['quantity'];
-                if($current_product_id == $product_id){
-                    $current_product_price = number_format($product->price * $cart['quantity'],0, '.', '.')."₫";
-                }
-            }
-            elseif($cart['type_product'] == GIFT_TYPE)
+        $point_award = 0;
+        foreach ($arr_cart as $product_id => $product) {
+            $currentProduct = $this->findProductById($product_id);
+            if($product['type_product'] == NORMAL_TYPE)
             {
-                $total_point += $product->point * $cart['quantity'];
-                if($current_product_id == $product_id){
-                    $current_product_price = $product->point * $cart['quantity']." point";
-                }
+                $total_price += $currentProduct->price * $product['quantity'];
+                $point_award += 50 * $product['quantity'];
+            }elseif($product['type_product'] == GIFT_TYPE){
+                $total_point += $currentProduct->point * $product['quantity'];
             }
         }
-        $total_money += $transport_price;
-        if($total_point == 0)
-        {
-            $total = number_format($total_money,0, '.', '.')."₫";
-        }
-        else{
-            $total = number_format($total_money,0, '.', '.')." ₫ và $total_point POINT";
-        }
-        return ['total' => $total,'current_product_price' => $current_product_price];
+        $total_price += $transport_fee;
+        $leftover_point = $total_point - $point_award;
+        return ['total_price'=>$total_price,'leftover_point' => $leftover_point];
+    }
+
+    public function deleteCart(): void
+    {
+        $session = new Session();
+        $session->delete('arr_cart');
     }
 }
