@@ -74,7 +74,7 @@ class ProductTable extends Table
             ->scalar('image')
             ->maxLength('image', 100)
             ->requirePresence('image', 'create')
-            ->notEmptyFile('image');
+            ->allowEmptyFile('image');
 
         $validator
             ->numeric('price')

@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use App\Service\CheckInfo;
-use App\Service\DataTable;
-use Cake\Mailer\Mailer;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 
@@ -16,6 +14,10 @@ class AdminController extends CommonController
         parent::initialize();
         $this->loadComponent('Authen');
         $this->loadComponent('DataTable');
+        $this->loadComponent('Security');
+        $this->loadComponent('Admin');
+        $this->loadComponent('Mail');
+        $this->loadComponent('File');
     }
 
     public function dashBoard()
@@ -29,8 +31,7 @@ class AdminController extends CommonController
 
     public function getLogin()
     {
-        $id_admin = $this->getSessionAdmin();
-        if ($id_admin >= 1) {
+        if ($this->Authen->guard('Admin')->check()) {
             $this->redirect('/admin');
         } else {
             $this->viewBuilder()->setLayout('login');
@@ -52,9 +53,9 @@ class AdminController extends CommonController
 
     public function profile()
     {
-        $id_admin = $this->Authen->guard('Admin')->getId();
-        if(!empty($id_admin)){
-            $admin = $this->Admin->find()->where(['id' => $id_admin])->first();
+        $admin_id = $this->Authen->guard('Admin')->getId();
+        if(!empty($admin_id)){
+            $admin = $this->Admin->show(['id'=>$admin_id]);
             $this->set('admin', $admin);
             return $this->render('profile');
         }
@@ -106,12 +107,6 @@ class AdminController extends CommonController
         }
     }
 
-    public function getSessionAdmin()
-    {
-        $session  = $this->request->getSession();
-        return $session->read('id_admin');
-    }
-
     public function logOut()
     {
         $this->Authen->guard('Admin')->logOut();
@@ -121,7 +116,7 @@ class AdminController extends CommonController
     public function forgotPassword()
     {
         $this->viewBuilder()->setLayout('login');
-        return $this->render('/admin/forgot_password');
+        return $this->render('forgot_password');
     }
 
     public function checkAdminEmailExists()
@@ -129,9 +124,7 @@ class AdminController extends CommonController
         $email = $this->request->getQuery('email');
         $data = CheckInfo::checkInfoExists('admin',$email,'','email');
 
-        $this->set($data);
-        $this->viewBuilder()->setOption('serialize', true);
-        $this->RequestHandler->renderAs($this, 'json');
+        $this->responseJson($data);
     }
 
     public function checkUserEmailExistsByAdmin()
@@ -141,9 +134,7 @@ class AdminController extends CommonController
         $oldEmail = TableRegistry::getTableLocator()->get('user')->get($id_user)->email;
         $data = CheckInfo::checkInfoExists('user', $email,$oldEmail,'email');
 
-        $this->set($data);
-        $this->viewBuilder()->setOption('serialize', true);
-        $this->RequestHandler->renderAs($this, 'json');
+        $this->responseJson($data);
     }
 
     public function checkUserPhoneExistsByAdmin()
@@ -152,61 +143,41 @@ class AdminController extends CommonController
         $id_user = $this->request->getQuery('id_user');
         $oldPhone = TableRegistry::getTableLocator()->get('user')->get($id_user)->phone;
         $data = CheckInfo::checkInfoExists('user', $phone,$oldPhone,'phone');
-
-        $this->set($data);
-        $this->viewBuilder()->setOption('serialize', true);
-        $this->RequestHandler->renderAs($this, 'json');
+        $this->responseJson($data);
     }
 
     public function sendEmailForgotPassword()
     {
         $email = $this->request->getData()['email'];
-        $adminTable = TableRegistry::getTableLocator()->get('Admin');
-        $admin = $adminTable->find()->where(['email' => $email])->first();
+        $admin = $this->Admin->show(['email'=>$email]);
         $password = uniqid().rand(1,2);
-        $admin->password = md5($password);
-        $full_name = $admin->full_name;
-        $adminTable->save($admin);
-
-        $mailer = new Mailer();
-        $mailer->setTransport('gmail');
-        $mailer->setEmailFormat('html')
-            ->setSubject("Quên mật khẩu ???")
-            ->setViewVars(['password'=>$password,'full_name'=>$full_name])
-            ->setTo($email)
-            ->setFrom('thuanvp012van@gmail.com')
-            ->viewBuilder()
-            ->setTemplate('mail_forgot_password','default');
-        $mailer->deliver();
-        $this->Flash->set('Nhập password trong email được gửi');
-        return $this->redirect('/admin/login');
+        $admin->password = $this->Security->bcrypt($password);
+        if($this->Admin->update(['password'=>$admin->password], $admin->id))
+        {
+            $full_name = $admin->full_name;
+            $config = ['from'=>'thuanvp012van@gmail.com','subject'=>'Quên mật khẩu ???'];
+            $nameAndEmail = [$admin->full_name => $admin->email];
+            $viewVars = ['password'=>$password,'full_name'=>$full_name];
+            $template = ['template'=> 'mail_forgot_password'];
+            $this->Mail->send($config, $nameAndEmail, $viewVars, $template);
+            $this->Flash->set('Nhập password trong email được gửi');
+            return $this->redirect('/admin/login');
+        }
     }
 
     public function uploadImageCkeditor()
     {
         $file = $this->request->getData()['upload'];
-        $pathImg = WWW_ROOT . "images\product";
-        if(isset($file)){
-            $extFile = pathinfo($file->getclientFilename(), PATHINFO_EXTENSION);
-            if(in_array($extFile,['jpg', 'png', 'jpeg', 'gif']))
-            {
-                if(!file_exists($pathImg))
-                {
-                    mkdir($pathImg, 0755, true);
-                }
-
-                $date       = date('Ymd');
-                $filename   = $date . "_" . uniqid() . "." . $extFile;
-                $targetFile = WWW_ROOT . "images\product" . DS . $filename;
-                $file->moveTo($targetFile);
-                $function_number = $this->request->getQuery('CKEditorFuncNum');
-                $message = 'Image uploaded successfully';
-                $targetFile = Router::url('/images/product/'.$filename,true);
-                $data = "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($function_number, '$targetFile', '$message');</script>";
-                echo $data;
-            }
+        $file_name = $this->File->uploadImage($file, PRODUCT_PHOTO_PATH);
+        if($file_name != null)
+        {
+            $function_number = $this->request->getQuery('CKEditorFuncNum');
+            $targetFile = WWW_ROOT . PRODUCT_PHOTO_PATH . DS . $file_name;
+            $message = "Upload ảnh thành công";
+            $targetFile = Router::url(DS.PRODUCT_PHOTO_PATH.DS.$file_name,true);
+            $data = "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($function_number, '$targetFile', '$message');</script>";
+            echo $data;dd();
         }
-        dd();
     }
 
     public function changePassword()
@@ -217,26 +188,24 @@ class AdminController extends CommonController
         }elseif($this->request->is('post'))
         {
             $password = $this->request->getData('password');
-            $session = $this->request->getSession();
-            $id_admin = $session->read('id_admin');
-            $adminTable = $this->Admin;
-            $admin = $adminTable->get($id_admin);
-            $admin->password = md5($password);
-            $adminTable->save($admin);
-            $this->Flash->set('Đổi mật khẩu thành công',[
-                'key' => 'change_password'
-            ]);
-            $this->redirect('/admin/profile');
+            $admin_id = $this->Authen->guard('Admin')->getId();
+            $admin = $this->Admin->show(['id'=>$admin_id]);
+            $password = $this->Security->bcrypt($admin->password);
+            if($this->Admin->update(['password'=>$password], $admin_id))
+            {
+                $this->Flash->set('Đổi mật khẩu thành công',[
+                    'key' => 'change_password'
+                ]);
+                $this->redirect('/admin/profile');
+            }
         }
     }
 
     public function passwordCheck()
     {
         $password = $this->request->getData('password');
-        $session = $this->request->getSession();
-        $id_admin = $session->read('id_admin');
-        $admin = $this->Admin->get($id_admin);
-        if(md5($password) != $admin->password)
+        $admin = $this->Authen->guard('Admin')->getData();
+        if($this->Security->checkBcrypt($password, $admin->password) == false)
         {
             $data = [
                 'status' => 404,
@@ -248,9 +217,6 @@ class AdminController extends CommonController
                 'status' => 200,
             ];
         }
-
-        $this->set($data);
-        $this->viewBuilder()->setOption('serialize', true);
-        $this->RequestHandler->renderAs($this, 'json');
+        $this->responseJson($data);
     }
 }

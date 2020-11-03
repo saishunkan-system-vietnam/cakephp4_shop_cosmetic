@@ -37,14 +37,14 @@ class BillController extends CommonController
 
             //get status bill
             switch ($bill->status) {
-                case UNCONFIRM:
-                    $status = "<span id_user='".$bill->user->id."' class='change_status'>Chưa xác nhận</span>";
+                case UNCONFIRMED:
+                    $status = "<span id_user='".$bill->id."' class='change_status'>Chưa xác nhận</span>";
                 break;
                 case PROCESSING:
-                    $status = "<span id_user='".$bill->user->id."' class='change_status'>Đang xử lí</span>";
+                    $status = "<span id_user='".$bill->id."' class='change_status'>Đang xử lí</span>";
                 break;
                 case SHIPPING:
-                    $status ="<span id_user='".$bill->user->id."' class='change_status'>Đang giao hàng</span>";
+                    $status ="<span id_user='".$bill->id."' class='change_status'>Đang giao hàng</span>";
                 break;
                 case FINISH:
                     $status ="Hoàn thành";
@@ -149,17 +149,12 @@ class BillController extends CommonController
             $id_bill = $this->request->getQuery('id_bill');
             $id_user = intval($this->request->getQuery('id_user'));
             $status = $this->request->getQuery('status');
-            $billTable = $this->Bill;
-
-            $bill = $billTable->get($id_bill);
+            $bill = $this->Bill->show($id_bill);
             $old_status_bill = $bill->status;
-            $billDetails = TableRegistry::getTableLocator()
-            ->get('BillDetail')
-            ->find()->where(['id_bill'=>$id_bill]);
-            $bill->status = $status;
-            $billTable->save($bill);
+            $billDetails = $this->Bill->showBillDetails($bill->id);
+            $this->Bill->changeStatus($status, $bill->id);
             switch ($status) {
-                case 0:
+                case UNCONFIRMED:
                     $data = "<span id_user='$id_user' class='change_status'>Chưa xác nhận</span>";
                     if($old_status_bill > 0)
                     {
@@ -168,7 +163,7 @@ class BillController extends CommonController
                         }
                     }
                 break;
-                case 1:
+                case PROCESSING:
                     $data = "<span id_user='$id_user'  class='change_status'>Đang xử lí</span>";
                     if($old_status_bill <= 0)
                     {
@@ -177,7 +172,7 @@ class BillController extends CommonController
                         }
                     }
                 break;
-                case 2:
+                case SHIPPING:
                     $data ="<span id_user='$id_user'  class='change_status'>Đang giao hàng</span>";
                     if($old_status_bill <= 0)
                     {
@@ -186,9 +181,8 @@ class BillController extends CommonController
                         }
                     }
                 break;
-                case 3:
-                    $billDetailTable = TableRegistry::getTableLocator()->get('BillDetail');
-                    $billDetails = $billDetailTable->find()->where(['id_bill'=>$id_bill]);
+                case FINISH:
+                    $billDetails = $this->Bill->showBillDetails($id_bill);
                     $plus_points = 0;
                     foreach ($billDetails as $billDetail) {
                         if($billDetail->point > 0)
@@ -196,10 +190,6 @@ class BillController extends CommonController
                             $plus_points += 50;
                         }
                     }
-                    $userTable = TableRegistry::getTableLocator()->get('User');
-                    $user = $userTable->get($id_user);
-                    $user->point = $user->point + $plus_points;
-                    $userTable->save($user);
                     $data ="Hoàn thành";
                     if($old_status_bill <= 0)
                     {
@@ -208,17 +198,13 @@ class BillController extends CommonController
                         }
                     }
                 break;
-                case 4:
+                case CANCEL:
                     $data="Đã hủy";
                     foreach ($billDetails as $product) {
-                        if($product->point > 0)
+                        if($old_status_bill != UNCONFIRMED)
                         {
-                            $userTable = TableRegistry::getTableLocator()->get('User');
-                            $user = $userTable->get($id_user);
-                            $user->point += $product->amount * $product->point;
-                            $userTable->save($user);
+                            $this->changeAmountProduct($product->id_product, -$product->amount,$id_user);
                         }
-                        $this->changeAmountProduct($product->id_product, -$product->amount,$id_user);
                     }
                 break;
             }
@@ -227,30 +213,30 @@ class BillController extends CommonController
                 'status'=>200,
                 'data'=>$data
             ];
+            return $this->responseJson($data);
         } catch (\Throwable $th) {
             $data = [
                 'status'=>500,
                 'message' => $th->getMessage()
             ];
+            return $this->responseJson($data);
         }
-        $this->set($data);
-        $this->viewBuilder()->setOption('serialize', true);
-        $this->RequestHandler->renderAs($this, 'json');
     }
 
-    public function changeAmountProduct(int $id_product, int $amount, int $id_user)
+    public function changeAmountProduct(int $product_id, int $amount, int $user_id)
     {
-        $productTable = TableRegistry::getTableLocator()->get('Product');
-        $product = $productTable->get($id_product);
-        if($product->type_product == 0)
+        $product = $this->Product->findProductById($product_id);
+        $user = $this->User->getUserInfo($user_id);
+        if($product->type_product == NORMAL_TYPE)
         {
-            $userTable = TableRegistry::getTableLocator()->get('User');
-            $user = $userTable->find()->where(['id'=>$id_user])->first();
             $user->point = $user->point + $amount * 50;
-            $userTable->save($user);
+            $this->User->updateUser($user->id, ['point' => $user->point]);
+        }elseif($product->type_product == GIFT_TYPE){
+            $user->point = $user->point - $amount * $product->point;
+            $this->User->updateUser($user->id, ['point' => $user->point]);
         }
         $product->amount = $product->amount - $amount;
-        $productTable->save($product);
+        $this->Product->update(['amount'=>$product->amount], $product->id);
     }
 
     public function trialOrder()
@@ -291,9 +277,7 @@ class BillController extends CommonController
                 'status' => '201',
                 'message' => 'Đặt hàng thành công'
             ];
-            $this->set($data);
-            $this->viewBuilder()->setOption('serialize', true);
-            $this->RequestHandler->renderAs($this, 'json');
+            return $this->responseJson($data);
         }else{
             $this->Flash->set('Đăng ký mua hàng dùng thử');
             $this->redirect('/register');
@@ -304,17 +288,14 @@ class BillController extends CommonController
     {
         $id_bill = $this->request->getParam('id_bill');
         $bill = $this->Bill->show($id_bill);
+        $transport = $this->Transport->show($bill->id_transport);
         $user = $this->User->getUserInfo($bill->id_user);
         $billDetails = $this->Bill->showBillDetails($bill->id);
         $arr = [];
         foreach ($billDetails as $product) {
             $arr[] = $product->id_product;
         }
-        $products = TableRegistry::getTableLocator()
-        ->get('Product')
-        ->find()
-        ->select(['id','name','image','price','point','type_product'])
-        ->where(['id IN'=>$arr]);
+        $products = $this->Product->getProductsByArrId($arr);
         foreach ($products as $product) {
             foreach ($billDetails as $billDetail) {
                 if($product->id == $billDetail->id_product) {
@@ -323,7 +304,7 @@ class BillController extends CommonController
             }
         }
 
-        $this->set(['products'=>$products,'user'=>$user,'bill'=>$bill]);
+        $this->set(['products'=>$products,'user'=>$user,'bill'=>$bill,'transport'=>$transport]);
         $this->render('bill_detail');
     }
 }

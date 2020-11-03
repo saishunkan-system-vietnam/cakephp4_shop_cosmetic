@@ -43,27 +43,27 @@ use Cake\Routing\Router;
                                     </div>
                                     <div class="form-group mt-3">
                                         <label for="">Tình trạng hóa đơn</label><br>
-                                        <button type="button" class="btn btn-primary">
-                                            <?php
+                                        <div class="status">
+                                        <?php
                                             switch ($bill->status) {
-                                                case 0:
-                                                    echo "Chưa xác nhận";
+                                                case UNCONFIRMED:
+                                                    echo '<button type="button" class="btn btn-primary">Chưa xác nhận</button>';
                                                     break;
-                                                case 1:
-                                                    echo "Đang xử lý";
+                                                case PROCESSING:
+                                                    echo '<button type="button" class="btn btn-primary">Đang xử lí</button>';
                                                     break;
-                                                case 2:
-                                                    echo "Đang giao hàng";
+                                                case SHIPPING:
+                                                    echo '<button type="button" class="btn btn-primary">Đang giao hàng</button>';
                                                     break;
-                                                case 3:
-                                                    echo "Hoàn thành";
+                                                case FINISH:
+                                                    echo 'Hoàn thành';
                                                     break;
-                                                case 4:
+                                                case CANCEL:
                                                     echo "Hủy";
                                                     break;
                                             }
-                                            ?>
-                                        </button>
+                                        ?>
+                                        </div>
                                     </div>
                                     <div class="price">
                                         <div class="form-group">
@@ -87,70 +87,94 @@ use Cake\Routing\Router;
                                                     <th scope="col">Giá</th>
                                                     <th scope="col">Số lượng</th>
                                                     <th scope="col">Tổng tiền</th>
+                                                    <th scope="col">Tổng point</th>
+                                                    <th scope="col">Point được tặng</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php $total_point = 0;
+                                                <?php
+                                                $total = 0;
                                                 $total_price = 0;
-                                                $total = 0; ?>
-                                                <?php foreach ($products as $product) : ?>
+                                                $total_point = 0;
+                                                ?>
+                                                <?php foreach ($products as $product):  $point_award = 0;?>
                                                     <tr>
                                                         <td><?= $product->name ?></td>
                                                         <td><img src="<?= Router::url('/images/product/' . $product->image, true) ?>" style="width:50px" alt=""></td>
                                                         <td>
                                                             <?php
-                                                            if ($product->type_product == 0) {
+                                                            if ($product->type_product == NORMAL_TYPE) {
                                                                 echo "+50POINT";
-                                                            } else {
-                                                                echo 0;
+                                                                $point_award += 50 * $product->amount;
+                                                                $total_point -= $point_award;
+                                                            } elseif($product->type_product == GIFT_TYPE) {
+                                                                echo '-'.$product->point."POINT";
                                                             }
                                                             ?>
                                                         </td>
                                                         <td>
                                                             <?php
-                                                            if ($product->price == '' && $product->point == '') {
-                                                                echo 0;
-                                                            } elseif ($product->price == 0) {
-                                                                $total_point += $product->amount * $product->point;
-                                                                $total = ($product->amount * $product->point) . " POINT";
-                                                                echo $product->point . " POINT";
-                                                            } elseif ($product->point == 0) {
-                                                                $total_price += $product->amount * $product->price;
-                                                                $total = number_format($product->amount * $product->price, 0, '.', '.') . " VNĐ";
-                                                                echo number_format(
-                                                                    $product->price,
-                                                                    0,
-                                                                    '.',
-                                                                    '.'
-                                                                ) . " VNĐ";
-                                                            }
+                                                                if($product->type_product == NORMAL_TYPE) {
+                                                                    $total_price += $product->price * $product->amount;
+                                                                    echo number_format($product->price,0,'.','.')."VNĐ";
+                                                                }else{
+                                                                    echo 0;
+                                                                }
                                                             ?>
                                                         </td>
                                                         <td>
                                                             <?= $product->amount ?>
                                                         </td>
-                                                        <td><?= $total ?></td>
+                                                        <td>
+                                                            <?php
+                                                                if($product->price * $product->amount > 0)
+                                                                {
+                                                                    echo number_format($product->price * $product->amount,0,'.','.')."VNĐ";
+                                                                }else{
+                                                                    echo 0;
+                                                                }
+                                                            ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php
+                                                                if(intval($product->point * $product->amount) > 0)
+                                                                {
+                                                                    echo $product->point * $product->amount."POINT";
+                                                                    $total_point += $product->point * $product->amount;
+                                                                }
+                                                                else{
+                                                                    echo 0;
+                                                                }
+                                                            ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php
+                                                                if($point_award > 0)
+                                                                {
+                                                                    echo $point_award."POINT";
+                                                                }else{
+                                                                    echo 0;
+                                                                }
+                                                            ?>
+                                                        </td>
                                                     </tr>
                                                 <?php endforeach; ?>
                                                 <tr>
-                                                    <td colspan="6" style="text-align: center;">
+                                                    <td style="text-align: center;" colspan="8">
+                                                        Thêm <?= number_format($transport->price,0,'.','.')."VNĐ" ?> phí vận chuyển
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="8" style="text-align: center;">
                                                         Tổng tiền:
                                                         <?php
-                                                        if ($total_point == 0 && $total_price == 0) {
-                                                            echo 0;
-                                                        } elseif ($total_point == 0) {
-                                                            echo number_format($total_price, 0, '.', '.') . " VNĐ";
-                                                        } elseif ($total_price == 0) {
-                                                            echo $total_point . " POINT";
-                                                        } else {
-                                                            echo number_format($total_price, 0, '.', '.') .
-                                                                " VNĐ và " . $total_point . " POINT";
-                                                        }
-
-                                                        if($user->address != "Hà Nội")
-                                                        {
-                                                            echo " và 30.000 phí vận chuyển";
-                                                        }
+                                                            $total_price += $transport->price;
+                                                            if($total_point <= 0)
+                                                            {
+                                                                echo number_format($total_price,0,'.','.')."VNĐ";
+                                                            }else{
+                                                                echo number_format($total_price,0,'.','.')."VNĐ và ".$total_point."POINT";
+                                                            }
                                                         ?>
                                                     </td>
                                                 </tr>
@@ -218,10 +242,10 @@ use Cake\Routing\Router;
                                     $(".btn-primary").html("Đang giao hàng");
                                     break;
                                 case "3":
-                                    $(".btn-primary").html("Hoàn thành");
+                                    $(".status").html("Hoàn thành");
                                     break;
                                 case "4":
-                                    $(".btn-primary").html("Hủy đơn hàng");
+                                    $(".status").html("Hủy đơn hàng");
                                     break;
                             }
                         }

@@ -66,3 +66,333 @@ Stack Trace:
 
 
 
+2020-11-01 20:47:30 Error: [Cake\Database\Exception\MissingConnectionException] Connection to Mysql could not be established: SQLSTATE[HY000] [2002] No such file or directory in /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php on line 140
+Exception Attributes: array (
+  'driver' => 'Mysql',
+  'reason' => 'SQLSTATE[HY000] [2002] No such file or directory',
+)
+Stack Trace:
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:178
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/SchemaDialect.php:47
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:230
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/Collection.php:53
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Connection.php:399
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:508
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:277
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:177
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1679
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1261
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Controller/AppController.php:64
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Middleware/CheckLoginAdminMiddleware.php:16
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Controller/Controller.php:213
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:35
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Routing/RouteBuilder.php:934
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:188
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Http/BaseApplication.php:186
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:393
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:146
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/bin/cake.php:12
+
+Caused by: [PDOException] SQLSTATE[HY000] [2002] No such file or directory in /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php on line 132
+Stack Trace:
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php:132
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Core/Retry/CommandRetry.php:70
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php:138
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:178
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/SchemaDialect.php:47
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:230
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/Collection.php:53
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Connection.php:399
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:508
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:277
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:177
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1679
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1261
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Controller/AppController.php:64
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Middleware/CheckLoginAdminMiddleware.php:16
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Controller/Controller.php:213
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:35
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Routing/RouteBuilder.php:934
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:188
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Http/BaseApplication.php:186
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:393
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:146
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/bin/cake.php:12
+
+
+
+2020-11-01 20:47:54 Error: [Cake\Database\Exception\MissingConnectionException] Connection to Mysql could not be established: SQLSTATE[HY000] [2002] No such file or directory in /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php on line 140
+Exception Attributes: array (
+  'driver' => 'Mysql',
+  'reason' => 'SQLSTATE[HY000] [2002] No such file or directory',
+)
+Stack Trace:
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:178
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/SchemaDialect.php:47
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:230
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/Collection.php:53
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Connection.php:399
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:508
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:277
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:177
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1679
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1261
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Controller/AppController.php:64
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Middleware/CheckLoginAdminMiddleware.php:16
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Controller/Controller.php:213
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:35
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Routing/RouteBuilder.php:934
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:188
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Http/BaseApplication.php:186
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:393
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:146
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/bin/cake.php:12
+
+Caused by: [PDOException] SQLSTATE[HY000] [2002] No such file or directory in /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php on line 132
+Stack Trace:
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php:132
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Core/Retry/CommandRetry.php:70
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php:138
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:178
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/SchemaDialect.php:47
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:230
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/Collection.php:53
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Connection.php:399
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:508
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:277
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:177
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1679
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1261
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Controller/AppController.php:64
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Middleware/CheckLoginAdminMiddleware.php:16
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Controller/Controller.php:213
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:35
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Routing/RouteBuilder.php:934
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:188
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Http/BaseApplication.php:186
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:393
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:146
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/bin/cake.php:12
+
+
+
+2020-11-01 20:49:45 Error: [Cake\Database\Exception\MissingConnectionException] Connection to Mysql could not be established: SQLSTATE[HY000] [2002] No such file or directory in /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php on line 140
+Exception Attributes: array (
+  'driver' => 'Mysql',
+  'reason' => 'SQLSTATE[HY000] [2002] No such file or directory',
+)
+Stack Trace:
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:178
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/SchemaDialect.php:47
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:230
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/Collection.php:53
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Connection.php:399
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:508
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:277
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:177
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1679
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1261
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Controller/AppController.php:64
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Middleware/CheckLoginAdminMiddleware.php:16
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Controller/Controller.php:213
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:35
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Routing/RouteBuilder.php:934
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:188
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Http/BaseApplication.php:186
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:393
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:146
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/bin/cake.php:12
+
+Caused by: [PDOException] SQLSTATE[HY000] [2002] No such file or directory in /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php on line 132
+Stack Trace:
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php:132
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Core/Retry/CommandRetry.php:70
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php:138
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:178
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/SchemaDialect.php:47
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:230
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/Collection.php:53
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Connection.php:399
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:508
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:277
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:177
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1679
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1261
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Controller/AppController.php:64
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Middleware/CheckLoginAdminMiddleware.php:16
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Controller/Controller.php:213
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:35
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Routing/RouteBuilder.php:934
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:188
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Http/BaseApplication.php:186
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:393
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:146
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/bin/cake.php:12
+
+
+
+2020-11-01 20:49:58 Error: [Cake\Database\Exception\MissingConnectionException] Connection to Mysql could not be established: SQLSTATE[HY000] [2002] No such file or directory in /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php on line 140
+Exception Attributes: array (
+  'driver' => 'Mysql',
+  'reason' => 'SQLSTATE[HY000] [2002] No such file or directory',
+)
+Stack Trace:
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:178
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/SchemaDialect.php:47
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:230
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/Collection.php:53
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Connection.php:399
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:508
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:277
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:177
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1679
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1261
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Controller/AppController.php:64
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Middleware/CheckLoginAdminMiddleware.php:16
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Controller/Controller.php:213
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:35
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Routing/RouteBuilder.php:934
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:188
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Http/BaseApplication.php:186
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:393
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:146
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/bin/cake.php:12
+
+Caused by: [PDOException] SQLSTATE[HY000] [2002] No such file or directory in /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php on line 132
+Stack Trace:
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php:132
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Core/Retry/CommandRetry.php:70
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php:138
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:178
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/SchemaDialect.php:47
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:230
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/Collection.php:53
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Connection.php:399
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:508
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:277
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:177
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1679
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1261
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Controller/AppController.php:64
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Middleware/CheckLoginAdminMiddleware.php:16
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Controller/Controller.php:213
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:35
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Routing/RouteBuilder.php:934
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:188
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Http/BaseApplication.php:186
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:393
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:146
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/bin/cake.php:12
+
+
+
+2020-11-01 20:58:52 Error: [Cake\Database\Exception\MissingConnectionException] Connection to Mysql could not be established: SQLSTATE[HY000] [2002] No such file or directory in /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php on line 140
+Exception Attributes: array (
+  'driver' => 'Mysql',
+  'reason' => 'SQLSTATE[HY000] [2002] No such file or directory',
+)
+Stack Trace:
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:178
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/SchemaDialect.php:47
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:230
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/Collection.php:53
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Connection.php:399
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:508
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:277
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:177
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1679
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1261
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Controller/AppController.php:64
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Middleware/CheckLoginAdminMiddleware.php:16
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Controller/Controller.php:213
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:35
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Routing/RouteBuilder.php:934
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:188
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Http/BaseApplication.php:186
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:393
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:146
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/bin/cake.php:12
+
+Caused by: [PDOException] SQLSTATE[HY000] [2002] No such file or directory in /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php on line 132
+Stack Trace:
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php:132
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Core/Retry/CommandRetry.php:70
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php:138
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:178
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/SchemaDialect.php:47
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:230
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/Collection.php:53
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Connection.php:399
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:508
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:277
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:177
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1679
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1261
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Controller/AppController.php:64
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Middleware/CheckLoginAdminMiddleware.php:16
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Controller/Controller.php:213
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:35
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Routing/RouteBuilder.php:934
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:188
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Http/BaseApplication.php:186
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:393
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:146
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/bin/cake.php:12
+
+
+
+2020-11-01 20:58:56 Error: [Cake\Database\Exception\MissingConnectionException] Connection to Mysql could not be established: SQLSTATE[HY000] [2002] No such file or directory in /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php on line 140
+Exception Attributes: array (
+  'driver' => 'Mysql',
+  'reason' => 'SQLSTATE[HY000] [2002] No such file or directory',
+)
+Stack Trace:
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:178
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/SchemaDialect.php:47
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:230
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/Collection.php:53
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Connection.php:399
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:508
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:277
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:177
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1679
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1261
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Controller/AppController.php:64
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Middleware/CheckLoginAdminMiddleware.php:16
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Controller/Controller.php:213
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:35
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Routing/RouteBuilder.php:934
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:188
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Http/BaseApplication.php:186
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:393
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:146
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/bin/cake.php:12
+
+Caused by: [PDOException] SQLSTATE[HY000] [2002] No such file or directory in /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php on line 132
+Stack Trace:
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php:132
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Core/Retry/CommandRetry.php:70
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver.php:138
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:178
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/SchemaDialect.php:47
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Driver/Mysql.php:230
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Schema/Collection.php:53
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Database/Connection.php:399
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:508
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:277
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Query.php:177
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1679
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/ORM/Table.php:1261
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Controller/AppController.php:64
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/src/Middleware/CheckLoginAdminMiddleware.php:16
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Controller/Controller.php:213
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:35
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Routing/RouteBuilder.php:934
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/config/routes.php:188
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Http/BaseApplication.php:186
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:393
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/vendor/cakephp/cakephp/src/Console/CommandRunner.php:146
+- /opt/lampp/htdocs/CAKEPHP/cakephp4_shop_cosmetic/bin/cake.php:12
+
+
+

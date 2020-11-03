@@ -27,6 +27,7 @@ $(document).ready(function () {
                     if($(this).attr('id_product') == parseInt(response.product_id) && response.status == 201)
                     {
                         $(".quantity")[index].innerHTML = parseInt($(".quantity")[index].innerHTML) + quantity;
+                        $("#checkout_items").html(response.amount);
                         $(".column5")[index+1].innerText = response.current_price;
                         $(".point")[index].innerText = response.current_point == 0 ? 0 : response.current_point+' point';
                         $(".point_award")[index].innerText =

@@ -66,7 +66,7 @@ use Cake\Routing\Router;
 					</div>
 
 					<div class="contact100-form-checkbox m-l-4">
-						<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+						<input class="input-checkbox100" value="1" id="ckb1" type="checkbox" name="remember_me">
 						<label class="label-checkbox100" for="ckb1">
 							Remember Me
 						</label>

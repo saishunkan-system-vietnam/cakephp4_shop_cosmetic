@@ -22,7 +22,7 @@ class BillComponent extends Component{
         $bill = [
             'id_user' => $id_user,
             'id_transport' => $transport_id,
-            'status' => UNCONFIRM
+            'status' => UNCONFIRMED
         ];
         $bill = $this->Curd->add('Bill',$bill);
         if($bill != false){
@@ -80,5 +80,10 @@ class BillComponent extends Component{
     public function getBillDetailByArrId(Array $arr_id)
     {
         return $this->DB->table('BillDetail')->where(['id_bill IN'=> $arr_id])->get();
+    }
+
+    public function changeStatus($status, $id)
+    {
+        return $this->Curd->update('Bill',['status'=>$status],$id);
     }
 }

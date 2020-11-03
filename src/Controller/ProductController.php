@@ -78,10 +78,14 @@ class ProductController extends CommonController{
     {
         $id_product = $this->request->getParam('id_product');
         $infoProduct     = $this->request->getData();
-        $file            = $infoProduct['image'];
+        $file            = $infoProduct['image_product'];
         if(!empty($file)){
             $fileName = $this->File->uploadImage($file,PRODUCT_PHOTO_PATH);
             $infoProduct['image'] = $fileName;
+            if($infoProduct['image'] == null)
+            {
+                unset($infoProduct['image']);
+            }
         }
 
         $slug = Text::slug($infoProduct['name']);
@@ -96,7 +100,7 @@ class ProductController extends CommonController{
             return $this->redirect('/admin/list-product');
         }
 
-        $this->Flash->set('Sửa sản phẩm thành công');
+        $this->Flash->set('Sửa sản phẩm thất bại');
         $this->redirect('/admin/list-product');
     }
 
@@ -201,6 +205,19 @@ class ProductController extends CommonController{
             $quantity = $params['quantity'];
             $session = new Session();
             $cart = $session->read('arr_cart');
+
+            //Check shopping cart for a trial product
+            if(!empty($cart)){
+                foreach ($cart as $product) {
+                    if($product['type_product'] == TRIAL_TYPE){
+                        $data=[
+                            'status'=>403,
+                            'message'=>'Đơn hàng này đã có sản phẩm dùng thử nên không đặt được sản phẩm khác'
+                        ];
+                        return $this->responseJson($data);
+                    }
+                }
+            }
             if(!empty($cart[$product_id])){
                 $cart[$product_id]['quantity'] += $quantity;
             }else{
@@ -230,6 +247,18 @@ class ProductController extends CommonController{
             $quantity = $params['quantity'];
             $session = new Session();
             $arr_cart = $session->read('arr_cart');
+            //Check shopping cart for a trial product
+            if(!empty($arr_cart)){
+                foreach ($arr_cart as $product) {
+                    if($product['type_product'] == TRIAL_TYPE){
+                        $data=[
+                            'status'=>403,
+                            'message'=>'Đơn hàng này đã có sản phẩm dùng thử nên không đặt được sản phẩm khác'
+                        ];
+                        return $this->responseJson($data);
+                    }
+                }
+            }
             $userPoint = $this->Product->getUserPoint();
             if(!empty($arr_cart[$product_id])){
                 $total_point = $this->Product->getTotalPoint($arr_cart, $product_id, $quantity);
@@ -335,7 +364,7 @@ class ProductController extends CommonController{
                     return $this->responseJson($data);
                 }
             }
-            $session->destroy();
+            unset($arr_cart);
             $arr_cart[$product_id]['quantity'] = 1;
             $arr_cart[$product_id]['type_product'] = TRIAL_TYPE;
             $session->write('arr_cart', $arr_cart);
@@ -398,8 +427,10 @@ class ProductController extends CommonController{
             $currentPrice = 0;
             $currentPoint = 0;
             $currentPointAward = 0;
+            $amount = 0;
             foreach ($arr_cart as $id => $product) {
                 $infoProduct = $this->Product->findProductById($id);
+                $amount += $product['quantity'];
                 if($product['type_product'] == NORMAL_TYPE)
                 {
                     $price_to_pay += $infoProduct->price * $product['quantity'];
@@ -422,6 +453,7 @@ class ProductController extends CommonController{
                     }
                 }
             }
+            $amount += $quantity;
 
             $leftoverPoint = $pointAward - $point_to_pay;
             //if user logged
@@ -440,6 +472,7 @@ class ProductController extends CommonController{
                         'current_point' => $currentPoint,
                         'current_point_award' => $currentPointAward,
                         'product_id' => $product_id,
+                        'amount' => $amount
                     ];
                     $arr_cart[$product_id]['quantity'] += $quantity;
                     if($arr_cart[$product_id]['quantity'] <= 0)
@@ -470,6 +503,7 @@ class ProductController extends CommonController{
                         'current_point' => $currentPoint,
                         'current_point_award' => $currentPointAward,
                         'product_id' => $product_id,
+                        'amount' => $amount
                     ];
                     $arr_cart[$product_id]['quantity'] += $quantity;
                     if($arr_cart[$product_id]['quantity'] <= 0)

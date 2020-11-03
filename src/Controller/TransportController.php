@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Controller\CommonController;
-use Cake\Http\Session;
 
 class TransportController extends CommonController
 {
@@ -54,7 +53,7 @@ class TransportController extends CommonController
 
     public function view($id = null)
     {
-        $transport = $this->Transport->get($id);
+        $transport = $this->Transport->show($id);
         $this->set(['transport' => $transport]);
         $this->render('view');
     }

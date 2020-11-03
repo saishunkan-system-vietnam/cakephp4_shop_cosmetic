@@ -107,7 +107,7 @@ define('GIFT_TYPE',1);
 define('TRIAL_TYPE',2);
 
 //status bill
-define('UNCONFIRM',0);
+define('UNCONFIRMED',0);
 define('PROCESSING',1);
 define('SHIPPING',2);
 define('FINISH',3);

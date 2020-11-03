@@ -150,9 +150,7 @@ use Cake\Routing\Router;
                                     <span class="total">
                                     <?php
                                         $total_point = $total_point - $pointAward > 0 ? $total_point - $pointAward : 0;
-                                        if($total_point == 0 && $total_money == 0){
-                                            echo "0₫";
-                                        }elseif($total_point == 0){
+                                        if($total_point == 0){
                                             $total_money += $transport_fee;
                                             echo number_format($total_money,0, '.', '.')."₫";
                                         }elseif($total_money == 0){

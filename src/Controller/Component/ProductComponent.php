@@ -22,10 +22,10 @@ class ProductComponent extends Component{
     {
         $product = $this->DB->table('Product')->find(['id'=>$id]);
         $trademarks = $this->DB->table('Trademark')->getAll();
-        $type_products = $this->DB->table('Category')->getAll();
+        $categories = $this->DB->table('Category')->where(['id_parent >'=>0])->getAll();
         $pattern = '/src="(.*)\/images\/product/';
         $product->product_info = preg_replace($pattern, 'src="'.Router::url('/',true).'images/product', $product->product_info);
-        return ['product'=>$product,'trademarks'=>$trademarks,'type_products'=>$type_products];
+        return ['product'=>$product,'trademarks'=>$trademarks,'categories'=>$categories];
     }
 
     public function update($infoProduct,$primaryKey)

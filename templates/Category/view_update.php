@@ -33,11 +33,6 @@ use Cake\Routing\Router;
                     <form action="<?= Router::url('/category/edit/'.$category->id,true) ?>" method="POST">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="trademarkName">Tên danh mục</label>
-                                <input type="text" class="form-control"
-                                name="name" value="<?= $category->name ?>" id="trademarkName" placeholder="Enter Category">
-                            </div>
-                            <div class="form-group">
                                 <label for="parentCategory">Danh mục cha</label>
                                 <select name="id_parent" id="parentCategory" class="form-control">
                                     <option value="">Không dùng danh mục cha</option>
@@ -57,6 +52,11 @@ use Cake\Routing\Router;
                                         }
                                     ?>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="trademarkName">Tên danh mục</label>
+                                <input type="text" class="form-control"
+                                name="name" value="<?= $category->name ?>" id="trademarkName" placeholder="Enter Category">
                             </div>
                         </div>
                         <div class="card-footer">

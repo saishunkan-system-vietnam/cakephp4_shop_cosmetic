@@ -46,7 +46,7 @@ use Cake\Routing\Router;
                                 <img style="cursor: pointer" src="<?= Router::url('/images/product/'.$product->image,true) ?>" width="70px" alt="">
                             </label>
                             <input type="file" class="custom-file-input"
-                            id="image" name="image">
+                            id="image" name="image_product">
                         </div>
                         <div class="form-group">
                         <label for="price">Giá</label><span class="err err_price"></span>
@@ -70,10 +70,10 @@ use Cake\Routing\Router;
                         </div>
                         <div class="form-group">
                         <label for="exampleInputEmail1">Loại sản phẩm</label>
-                        <select class="form-control" name="type_product">
-                            <?php foreach ($type_products as $type_product) {
+                        <select class="form-control" name="id_category">
+                            <?php foreach ($categories as $category) {
                             ?>
-                                <option value="<?= $type_product->id ?>"><?= $type_product->name ?></option>
+                                <option <?= $product->id_category == $category->id ? 'selected' : ''?> value="<?= $category->id ?>"><?= $category->name ?></option>
                             <?php
                             }?>
                         </select>

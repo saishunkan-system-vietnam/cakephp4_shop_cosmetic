@@ -13,6 +13,12 @@ use Cake\Routing\Router;
  */
 class CategoryController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Curd');
+    }
+
     public function index()
     {
         $this->render('list_categories');
@@ -77,8 +83,7 @@ class CategoryController extends AppController
     {
         //post
         if ($this->request->is('post')) {
-            $category = $this->Category->newEmptyEntity();
-            $category = $this->Category->patchEntity($category, $this->request->getData());
+            $category = $this->Curd->add('Category',$this->request->getData());
             if ($this->Category->save($category)) {
                 $this->Flash->success('Thêm sản phẩm thành công');
                 return $this->redirect(['action' => 'index']);
